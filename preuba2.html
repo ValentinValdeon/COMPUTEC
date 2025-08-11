@@ -3,739 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carousel Moderno</title>
+    <title>Hero Section - Version 1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Glassmorphism card */
-        .product-card {
-            background: rgba(15, 23, 42, 0.3);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            transition: transform 0.15s ease, border-color 0.15s ease;
-            position: relative;
-            z-index: 10;
+        .diagonal-split {
+            clip-path: polygon(0 0, 60% 0, 45% 100%, 0 100%);
         }
-
-        .product-card:hover {
-            transform: scale(1.02);
-            border-color: rgba(59, 130, 246, 0.4);
+        
+        .image-container {
+            background-size: cover;
+            background-position: center;
+            transition: opacity 1.5s ease-in-out;
         }
-
-        /* Imagen con efectos */
-        .product-image {
-            transition: transform 0.15s ease;
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .product-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(29, 78, 216, 0.1));
-            opacity: 0;
-            transition: opacity 0.15s ease;
-            z-index: 1;
-        }
-
-        .product-card:hover .product-image::before {
+        
+        .fade-in {
             opacity: 1;
         }
-
-        .product-card:hover .product-image {
-            transform: scale(1.05);
+        
+        .fade-out {
+            opacity: 0;
         }
-
-        /* Texto con efectos de brillo */
-        .product-title {
-            background: linear-gradient(135deg, #f8fafc, #cbd5e1);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 600;
-            transition: all 0.15s ease;
+        
+        .text-glow {
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
         }
-
-        .product-card:hover .product-title {
-            background: linear-gradient(135deg, #ffffff, #3b82f6);
-            -webkit-background-clip: text;
-            background-clip: text;
-        }
-
-        .product-price {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-
-        /* Efectos de partículas en hover */
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #3b82f6;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: particle-float 2s ease-out forwards;
-        }
-
-        @keyframes particle-float {
-            0% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-            100% {
+        
+        @keyframes slideInLeft {
+            from {
                 opacity: 0;
-                transform: translateY(-100px) scale(0);
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
             }
         }
-
-        /* Carousel Styles */
-        .carousel-container {
-            background: rgba(15, 23, 42, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(59, 130, 246, 0.1);
+        
+        .animate-slide-in-left {
+            animation: slideInLeft 1s ease-out;
         }
-
-        .carousel-track {
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .carousel-arrow {
-            background: rgba(15, 23, 42, 0.4);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .carousel-arrow:hover {
-            background: rgba(59, 130, 246, 0.2);
-            border-color: rgba(59, 130, 246, 0.5);
-        }
-
-        .carousel-arrow:active {
-            transform: scale(0.95);
-        }
-
-        .carousel-arrow svg {
-            color: #e2e8f0;
-            transition: color 0.3s ease;
-        }
-
-        .carousel-arrow:hover svg {
-            color: #3b82f6;
-        }
-
-        /* Responsive grid */
-        .carousel-grid {
-            display: grid;
-            grid-auto-flow: column;
-            grid-auto-columns: 300px;
-            gap: 1.5rem;
-        }
-
-        @media (max-width: 640px) {
-            .carousel-grid {
-                grid-auto-columns: 280px;
-                gap: 1rem;
+        
+        @media (max-width: 768px) {
+            .diagonal-split {
+                clip-path: none;
             }
-        }
-
-        /* Background decorative elements */
-        .bg-shape {
-            position: absolute;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(29, 78, 216, 0.05));
-            border-radius: 50%;
-            filter: blur(40px);
-            pointer-events: none;
-        }
-
-        .bg-shape-1 {
-            width: 400px;
-            height: 400px;
-            top: -200px;
-            right: -200px;
-            animation: float-1 20s ease-in-out infinite;
-        }
-
-        .bg-shape-2 {
-            width: 300px;
-            height: 300px;
-            bottom: -150px;
-            left: -150px;
-            animation: float-2 15s ease-in-out infinite;
-        }
-
-        @keyframes float-1 {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -30px) rotate(120deg); }
-            66% { transform: translate(-20px, 20px) rotate(240deg); }
-        }
-
-        @keyframes float-2 {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(20px, -20px) rotate(180deg); }
         }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-x-hidden">
-    <!-- Background shapes -->
-    <div class="bg-shape bg-shape-1"></div>
-    <div class="bg-shape bg-shape-2"></div>
-    
-    <div class="container mx-auto px-4 py-12">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold mb-4">
-                <span class="bg-gradient-to-r from-white to-blue-400 bg-clip-text text-transparent">
-                    Productos Destacados
-                </span>
-            </h1>
-            <p class="text-slate-400 max-w-2xl mx-auto">
-                Descubre nuestra selección premium de productos con tecnología de vanguardia
-            </p>
+<body class="overflow-x-hidden">
+    <section class="relative h-screen flex items-center">
+        <!-- Contenedor de imágenes de fondo -->
+        <div class="absolute inset-0">
+            <div id="image1" class="image-container absolute inset-0 fade-in" style="background-image: url('./assets/img/20250804_1318_Instalación\ de\ Cámaras_simple_compose_01k1txz3yye2er126npqcc434f.png');"></div>
+            <div id="image2" class="image-container absolute inset-0 fade-out" style="background-image: url('./assets/img/samsung-memory-IO6lB6zHo7M-unsplash.jpg');"></div>
+            <div id="image3" class="image-container absolute inset-0 fade-out" style="background-image: url('./assets/img/listening-to-music.jpg');"></div>
+            <div id="image4" class="image-container absolute inset-0 fade-out" style="background-image: url('./assets/img/raychan-LdiTW9nzMcg-unsplash.jpg');"></div>
         </div>
-
-        <!-- Carousel Container -->
-        <div class="carousel-container rounded-3xl p-8 relative">
-            <!-- Navigation Arrows -->
-            <button class="carousel-arrow absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center z-20" id="prevBtn">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
-            </button>
-            
-            <button class="carousel-arrow absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center z-20" id="nextBtn">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-            </button>
-
-            <!-- Carousel Track -->
-            <div class="overflow-hidden mx-16">
-                <div class="carousel-track carousel-grid" id="carouselTrack">
-                    <!-- Product 1 -->
-                    <div class="text-center bg-transparent">
-                        <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                            <div class="product-image mb-6">
-                                <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop&crop=center"
-                                    alt="Smart Watch" class="w-full h-48 object-cover rounded-xl">
-                            </div>
-                            <div class="space-y-3">
-                                <h3 class="product-title text-xl leading-tight">
-                                    Smart Watch Pro
-                                </h3>
-                                <div class="flex items-center justify-between pt-2">
-                                    <span class="product-price">$449.99</span>
-                                    <div class="flex items-center space-x-1 text-slate-500">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span class="text-xs">En stock</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 2 -->
-                    <div class="text-center bg-transparent">
-                        <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                            <div class="product-image mb-6">
-                                <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop&crop=center"
-                                    alt="Smart Watch" class="w-full h-48 object-cover rounded-xl">
-                            </div>
-                            <div class="space-y-3">
-                                <h3 class="product-title text-xl leading-tight">
-                                    Smart Watch Pro
-                                </h3>
-                                <div class="flex items-center justify-between pt-2">
-                                    <span class="product-price">$449.99</span>
-                                    <div class="flex items-center space-x-1 text-slate-500">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span class="text-xs">En stock</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 3 -->
-                    <div class="text-center bg-transparent">
-                        <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                            <div class="product-image mb-6">
-                                <img src="https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?w=400&h=300&fit=crop&crop=center"
-                                    alt="Wireless Speaker" class="w-full h-48 object-cover rounded-xl">
-                            </div>
-                            <div class="space-y-3">
-                                <h3 class="product-title text-xl leading-tight">
-                                    Wireless Speaker Ultra
-                                </h3>
-                                <div class="flex items-center justify-between pt-2">
-                                    <span class="product-price">$199.99</span>
-                                    <div class="flex items-center space-x-1 text-slate-500">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span class="text-xs">Pocas unidades</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 4 -->
-                    <div class="text-center bg-transparent">
-                        <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                            <div class="product-image mb-6">
-                                <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=300&fit=crop&crop=center"
-                                    alt="Gaming Mouse" class="w-full h-48 object-cover rounded-xl">
-                            </div>
-                            <div class="space-y-3">
-                                <h3 class="product-title text-xl leading-tight">
-                                    Gaming Mouse Elite
-                                </h3>
-                                <div class="flex items-center justify-between pt-2">
-                                    <span class="product-price">$89.99</span>
-                                    <div class="flex items-center space-x-1 text-slate-500">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span class="text-xs">En stock</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 5 -->
-                    <div class="text-center bg-transparent">
-                        <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                            <div class="product-image mb-6">
-                                <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400&h=300&fit=crop&crop=center"
-                                    alt="Laptop Pro" class="w-full h-48 object-cover rounded-xl">
-                            </div>
-                            <div class="space-y-3">
-                                <h3 class="product-title text-xl leading-tight">
-                                    Laptop Pro 15"
-                                </h3>
-                                <div class="flex items-center justify-between pt-2">
-                                    <span class="product-price">$1,299.99</span>
-                                    <div class="flex items-center space-x-1 text-slate-500">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span class="text-xs">En stock</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 6 -->
-                    <div class="text-center bg-transparent">
-                        <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                            <div class="product-image mb-6">
-                                <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=300&fit=crop&crop=center"
-                                    alt="Smartphone" class="w-full h-48 object-cover rounded-xl">
-                            </div>
-                            <div class="space-y-3">
-                                <h3 class="product-title text-xl leading-tight">
-                                    Smartphone X1
-                                </h3>
-                                <div class="flex items-center justify-between pt-2">
-                                    <span class="product-price">$899.99</span>
-                                    <div class="flex items-center space-x-1 text-slate-500">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span class="text-xs">En stock</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 7 -->
-                    <div class="text-center bg-transparent">
-                        <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                            <div class="product-image mb-6">
-                                <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop&crop=center"
-                                    alt="VR Headset" class="w-full h-48 object-cover rounded-xl">
-                            </div>
-                            <div class="space-y-3">
-                                <h3 class="product-title text-xl leading-tight">
-                                    VR Headset Reality
-                                </h3>
-                                <div class="flex items-center justify-between pt-2">
-                                    <span class="product-price">$699.99</span>
-                                    <div class="flex items-center space-x-1 text-slate-500">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span class="text-xs">Nuevo</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 8 -->
-                    <div class="text-center bg-transparent">
-                        <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                            <div class="product-image mb-6">
-                                <img src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&h=300&fit=crop&crop=center"
-                                    alt="Mechanical Keyboard" class="w-full h-48 object-cover rounded-xl">
-                            </div>
-                            <div class="space-y-3">
-                                <h3 class="product-title text-xl leading-tight">
-                                    Mechanical Keyboard RGB
-                                </h3>
-                                <div class="flex items-center justify-between pt-2">
-                                    <span class="product-price">$149.99</span>
-                                    <div class="flex items-center space-x-1 text-slate-500">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span class="text-xs">En stock</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 9 -->
-                    <div class="text-center bg-transparent">
-                        <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                            <div class="product-image mb-6">
-                                <img src="https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=400&h=300&fit=crop&crop=center"
-                                    alt="Webcam 4K" class="w-full h-48 object-cover rounded-xl">
-                            </div>
-                            <div class="space-y-3">
-                                <h3 class="product-title text-xl leading-tight">
-                                    Webcam 4K Pro
-                                </h3>
-                                <div class="flex items-center justify-between pt-2">
-                                    <span class="product-price">$179.99</span>
-                                    <div class="flex items-center space-x-1 text-slate-500">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span class="text-xs">Pocas unidades</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 10 -->
-                    <div class="text-center bg-transparent">
-                        <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                            <div class="product-image mb-6">
-                                <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=300&fit=crop&crop=center"
-                                    alt="Tablet Pro" class="w-full h-48 object-cover rounded-xl">
-                            </div>
-                            <div class="space-y-3">
-                                <h3 class="product-title text-xl leading-tight">
-                                    Tablet Pro 12.9"
-                                </h3>
-                                <div class="flex items-center justify-between pt-2">
-                                    <span class="product-price">$1,099.99</span>
-                                    <div class="flex items-center space-x-1 text-slate-500">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span class="text-xs">En stock</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 11 -->
-                    <div class="text-center bg-transparent">
-                        <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                            <div class="product-image mb-6">
-                                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop&crop=center"
-                                    alt="Sneakers" class="w-full h-48 object-cover rounded-xl">
-                            </div>
-                            <div class="space-y-3">
-                                <h3 class="product-title text-xl leading-tight">
-                                    Premium Sneakers
-                                </h3>
-                                <div class="flex items-center justify-between pt-2">
-                                    <span class="product-price">$159.99</span>
-                                    <div class="flex items-center space-x-1 text-slate-500">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span class="text-xs">En stock</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 12 -->
-                    <div class="text-center bg-transparent">
-                        <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                            <div class="product-image mb-6">
-                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop&crop=center"
-                                    alt="Sunglasses" class="w-full h-48 object-cover rounded-xl">
-                            </div>
-                            <div class="space-y-3">
-                                <h3 class="product-title text-xl leading-tight">
-                                    Designer Sunglasses
-                                </h3>
-                                <div class="flex items-center justify-between pt-2">
-                                    <span class="product-price">$249.99</span>
-                                    <div class="flex items-center space-x-1 text-slate-500">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span class="text-xs">Limitado</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 13 -->
-                    <div class="text-center bg-transparent">
-                        <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                            <div class="product-image mb-6">
-                                <img src="https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=400&h=300&fit=crop&crop=center"
-                                    alt="Coffee Maker" class="w-full h-48 object-cover rounded-xl">
-                            </div>
-                            <div class="space-y-3">
-                                <h3 class="product-title text-xl leading-tight">
-                                    Smart Coffee Maker
-                                </h3>
-                                <div class="flex items-center justify-between pt-2">
-                                    <span class="product-price">$329.99</span>
-                                    <div class="flex items-center space-x-1 text-slate-500">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span class="text-xs">En stock</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 14 -->
-                    <div class="text-center bg-transparent">
-                        <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                            <div class="product-image mb-6">
-                                <img src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=300&fit=crop&crop=center"
-                                    alt="Drone" class="w-full h-48 object-cover rounded-xl">
-                            </div>
-                            <div class="space-y-3">
-                                <h3 class="product-title text-xl leading-tight">
-                                    Professional Drone
-                                </h3>
-                                <div class="flex items-center justify-between pt-2">
-                                    <span class="product-price">$799.99</span>
-                                    <div class="flex items-center space-x-1 text-slate-500">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span class="text-xs">Nuevo</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 15 -->
-                    <div class="text-center bg-transparent">
-                        <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                            <div class="product-image mb-6">
-                                <img src="https://images.unsplash.com/photo-1612198537296-34e15b36c100?w=400&h=300&fit=crop&crop=center"
-                                    alt="Smart Home Hub" class="w-full h-48 object-cover rounded-xl">
-                            </div>
-                            <div class="space-y-3">
-                                <h3 class="product-title text-xl leading-tight">
-                                    Smart Home Hub
-                                </h3>
-                                <div class="flex items-center justify-between pt-2">
-                                    <span class="product-price">$199.99</span>
-                                    <div class="flex items-center space-x-1 text-slate-500">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span class="text-xs">En stock</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        
+        <!-- Overlay gradient -->
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-800/70 to-transparent"></div>
+        
+        <!-- Contenido principal -->
+        <div class="relative z-10 container mx-auto px-6 lg:px-8">
+            <div class="max-w-2xl">
+                <!-- Texto principal -->
+                <div class="animate-slide-in-left">
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight text-glow">
+                        Tecnología que 
+                        <span class="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                            protege y conecta
+                        </span> 
+                        tu hogar
+                    </h1>
+                    
+                    <p class="text-xl md:text-2xl text-gray-300 mb-8 font-light">
+                        Innovación inteligente para un futuro más seguro
+                    </p>
+                    
+                    <!-- Botón CTA -->
+                    <button class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-blue-500/25">
+                        Descubre más
+                        <svg class="inline-block ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
+        
+        <!-- Indicadores de imagen -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+            <div class="w-3 h-3 rounded-full bg-white/50 indicator active"></div>
+            <div class="w-3 h-3 rounded-full bg-white/30 indicator"></div>
+            <div class="w-3 h-3 rounded-full bg-white/30 indicator"></div>
+            <div class="w-3 h-3 rounded-full bg-white/30 indicator"></div>
+        </div>
+    </section>
 
     <script>
-        // Carousel functionality
-        class ModernCarousel {
-            constructor() {
-                this.track = document.getElementById('carouselTrack');
-                this.prevBtn = document.getElementById('prevBtn');
-                this.nextBtn = document.getElementById('nextBtn');
-                this.items = this.track.children;
-                this.currentIndex = 0;
-                this.itemsPerView = this.getItemsPerView();
-                this.totalItems = this.items.length;
-                this.maxIndex = Math.max(0, this.totalItems - this.itemsPerView);
+        const images = ['image1', 'image2', 'image3', 'image4'];
+        const indicators = document.querySelectorAll('.indicator');
+        let currentIndex = 0;
 
-                this.init();
-                this.setupEventListeners();
-                this.updateButtons();
-            }
-
-            getItemsPerView() {
-                const width = window.innerWidth;
-                if (width >= 1280) return 4; // xl screens
-                if (width >= 1024) return 3; // lg screens
-                if (width >= 768) return 2;  // md screens
-                return 1; // sm screens
-            }
-
-            init() {
-                // Set initial position
-                this.updateCarousel();
-            }
-
-            setupEventListeners() {
-                this.prevBtn.addEventListener('click', () => this.prev());
-                this.nextBtn.addEventListener('click', () => this.next());
-                
-                window.addEventListener('resize', () => {
-                    this.itemsPerView = this.getItemsPerView();
-                    this.maxIndex = Math.max(0, this.totalItems - this.itemsPerView);
-                    this.currentIndex = Math.min(this.currentIndex, this.maxIndex);
-                    this.updateCarousel();
-                    this.updateButtons();
-                });
-            }
-
-            prev() {
-                if (this.currentIndex > 0) {
-                    this.currentIndex = Math.max(0, this.currentIndex - 2);
-                    this.updateCarousel();
-                    this.updateButtons();
-                }
-            }
-
-            next() {
-                if (this.currentIndex < this.maxIndex) {
-                    this.currentIndex = Math.min(this.maxIndex, this.currentIndex + 2);
-                    this.updateCarousel();
-                    this.updateButtons();
-                }
-            }
-
-            updateCarousel() {
-                const itemWidth = 300 + 24; // card width + gap
-                const translateX = -this.currentIndex * itemWidth;
-                this.track.style.transform = `translateX(${translateX}px)`;
-            }
-
-            updateButtons() {
-                this.prevBtn.style.opacity = this.currentIndex === 0 ? '0.5' : '1';
-                this.prevBtn.style.pointerEvents = this.currentIndex === 0 ? 'none' : 'auto';
-                
-                this.nextBtn.style.opacity = this.currentIndex >= this.maxIndex ? '0.5' : '1';
-                this.nextBtn.style.pointerEvents = this.currentIndex >= this.maxIndex ? 'none' : 'auto';
-            }
+        function changeImage() {
+            // Fade out current image
+            document.getElementById(images[currentIndex]).classList.remove('fade-in');
+            document.getElementById(images[currentIndex]).classList.add('fade-out');
+            indicators[currentIndex].classList.remove('bg-white/50');
+            indicators[currentIndex].classList.add('bg-white/30');
+            
+            // Move to next image
+            currentIndex = (currentIndex + 1) % images.length;
+            
+            setTimeout(() => {
+                // Fade in next image
+                document.getElementById(images[currentIndex]).classList.remove('fade-out');
+                document.getElementById(images[currentIndex]).classList.add('fade-in');
+                indicators[currentIndex].classList.remove('bg-white/30');
+                indicators[currentIndex].classList.add('bg-white/50');
+            }, 100);
         }
 
-        // Product card effects
-        const productCards = document.querySelectorAll('.product-card');
+        // Change image every 4 seconds
+        setInterval(changeImage, 4000);
 
-        productCards.forEach(card => {
-            card.addEventListener('mouseenter', function (e) {
-                createParticles(e.currentTarget);
-            });
-
-            card.addEventListener('mousemove', function (e) {
-                const rect = this.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                this.style.transition = 'transform 0.5s ease-out';
-                this.style.transform = 'scale(1.02)';
-            });
-
-            card.addEventListener('mouseleave', function () {
-                this.style.transition = 'transform 0.3s ease';
-                this.style.transform = 'scale(1)';
-            });
-        });
-
-        function createParticles(element) {
-            const rect = element.getBoundingClientRect();
-            const particles = 15;
-
-            for (let i = 0; i < particles; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-
-                const x = Math.random() * rect.width;
-                const y = Math.random() * rect.height;
-
-                particle.style.left = x + 'px';
-                particle.style.top = y + 'px';
-
-                element.appendChild(particle);
-
-                setTimeout(() => {
-                    particle.remove();
-                }, 5000);
-            }
-        }
-
-        // Initialize carousel when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            new ModernCarousel();
-
-            // Entrada animada de las cards
-            productCards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(50px) scale(0.9)';
-                card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-
-                setTimeout(() => {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0) scale(1)';
-                }, 200 + (index * 100));
+        // Add click functionality to indicators
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                if (index !== currentIndex) {
+                    document.getElementById(images[currentIndex]).classList.remove('fade-in');
+                    document.getElementById(images[currentIndex]).classList.add('fade-out');
+                    indicators[currentIndex].classList.remove('bg-white/50');
+                    indicators[currentIndex].classList.add('bg-white/30');
+                    
+                    currentIndex = index;
+                    
+                    setTimeout(() => {
+                        document.getElementById(images[currentIndex]).classList.remove('fade-out');
+                        document.getElementById(images[currentIndex]).classList.add('fade-in');
+                        indicators[currentIndex].classList.remove('bg-white/30');
+                        indicators[currentIndex].classList.add('bg-white/50');
+                    }, 100);
+                }
             });
         });
     </script>
