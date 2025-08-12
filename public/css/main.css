@@ -1,3 +1,89 @@
+:root {
+  /* Colores sólidos */
+  --c-blanco-main: #ffffff;
+  --c-blanco-hueso-main: #f8fafc;
+  --c-gris-claro-main: #e2e8f0;
+  --c-gris-medio-main: #cbd5e1;
+  --c-gris-placeholder-main: #64748b;
+  --c-gris-icono-main: #94a3b8;
+  --c-gris-oscuro1-main: #f4d03f;
+  --c-gris-oscuro2-main: #ffd700;
+  --c-azul-oscuro2-main: #e6c547;
+  --c-verde-main: #2d5a5a;
+  --c-verde-main-oscuro: #1a4a47;
+
+  /* Colores RGBA */
+  --rgba-azul-01-main: rgba(244, 208, 63, 0.1);
+  --rgba-azul-02-main: rgba(244, 208, 63, 0.2);
+  --rgba-azul-03-main: rgba(244, 208, 63, 0.3);
+  --rgba-azul-04-main: rgba(244, 208, 63, 0.4);
+  --rgba-azul-05-main: rgba(244, 208, 63, 0.5);
+  --rgba-azul-06-main: rgba(244, 208, 63, 0.6);
+
+  --rgba-azul-oscuro-03-main: rgba(230, 197, 71, 0.3);
+  --rgba-azul-oscuro-04-main: rgba(230, 197, 71, 0.4);
+  --rgba-azul-oscuro-05-main: rgba(230, 197, 71, 0.5);
+  --rgba-azul-oscuro-06-main: rgba(230, 197, 71, 0.6);
+
+  --rgba-bg-oscuro-05-main: rgba(61, 107, 104, 0.5);
+  --rgba-bg-oscuro-06-main: rgba(61, 107, 104, 0.6);
+  --rgba-bg-oscuro-07-main: rgba(61, 107, 104, 0.7);
+  --rgba-bg-oscuro-08-main: rgba(61, 107, 104, 0.8);
+  --rgba-bg-oscuro-09-main: rgba(61, 107, 104, 0.9);
+  --rgba-bg-oscuro-1-main: rgba(61, 107, 104, 1);
+  --rgba-bg-oscuro-049-main: rgba(61, 107, 104, 0.49);
+
+  /* Gradientes */
+  --gradiente-blanco-gris-main: linear-gradient(
+    135deg,
+    var(--c-blanco-hueso-main),
+    var(--c-gris-medio-main)
+  );
+  --gradiente-azul-oscuro-main: linear-gradient(
+    135deg,
+    var(--c-gris-oscuro2-main),
+    var(--c-gris-oscuro1-main)
+  );
+  --gradiente-azul-blanco-main: linear-gradient(
+    135deg,
+    var(--c-blanco-main),
+    var(--c-gris-oscuro2-main)
+  );
+
+  --gradiente-btn-main: linear-gradient(
+    135deg,
+    var(--rgba-azul-04-main),
+    var(--rgba-azul-oscuro-05-main)
+  );
+  --gradiente-btn-hover-main: linear-gradient(
+    135deg,
+    var(--rgba-azul-05-main),
+    var(--rgba-azul-oscuro-06-main)
+  );
+
+  --gradiente-icon-main: linear-gradient(
+    135deg,
+    var(--rgba-azul-02-main),
+    var(--rgba-azul-oscuro-03-main)
+  );
+  --gradiente-icon-hover-main: linear-gradient(
+    135deg,
+    var(--rgba-azul-03-main),
+    var(--rgba-azul-oscuro-04-main)
+  );
+
+  --gradiente-img-hover-main: linear-gradient(
+    135deg,
+    var(--rgba-azul-01-main),
+    var(--rgba-azul-oscuro-03-main)
+  );
+  --gradiente-placeholder-desc-main: linear-gradient(
+    135deg,
+    var(--c-gris-claro-main) 0%,
+    var(--c-gris-medio-main) 100%
+  );
+}
+
 /*HERO*/
 .diagonal-split {
   clip-path: polygon(0 0, 60% 0, 45% 100%, 0 100%);
@@ -18,7 +104,7 @@
 }
 
 .text-glow {
-  text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  text-shadow: 0 0 20px var(--rgba-azul-03-main);
 }
 
 @keyframes slideInLeft {
@@ -45,10 +131,10 @@
 
 /* Banner glassmorphism */
 .glass-banner {
-  background: rgba(15, 23, 42, 0.9);
+  background: var(--rgba-bg-oscuro-09-main);
+  border: 1px solid var(--rgba-azul-02-main);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(59, 130, 246, 0.2);
   min-height: 140px;
   position: relative;
   overflow: hidden;
@@ -56,7 +142,7 @@
 
 /* Texto con gradiente */
 .banner-title {
-  background: linear-gradient(135deg, #f8fafc, #cbd5e1);
+  background: var(--gradiente-blanco-gris-main);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -64,88 +150,71 @@
 }
 
 .banner-subtitle {
-  color: #94a3b8;
+  color: var(--c-gris-icono-main);
 }
 
 /* Input y botón */
 .glass-input {
-  background: rgba(15, 23, 42, 0.5);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(59, 130, 246, 0.3);
-  color: #f8fafc;
+  background: var(--rgba-bg-oscuro-05-main);
+  border: 1px solid var(--rgba-azul-03-main);
+  color: var(--c-blanco-hueso-main);
   transition: all 0.2s ease;
 }
 
 .glass-input:focus {
   outline: none;
-  border-color: rgba(59, 130, 246, 0.6);
-  background: rgba(15, 23, 42, 0.7);
+  border-color: var(--rgba-azul-06-main);
+  background: var(--rgba-bg-oscuro-07-main);
 }
 
 .glass-input::placeholder {
-  color: #64748b;
+  color: var(--c-gris-medio-main);
 }
 
 .glass-button {
-  background: linear-gradient(
-    135deg,
-    rgba(59, 130, 246, 0.4),
-    rgba(29, 78, 216, 0.5)
-  );
+  background: var(--gradiente-btn-main);
+  border: 1px solid var(--rgba-azul-04-main);
+  color: var(--c-blanco-main);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(59, 130, 246, 0.4);
   transition: all 0.2s ease;
-  color: white;
   font-weight: 600;
 }
 
 .glass-button:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(59, 130, 246, 0.5),
-    rgba(29, 78, 216, 0.6)
-  );
-  border-color: rgba(59, 130, 246, 0.6);
+  background: var(--gradiente-azul-oscuro-main);
+  border-color: var(--rgba-azul-05-main);
+  color: var(--rgba-bg-oscuro-1-main);
   transform: translateY(-1px);
 }
 
 /* Iconos de servicios */
 .service-icon {
-  background: linear-gradient(
-    135deg,
-    rgba(59, 130, 246, 0.2),
-    rgba(29, 78, 216, 0.3)
-  );
+  background: var(--gradiente-icon-main);
+  border: 1px solid var(--rgba-azul-03-main);
+  color: var(--c-gris-oscuro2-main);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(59, 130, 246, 0.3);
-  color: #3b82f6;
   transition: all 0.2s ease;
 }
 
 .service-icon:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(59, 130, 246, 0.3),
-    rgba(29, 78, 216, 0.4)
-  );
-  border-color: rgba(59, 130, 246, 0.5);
+  background: var(--gradiente-icon-hover-main);
+  border-color: var(--rgba-azul-05-main);
   transform: scale(1.05);
 }
 
 .service-text {
-  color: #cbd5e1;
+  color: var(--c-gris-claro-main);
   font-weight: 500;
 }
 
 /* Glassmorphism card */
 .product-card {
-  background: rgba(15, 23, 42, 0.8);
+  background: var(--rgba-bg-oscuro-08-main);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  border: 1px solid var(--rgba-azul-02-main);
   transition: transform 0.15s ease, border-color 0.15s ease;
   position: relative;
   z-index: 10;
@@ -153,7 +222,7 @@
 
 .product-card:hover {
   transform: scale(1.02);
-  border-color: rgba(59, 130, 246, 0.4);
+  border-color: var(--rgba-azul-04-main);
 }
 
 /* Imagen con efectos */
@@ -171,11 +240,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(59, 130, 246, 0.1),
-    rgba(29, 78, 216, 0.1)
-  );
+  background: var(--gradiente-img-hover-main);
   opacity: 0;
   transition: opacity 0.15s ease;
   z-index: 1;
@@ -191,7 +256,7 @@
 
 /* Texto con efectos de brillo */
 .product-title {
-  background: linear-gradient(135deg, #f8fafc, #cbd5e1);
+  background: var(--gradiente-blanco-gris-main);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -200,13 +265,13 @@
 }
 
 .product-card:hover .product-title {
-  background: linear-gradient(135deg, #ffffff, #3b82f6);
+  background: var(--gradiente-azul-blanco-main);
   -webkit-background-clip: text;
   background-clip: text;
 }
 
 .product-price {
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  background: var(--gradiente-azul-oscuro-main);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -219,7 +284,7 @@
   position: absolute;
   width: 4px;
   height: 4px;
-  background: #3b82f6;
+  background: var(--c-gris-oscuro1-main);
   border-radius: 50%;
   pointer-events: none;
   animation: particle-float 2s ease-out forwards;
@@ -239,10 +304,10 @@
 
 /* Carousel Styles */
 .carousel-container {
-  background: rgba(15, 23, 42, 0.5);
+  background: var(--rgba-bg-oscuro-05-main);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(59, 130, 246, 0.1);
+  border: 1px solid var(--rgba-azul-01-main);
 }
 
 .carousel-track {
@@ -250,16 +315,16 @@
 }
 
 .carousel-arrow {
-  background: rgba(15, 23, 42, 1);
+  background: var(--rgba-bg-oscuro-1-main);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  border: 1px solid var(--rgba-azul-03-main);
   transition: all 0.3s ease;
 }
 
 .carousel-arrow:hover {
-  background: rgba(59, 130, 246, 0.2);
-  border-color: rgba(59, 130, 246, 0.5);
+  background: var(--rgba-azul-02-main);
+  border-color: var(--rgba-azul-05-main);
 }
 
 .carousel-arrow:active {
@@ -267,12 +332,12 @@
 }
 
 .carousel-arrow svg {
-  color: #e2e8f0;
+  color: var(--c-gris-claro-main);
   transition: color 0.3s ease;
 }
 
 .carousel-arrow:hover svg {
-  color: #3b82f6;
+  color: var(--c-azul-oscuro2-main);
 }
 
 /* Responsive grid */
@@ -294,10 +359,10 @@
 
 /* Glassmorphism card */
 .product-card-descuento {
-  background: rgba(15, 23, 42, 0.6);
+  background: var(--rgba-bg-oscuro-06-main);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  border: 1px solid var(--rgba-azul-02-main);
   transition: transform 0.2s ease, border-color 0.2s ease;
   position: relative;
   overflow: hidden;
@@ -305,14 +370,14 @@
 
 .product-card-descuento:hover {
   transform: scale(1.02) !important;
-  border-color: rgba(59, 130, 246, 0.4);
+  border-color: var(--rgba-azul-04-main);
 }
 
 .product-card-large-descuento {
-  background: rgba(15, 23, 42, 0.6);
+  background: var(--rgba-bg-oscuro-06-main);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  border: 1px solid var(--rgba-azul-02-main);
   transition: transform 0.2s ease, border-color 0.2s ease;
   position: relative;
   overflow: hidden;
@@ -320,18 +385,18 @@
 
 .product-card-large-descuento:hover {
   transform: scale(1.02) !important;
-  border-color: rgba(20, 73, 158, 0.5);
+  border-color: var(--rgba-azul-05-main);
 }
 
 /* Imagen placeholder */
 .image-placeholder-descuento {
-  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+  background: var(--gradiente-blanco-gris-main);
   position: relative;
 }
 
 /* Texto con gradiente */
 .product-title-descuento {
-  background: linear-gradient(135deg, #f8fafc, #cbd5e1);
+  background: var(--gradiente-blanco-gris-main);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -339,7 +404,7 @@
 }
 
 .product-price-descuento {
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  background: var(--gradiente-azul-oscuro-main);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -348,26 +413,19 @@
 
 /* Botón con efecto glassmorphism */
 .glass-button-descuento {
-  background: linear-gradient(
-    135deg,
-    rgba(59, 130, 246, 0.2),
-    rgba(29, 78, 216, 0.3)
-  );
+  background: var(--gradiente-btn-main);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  border: 1px solid var(--rgba-azul-03-main);
   transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
 }
 
 .glass-button-descuento:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(59, 130, 246, 0.3),
-    rgba(29, 78, 216, 0.4)
-  );
-  border-color: rgba(59, 130, 246, 0.5);
+  background: var(--gradiente-azul-oscuro-main);
+  border-color: var(--rgba-azul-05-main);
+  color: var(--rgba-bg-oscuro-1-main);
   transform: translateY(-1px);
 }
 
@@ -377,10 +435,10 @@
 
 /* Container principal */
 .showcase-container-descuento {
-  background: rgba(15, 23, 42, 0.49);
+  background: var(--rgba-bg-oscuro-049-main);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(59, 130, 246, 0.1);
+  border: 1px solid var(--rgba-azul-01-main);
 }
 
 /* Responsive grid (CSS fallback / extra control) */

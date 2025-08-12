@@ -25,7 +25,7 @@
                 <div class="animate-slide-in-left">
                     <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight text-glow">
                         Tecnología que
-                        <span class="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                        <span class="bg-gradient-to-r from-yellow-400 to-green-500 bg-clip-text text-transparent">
                             protege y conecta
                         </span>
                         tu hogar
@@ -37,7 +37,7 @@
 
                     <!-- Botón CTA -->
                     <button
-                        class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-blue-500/25">
+                        class="bg-gradient-to-r from-yellow-500 to-green-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-yellow-600 hover:to-green-700 transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-yellow-500/25">
                         Descubre más
                         <svg class="inline-block ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -67,7 +67,7 @@
 
                 <div class="flex-1 text-center md:text-left">
                     <h2 class="banner-title text-2xl sm:text-3xl md:text-4xl mb-2">Servicios Técnicos</h2>
-                    <p class="banner-subtitle text-xs sm:text-sm md:text-base max-w-md mx-auto md:mx-0">
+                    <p class="banner-subtitle text-xs text-white sm:text-sm md:text-base max-w-md mx-auto md:mx-0">
                         Soluciones profesionales para tu hogar y oficina. Instalación, reparación y mantenimiento
                         especializado.
                     </p>
@@ -83,7 +83,7 @@
                                 </path>
                             </svg>
                         </div>
-                        <span class="service-text text-xs text-center">Cámaras de Seguridad</span>
+                        <span class="service-text text-xs text-white text-center">Cámaras de Seguridad</span>
                     </div>
 
                     <!-- Reparación PC -->
@@ -95,7 +95,7 @@
                                 </path>
                             </svg>
                         </div>
-                        <span class="service-text text-xs text-center">Reparación de PC</span>
+                        <span class="service-text text-xs text-white text-center">Reparación de PC</span>
                     </div>
 
                     <!-- Antenas WiFi -->
@@ -107,7 +107,7 @@
                                 </path>
                             </svg>
                         </div>
-                        <span class="service-text text-xs text-center">Antenas WiFi</span>
+                        <span class="service-text text-xs text-white text-center">Antenas WiFi</span>
                     </div>
 
                     <!-- Soporte Técnico -->
@@ -121,7 +121,7 @@
                                     d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg>
                         </div>
-                        <span class="service-text text-xs text-center">Soporte Técnico</span>
+                        <span class="service-text text-xs text-white text-center">Soporte Técnico</span>
                     </div>
                 </div>
             </div>
@@ -170,11 +170,11 @@
                             <div class="flex items-center justify-between pt-2">
                                 <span class="product-price">$449.99</span>
                                 <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    <span class="text-xs">En stock</span>
+                                    <span class="text-xs text-white">En stock</span>
                                 </div>
                             </div>
                         </div>
@@ -195,11 +195,11 @@
                             <div class="flex items-center justify-between pt-2">
                                 <span class="product-price">$199.99</span>
                                 <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    <span class="text-xs">Pocas unidades</span>
+                                    <span class="text-xs text-white">Pocas unidades</span>
                                 </div>
                             </div>
                         </div>
@@ -220,11 +220,11 @@
                             <div class="flex items-center justify-between pt-2">
                                 <span class="product-price">$89.99</span>
                                 <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    <span class="text-xs">En stock</span>
+                                    <span class="text-xs text-white">En stock</span>
                                 </div>
                             </div>
                         </div>
@@ -245,11 +245,11 @@
                             <div class="flex items-center justify-between pt-2">
                                 <span class="product-price">$1,299.99</span>
                                 <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    <span class="text-xs">En stock</span>
+                                    <span class="text-xs text-white">En stock</span>
                                 </div>
                             </div>
                         </div>
@@ -270,11 +270,11 @@
                             <div class="flex items-center justify-between pt-2">
                                 <span class="product-price">$899.99</span>
                                 <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    <span class="text-xs">En stock</span>
+                                    <span class="text-xs text-white">En stock</span>
                                 </div>
                             </div>
                         </div>
@@ -295,11 +295,11 @@
                             <div class="flex items-center justify-between pt-2">
                                 <span class="product-price">$699.99</span>
                                 <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    <span class="text-xs">Nuevo</span>
+                                    <span class="text-xs text-white">Nuevo</span>
                                 </div>
                             </div>
                         </div>
@@ -320,11 +320,11 @@
                             <div class="flex items-center justify-between pt-2">
                                 <span class="product-price">$149.99</span>
                                 <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    <span class="text-xs">En stock</span>
+                                    <span class="text-xs text-white">En stock</span>
                                 </div>
                             </div>
                         </div>
@@ -345,11 +345,11 @@
                             <div class="flex items-center justify-between pt-2">
                                 <span class="product-price">$179.99</span>
                                 <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    <span class="text-xs">Pocas unidades</span>
+                                    <span class="text-xs text-white">Pocas unidades</span>
                                 </div>
                             </div>
                         </div>
@@ -370,11 +370,11 @@
                             <div class="flex items-center justify-between pt-2">
                                 <span class="product-price">$1,099.99</span>
                                 <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    <span class="text-xs">En stock</span>
+                                    <span class="text-xs text-white">En stock</span>
                                 </div>
                             </div>
                         </div>
@@ -395,11 +395,11 @@
                             <div class="flex items-center justify-between pt-2">
                                 <span class="product-price">$159.99</span>
                                 <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    <span class="text-xs">En stock</span>
+                                    <span class="text-xs text-white">En stock</span>
                                 </div>
                             </div>
                         </div>
@@ -420,11 +420,11 @@
                             <div class="flex items-center justify-between pt-2">
                                 <span class="product-price">$249.99</span>
                                 <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    <span class="text-xs">Limitado</span>
+                                    <span class="text-xs text-white">Limitado</span>
                                 </div>
                             </div>
                         </div>
@@ -445,11 +445,11 @@
                             <div class="flex items-center justify-between pt-2">
                                 <span class="product-price">$329.99</span>
                                 <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    <span class="text-xs">En stock</span>
+                                    <span class="text-xs text-white">En stock</span>
                                 </div>
                             </div>
                         </div>
@@ -470,11 +470,11 @@
                             <div class="flex items-center justify-between pt-2">
                                 <span class="product-price">$799.99</span>
                                 <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    <span class="text-xs">Nuevo</span>
+                                    <span class="text-xs text-white">Nuevo</span>
                                 </div>
                             </div>
                         </div>

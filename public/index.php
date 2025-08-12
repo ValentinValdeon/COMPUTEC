@@ -10,6 +10,10 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
+</style>
+
 <body class="flex flex-col items-center w-full bg-cover bg-center bg-no-repeat bg-fixed backdrop-brightness-50"
   style="background-image: url('../assets/img/vishnu-mohanan-pfR18JNEMv8-unsplash.jpg');">
 
@@ -19,9 +23,10 @@
       <!-- Logo -->
       <div class="flex items-center space-x-3">
         <div class="logo-icon w-fit h-fit rounded-lg flex items-center justify-center">
-          <img src="../assets/img//20250810_1644_Icono Escudo WiFi_remix_01k2ar3n8yesj9bh29v1d9wssj.png" alt="Logo" class="w-12 h-12">
+          <img src="../assets/img/pc.png" alt="Logo"
+            class="w-12 h-12">
         </div>
-        <span class="logo-text">COMPUTEC</span>
+        <span class="logo-text">INFORMATICA FMG</span>
       </div>
 
       <!-- Desktop links + search -->
@@ -46,9 +51,9 @@
           </div>
         </div>
 
-        <!-- botón hamburguesa (aparece solo en móvil) -->
+        <!-- botón hamburguesa -->
         <button data-collapse-toggle="navbar-menu" type="button"
-          class="inline-flex items-center p-2 w-10 h-10 justify-center text-gray-400 rounded-lg lg:hidden hover:bg-gray-700 focus:outline-none"
+          class="inline-flex items-center p-2 w-10 h-10 justify-center text-yellow-500 rounded-lg lg:hidden focus:outline-none"
           aria-controls="navbar-menu" aria-expanded="false">
           <svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -58,7 +63,7 @@
     </div>
 
     <!-- Menú colapsable (contenido para móvil). Flowbite quitará/pondrá la clase hidden -->
-    <div class="hidden lg:hidden px-6 pt-4 pb-6" id="navbar-menu">
+    <div class="hidden px-6 pt-4 pb-6" id="navbar-menu">
       <div class="flex flex-col space-y-2">
         <a href="#" class="nav-link block py-2">INICIO</a>
         <a href="#" class="nav-link block py-2">DESTACADO</a>
@@ -97,9 +102,10 @@
     <div class="max-w-7xl mx-auto">
       <div class="flex items-center space-x-3 mb-8">
         <div class="logo-icon w-12 h-12 rounded-lg flex items-center justify-center">
-          <img src="../assets/img//20250810_1644_Icono Escudo WiFi_remix_01k2ar3n8yesj9bh29v1d9wssj.png" alt="Logo" class="w-12 h-12">
+          <img src="../assets/img/camara.png" alt="Logo"
+            class="w-12 h-12">
         </div>
-        <span class="logo-text">COMPUTEC</span>
+        <span class="logo-text">INFORMATICA FMG</span>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -149,10 +155,9 @@
           <h3 class="section-title text-lg mb-4">UBICACIÓN</h3>
           <div class="map-container w-full h-64">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!3m2!1ses-419!2sar!4v1754940710701!5m2!1ses-419!2sar!6m8!1m7!1srfHe9y7eiqKcPETzwPzFwQ!2m2!1d-33.05587581582232!2d-65.62078408630268!3f92.55701408156415!4f-21.532079641746265!5f0.7820865974627469"
-              class="w-full h-full rounded-lg border-0" allowfullscreen="" loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
+              src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d418.0025209244546!2d-65.62067056489715!3d-33.055935882109196!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2sar!4v1755026976605!5m2!1ses-419!2sar"
+              width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
         </div>
 
