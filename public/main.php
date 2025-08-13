@@ -139,7 +139,7 @@
         data-animate>
         <!-- Navigation Arrows -->
         <button
-            class="carousel-arrow absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center z-20"
+            class="carousel-arrow absolute left-0 sm:left-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-12 sm:h-12 rounded-full hidden sm:flex sm:items-center sm:justify-center z-20"
             id="prevBtn">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
@@ -147,7 +147,7 @@
         </button>
 
         <button
-            class="carousel-arrow absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center z-20"
+            class="carousel-arrow absolute right-0 sm:right-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-12 sm:h-12 rounded-full hidden sm:flex sm:items-center sm:justify-center z-20"
             id="nextBtn">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -158,12 +158,12 @@
         <div class="w-full flex justify-center items-center">
             <h2 class="banner-title text-2xl sm:text-3xl md:text-4xl mb-4">PRODUCTOS DESTACADOS</h2>
         </div>
-        <div class="overflow-hidden mx-16">
+        <div class="overflow-y-hidden sm:overflow-hidden mx-1 sm:mx-8">
             <div class="carousel-track carousel-grid m-2" id="carouselTrack">
                 <!-- Product 2 -->
                 <div class="text-center bg-transparent">
                     <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                        <div class="product-image mb-6">
+                        <div class="product-image mb-6 ">
                             <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop&crop=center"
                                 alt="Smart Watch" class="w-full h-48 object-cover rounded-xl">
                         </div>
@@ -528,15 +528,13 @@
                 class="showcase-grid-descuento grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
 
                 <!-- Card grande (lado izquierdo) -->
-                <div id="product-card-large-descuento-1"
+                 <div class="space-y-4">
+                    <div id="product-card-large-descuento-1"
                     class="product-card-large-descuento rounded-2xl p-6 cursor-pointer ">
                     <div
                         class="image-placeholder-descuento w-full h-80 rounded-xl mb-6 flex items-center justify-center">
-                        <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                            </path>
-                        </svg>
+                        <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=300&fit=crop&crop=center"
+                                alt="Tablet Pro" class="w-full h-full object-cover rounded-xl">
                     </div>
 
                     <div class="space-y-3">
@@ -545,32 +543,44 @@
                     </div>
                 </div>
 
+                <div id="product-card-large-descuento-1"
+                    class="product-card-large-descuento rounded-2xl p-6 cursor-pointer ">
+                    <div
+                        class="image-placeholder-descuento w-full h-80 rounded-xl mb-6 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=400&h=300&fit=crop&crop=center"
+                            alt="Coffee Maker" class="w-full h-full object-cover rounded-xl">
+                    </div>
+
+                    <div class="space-y-3">
+                        <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
+                        <div class="product-price-descuento text-3xl">$300</div>
+                    </div>
+                </div>
+                 </div>
+                
+
                 <!-- Cards pequeñas (lado derecho) -->
                 <div id="product-grid-descuento" class="product-grid-descuento">
 
                     <!-- Card 1 -->
                     <div id="product-card-descuento-1" class="product-card-descuento rounded-xl p-4 cursor-pointer">
                         <div
-                            class="image-placeholder-descuento w-full h-24 rounded-lg mb-4 flex items-center justify-center">
-                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                </path>
-                            </svg>
+                            class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop&crop=center"
+                                alt="Sunglasses" class="w-full h-full object-cover rounded-xl">
                         </div>
                         <h4 class="product-title-descuento text-sm mb-2">PRODUCT NAME</h4>
                         <div class="product-price-descuento text-lg">$300</div>
                     </div>
 
+                    
+
                     <!-- Card 2 -->
                     <div id="product-card-descuento-2" class="product-card-descuento rounded-xl p-4 cursor-pointer">
                         <div
-                            class="image-placeholder-descuento w-full h-24 rounded-lg mb-4 flex items-center justify-center">
-                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                </path>
-                            </svg>
+                            class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
+                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop&crop=center"
+                                alt="Sneakers" class="w-full h-full object-cover rounded-xl">
                         </div>
                         <h4 class="product-title-descuento text-sm mb-2">PRODUCT NAME</h4>
                         <div class="product-price-descuento text-lg">$300</div>
@@ -579,12 +589,9 @@
                     <!-- Card 3 -->
                     <div id="product-card-descuento-3" class="product-card-descuento rounded-xl p-4 cursor-pointer">
                         <div
-                            class="image-placeholder-descuento w-full h-24 rounded-lg mb-4 flex items-center justify-center">
-                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                </path>
-                            </svg>
+                            class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
+                            <img src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&h=300&fit=crop&crop=center"
+                                alt="Mechanical Keyboard" class="w-full h-full object-cover rounded-xl">
                         </div>
                         <h4 class="product-title-descuento text-sm mb-2">PRODUCT NAME</h4>
                         <div class="product-price-descuento text-lg">$300</div>
@@ -593,12 +600,9 @@
                     <!-- Card 4 -->
                     <div id="product-card-descuento-4" class="product-card-descuento rounded-xl p-4 cursor-pointer">
                         <div
-                            class="image-placeholder-descuento w-full h-24 rounded-lg mb-4 flex items-center justify-center">
-                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                </path>
-                            </svg>
+                            class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
+                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=300&fit=crop&crop=center"
+                                alt="Gaming Mouse" class="w-full h-full object-cover rounded-xl">
                         </div>
                         <h4 class="product-title-descuento text-sm mb-2">PRODUCT NAME</h4>
                         <div class="product-price-descuento text-lg">$300</div>
@@ -607,12 +611,9 @@
                     <!-- Card 5 -->
                     <div id="product-card-descuento-5" class="product-card-descuento rounded-xl p-4 cursor-pointer">
                         <div
-                            class="image-placeholder-descuento w-full h-24 rounded-lg mb-4 flex items-center justify-center">
-                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                </path>
-                            </svg>
+                            class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
+                            <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop&crop=center"
+                                alt="VR Headset" class="w-full h-full object-cover rounded-xl">
                         </div>
                         <h4 class="product-title-descuento text-sm mb-2">PRODUCT NAME</h4>
                         <div class="product-price-descuento text-lg">$300</div>
@@ -621,12 +622,9 @@
                     <!-- Card 6 -->
                     <div id="product-card-descuento-6" class="product-card-descuento rounded-xl p-4 cursor-pointer">
                         <div
-                            class="image-placeholder-descuento w-full h-24 rounded-lg mb-4 flex items-center justify-center">
-                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                </path>
-                            </svg>
+                            class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
+                            <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop&crop=center"
+                                alt="Smart Watch" class="w-full h-full object-cover rounded-xl">
                         </div>
                         <h4 class="product-title-descuento text-sm mb-2">PRODUCT NAME</h4>
                         <div class="product-price-descuento text-lg">$300</div>

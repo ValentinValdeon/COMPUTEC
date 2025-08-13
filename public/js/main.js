@@ -91,7 +91,9 @@
 
         prev() {
             if (this.currentIndex > 0) {
-                this.currentIndex = Math.max(0, this.currentIndex - 2);
+                // Avanza según el tamaño de pantalla
+                const step = Math.max(1, Math.floor(this.itemsPerView / 2)); 
+                this.currentIndex = Math.max(0, this.currentIndex - step);
                 this.updateCarousel();
                 this.updateButtons();
             }
@@ -99,14 +101,16 @@
 
         next() {
             if (this.currentIndex < this.maxIndex) {
-                this.currentIndex = Math.min(this.maxIndex, this.currentIndex + 2);
+                // Avanza según el tamaño de pantalla
+                const step = Math.max(1, Math.floor(this.itemsPerView / 2));
+                this.currentIndex = Math.min(this.maxIndex, this.currentIndex + step);
                 this.updateCarousel();
                 this.updateButtons();
             }
         }
 
         updateCarousel() {
-            const itemWidth = 300 + 24; // card width + gap
+            const itemWidth = 300 + 24; // card width
             const translateX = -this.currentIndex * itemWidth;
             this.track.style.transform = `translateX(${translateX}px)`;
         }
