@@ -19,15 +19,13 @@
       });
     });
 
-    // Animación de entrada del navbar
-    document.querySelectorAll('nav').forEach((navbar, index) => {
-      navbar.style.opacity = '0';
-      navbar.style.transform = 'translateY(-20px)';
-      navbar.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-      setTimeout(() => {
-        navbar.style.opacity = '1';
-        navbar.style.transform = 'translateY(0)';
-      }, index * 300);
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 200) { 
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
     });
 
     // Abrir mapa en Google Maps (función usada en footer)

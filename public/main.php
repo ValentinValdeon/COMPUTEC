@@ -15,8 +15,10 @@
                 style="background-image: url('../assets/img/raychan-LdiTW9nzMcg-unsplash.jpg');"></div>
         </div>
 
-        <!-- Overlay gradient -->
+        <!-- Overlay principal -->
         <div class="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-800/70 to-transparent"></div>
+
+
 
         <!-- Contenido principal -->
         <div class="relative z-10 container mx-auto px-6 lg:px-8">
@@ -26,7 +28,7 @@
                     <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight text-glow">
                         Tecnología que
                         <span class="bg-gradient-to-r from-yellow-400 to-green-500 bg-clip-text text-transparent">
-                            protege y conecta
+                            conecta y protege
                         </span>
                         tu hogar
                     </h1>
@@ -57,6 +59,8 @@
         </div>
     </section>
 </div>
+
+
 <div class="space-y-[100px]">
     <section
         class="w-full h-auto mb-10 opacity-0 translate-y-32 transition-all duration-1000 ease-in-out will-change-transform delay-200"

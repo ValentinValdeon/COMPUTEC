@@ -3,147 +3,515 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hero Section - Version 1</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Navbar con Hero</title>
+    <!-- Tailwind y Flowbite -->
+  <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .diagonal-split {
-            clip-path: polygon(0 0, 60% 0, 45% 100%, 0 100%);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
-        .image-container {
-            background-size: cover;
-            background-position: center;
-            transition: opacity 1.5s ease-in-out;
+
+        :root {
+            /* Colores sólidos */
+            --color-bg-oscuro: #1a4a47;
+            --color-azul: #f4d03f;
+            --color-gris-oscuro: #2d5a5a;
+            --color-blanco: #ffffff;
+            --color-blanco-hueso: #f8fafc;
+            --color-gris-texto: #e2e8f0;
+            --color-azul-claro: #ffd700;
+            --color-gris-placeholder: #64748b;
+            --color-gris-medio: #cbd5e1;
+            --color-gris-oscuro2: #374151;
+            --color-gris-oscuro3: #4b5563;
+            --color-gris-icono: #9ca3af;
+            --color-verde-claro: #27ae60;
+
+            /* Colores RGBA */
+            --color-azul-rgba-04: rgba(244, 208, 63, 0.4);
+            --color-azul-rgba-03: rgba(244, 208, 63, 0.3);
+            --color-azul-rgba-02: rgba(244, 208, 63, 0.2);
+            --color-azul-rgba-06: rgba(244, 208, 63, 0.6);
+            --color-bg-oscuro-rgba-06: rgba(26, 74, 71, 0.6);
+            --color-bg-oscuro-rgba-08: rgba(26, 74, 71, 0.8);
+
+            /* Gradientes */
+            --gradiente-logo: linear-gradient(
+                135deg,
+                var(--color-verde-claro),
+                var(--color-gris-oscuro),
+                var(--color-verde-claro)
+            );
+            --gradiente-logo-texto: linear-gradient(
+                135deg,
+                var(--color-blanco-hueso),
+                var(--color-azul)
+            );
+            --gradiente-subrayado: linear-gradient(
+                135deg,
+                var(--color-azul-claro),
+                var(--color-azul)
+            );
+            --gradiente-section-title: linear-gradient(
+                135deg,
+                var(--color-blanco-hueso),
+                var(--color-gris-medio)
+            );
+            --gradiente-mapa: linear-gradient(
+                135deg,
+                var(--color-gris-oscuro2) 0%,
+                var(--color-gris-oscuro3) 100%
+            );
         }
-        
-        .fade-in {
-            opacity: 1;
-        }
-        
-        .fade-out {
-            opacity: 0;
-        }
-        
-        .text-glow {
-            text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-        }
-        
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
+
+        .navbar {
+                background: var(--color-bg-oscuro);
+                border: 1px solid var(--color-azul-rgba-04);
+                border-bottom: 2px solid var(--color-azul);
+                box-shadow: 0 0 20px var(--color-azul-rgba-03);
+                position: fixed;
+                top: 0;
+                z-index: 1000;
+                transform: translateY(-100%);
+                transition: all 0.3s ease;
+                }
+
+                .navbar.scrolled {
+                transform: translateY(0);
+                }
+
+
+                .logo-icon {
+                background: var(--gradiente-logo);
+                color: var(--color-blanco);
+                }
+
+                .logo-text {
+                background: var(--gradiente-logo-texto);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 900;
+                font-size: 1.5rem;
+                font-family: "Michroma", sans-serif;
+                }
+
+                /* Enlaces de navegación */
+                .nav-link {
+                color: var(--color-gris-texto);
+                transition: all 0.2s ease;
+                font-weight: 500;
+                position: relative;
+                text-decoration: none;
+                }
+
+                .nav-link:hover {
+                color: var(--color-azul-claro);
+                }
+
+                .nav-link::after {
+                content: "";
+                position: absolute;
+                bottom: -4px;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: var(--gradiente-subrayado);
+                transition: width 0.3s ease;
+                }
+
+                .nav-link:hover::after {
+                width: 100%;
+                }
+
+                /* Buscador */
+                .search-input {
+                background: var(--color-bg-oscuro-rgba-06);
+                border: 1px solid var(--color-azul-rgba-03);
+                color: var(--color-blanco-hueso);
+                transition: all 0.2s ease;
+                }
+
+                .search-input:focus {
+                outline: none;
+                border-color: var(--color-azul);
+                background: var(--color-bg-oscuro-rgba-08);
+                box-shadow: 0 0 10px var(--color-azul-rgba-03);
+                }
+
+                .search-input::placeholder {
+                color: var(--color-gris-placeholder);
+                }
+
+                .search-icon {
+                color: var(--color-gris-placeholder);
+                transition: all 0.2s ease;
+                }
+
+                .search-input:focus + .search-icon {
+                color: var(--color-azul);
+                transform: scale(1.1);
             }
+            
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.7s forwards;
+        }
+
+        @keyframes fadeInUp {
             to {
                 opacity: 1;
-                transform: translateX(0);
+                transform: translateY(0);
             }
         }
-        
-        .animate-slide-in-left {
-            animation: slideInLeft 1s ease-out;
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            transform: translateY(-100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
         }
-        
+
+        .navbar.visible {
+            transform: translateY(0);
+        }
+
+        .navbar.hiding {
+            transform: translateY(-100%);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #667eea;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #333;
+            text-align: center;
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 2rem;
+            text-align: justify;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* Mobile responsive */
         @media (max-width: 768px) {
-            .diagonal-split {
-                clip-path: none;
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .navbar {
+                padding: 0.8rem 1rem;
+            }
+
+            .content-section {
+                padding: 3rem 1rem;
             }
         }
     </style>
 </head>
-<body class="overflow-x-hidden">
-    <section class="relative h-screen flex items-center">
-        <!-- Contenedor de imágenes de fondo -->
-        <div class="absolute inset-0">
-            <div id="image1" class="image-container absolute inset-0 fade-in" style="background-image: url('./assets/img/20250804_1318_Instalación\ de\ Cámaras_simple_compose_01k1txz3yye2er126npqcc434f.png');"></div>
-            <div id="image2" class="image-container absolute inset-0 fade-out" style="background-image: url('./assets/img/samsung-memory-IO6lB6zHo7M-unsplash.jpg');"></div>
-            <div id="image3" class="image-container absolute inset-0 fade-out" style="background-image: url('./assets/img/listening-to-music.jpg');"></div>
-            <div id="image4" class="image-container absolute inset-0 fade-out" style="background-image: url('./assets/img/raychan-LdiTW9nzMcg-unsplash.jpg');"></div>
+<body class="flex flex-col items-center w-full bg-cover bg-center bg-no-repeat bg-fixed"
+  style="background-image: url('assets/img/vishnu-mohanan-pfR18JNEMv8-unsplash.jpg');">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Bienvenido a mi sitio</h1>
+            <p>Una experiencia increíble te espera</p>
         </div>
-        
-        <!-- Overlay gradient -->
-        <div class="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-800/70 to-transparent"></div>
-        
-        <!-- Contenido principal -->
-        <div class="relative z-10 container mx-auto px-6 lg:px-8">
-            <div class="max-w-2xl">
-                <!-- Texto principal -->
-                <div class="animate-slide-in-left">
-                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight text-glow">
-                        Tecnología que 
-                        <span class="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                            protege y conecta
-                        </span> 
-                        tu hogar
-                    </h1>
-                    
-                    <p class="text-xl md:text-2xl text-gray-300 mb-8 font-light">
-                        Innovación inteligente para un futuro más seguro
-                    </p>
-                    
-                    <!-- Botón CTA -->
-                    <button class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-blue-500/25">
-                        Descubre más
-                        <svg class="inline-block ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
+        <div class="scroll-indicator">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+            </svg>
         </div>
-        
-        <!-- Indicadores de imagen -->
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
-            <div class="w-3 h-3 rounded-full bg-white/50 indicator active"></div>
-            <div class="w-3 h-3 rounded-full bg-white/30 indicator"></div>
-            <div class="w-3 h-3 rounded-full bg-white/30 indicator"></div>
-            <div class="w-3 h-3 rounded-full bg-white/30 indicator"></div>
+    </section>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="navbar px-6 py-4 w-full">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex items-center space-x-3">
+        <div class="logo-icon w-fit h-fit rounded-lg flex items-center justify-center">
+          <img src="../assets/img/pc.png" alt="Logo"
+            class="w-12 h-12">
+        </div>
+        <span class="logo-text">INFORMÁTICA FGM</span>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <div class="hidden lg:flex lg:items-center lg:space-x-8">
+          <a href="?page=main" class="nav-link">INICIO</a>
+          <a href="#" class="nav-link">DESTACADO</a>
+          <a href="?page=product" class="nav-link">DESCUENTOS</a>
+          <a href="?page=shop" class="nav-link">SHOP</a>
+        </div>
+
+        <div class="hidden lg:block">
+          <div class="relative">
+            <input type="text" placeholder="Buscar..." class="search-input pl-10 pr-4 py-2 rounded-lg w-64">
+            <svg class="search-icon absolute left-3 top-2.5 w-5 h-5" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+        </div>
+
+        <button data-collapse-toggle="navbar-menu" type="button"
+          class="inline-flex items-center p-2 w-10 h-10 justify-center text-yellow-500 rounded-lg lg:hidden focus:outline-none"
+          aria-controls="navbar-menu" aria-expanded="false">
+          <svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="hidden px-6 pt-4 pb-6" id="navbar-menu">
+      <div class="flex flex-col space-y-2">
+        <a href="#" class="nav-link block py-2">INICIO</a>
+        <a href="#" class="nav-link block py-2">DESTACADO</a>
+        <a href="#" class="nav-link block py-2">DESCUENTOS</a>
+        <a href="#" class="nav-link block py-2">SHOP</a>
+      </div>
+
+      <div class="mt-4">
+        <div class="relative">
+          <input type="text" placeholder="Buscar..." class="search-input pl-10 pr-4 py-2 rounded-lg w-full">
+          <svg class="search-icon absolute left-3 top-2.5 w-5 h-5" fill="none" stroke="currentColor"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+    <!-- Content Sections -->
+    <section class="content-section" id="servicios">
+        <div class="card">
+            <h2>Nuestros Servicios</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+    </section>
+
+    <section class="content-section" id="sobre">
+        <div class="card">
+            <h2>Sobre Nosotros</h2>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+        </div>
+    </section>
+
+    <section class="content-section" id="contacto">
+        <div class="card">
+            <h2>Contacto</h2>
+            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
+            <p>Similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.</p>
         </div>
     </section>
 
     <script>
-        const images = ['image1', 'image2', 'image3', 'image4'];
-        const indicators = document.querySelectorAll('.indicator');
-        let currentIndex = 0;
+        // Variables para el control del navbar
+        const navbar = document.getElementById('navbar');
+        const heroHeight = document.querySelector('.hero').offsetHeight;
+        let lastScrollY = window.scrollY;
+        let isNavbarVisible = false;
 
-        function changeImage() {
-            // Fade out current image
-            document.getElementById(images[currentIndex]).classList.remove('fade-in');
-            document.getElementById(images[currentIndex]).classList.add('fade-out');
-            indicators[currentIndex].classList.remove('bg-white/50');
-            indicators[currentIndex].classList.add('bg-white/30');
-            
-            // Move to next image
-            currentIndex = (currentIndex + 1) % images.length;
-            
-            setTimeout(() => {
-                // Fade in next image
-                document.getElementById(images[currentIndex]).classList.remove('fade-out');
-                document.getElementById(images[currentIndex]).classList.add('fade-in');
-                indicators[currentIndex].classList.remove('bg-white/30');
-                indicators[currentIndex].classList.add('bg-white/50');
-            }, 100);
+        // Función principal de scroll
+        function handleScroll() {
+            const currentScrollY = window.scrollY;
+            const scrollDirection = currentScrollY > lastScrollY ? 'down' : 'up';
+
+            // Si estamos en la sección del hero
+            if (currentScrollY < heroHeight - 100) {
+                hideNavbar();
+            }
+            // Si hemos pasado el hero
+            else if (currentScrollY >= heroHeight - 100) {
+                // Solo mostrar si estamos scrolleando hacia arriba o recién salimos del hero
+                if (scrollDirection === 'up' || !isNavbarVisible) {
+                    showNavbar();
+                }
+                // Ocultar si scrolleamos mucho hacia abajo
+                else if (scrollDirection === 'down' && currentScrollY > lastScrollY + 5) {
+                    hideNavbar();
+                }
+            }
+
+            lastScrollY = currentScrollY;
         }
 
-        // Change image every 4 seconds
-        setInterval(changeImage, 4000);
+        // Mostrar navbar
+        function showNavbar() {
+            if (!isNavbarVisible) {
+                navbar.classList.remove('hiding');
+                navbar.classList.add('visible');
+                isNavbarVisible = true;
+            }
+        }
 
-        // Add click functionality to indicators
-        indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => {
-                if (index !== currentIndex) {
-                    document.getElementById(images[currentIndex]).classList.remove('fade-in');
-                    document.getElementById(images[currentIndex]).classList.add('fade-out');
-                    indicators[currentIndex].classList.remove('bg-white/50');
-                    indicators[currentIndex].classList.add('bg-white/30');
-                    
-                    currentIndex = index;
-                    
-                    setTimeout(() => {
-                        document.getElementById(images[currentIndex]).classList.remove('fade-out');
-                        document.getElementById(images[currentIndex]).classList.add('fade-in');
-                        indicators[currentIndex].classList.remove('bg-white/30');
-                        indicators[currentIndex].classList.add('bg-white/50');
-                    }, 100);
+        // Ocultar navbar
+        function hideNavbar() {
+            if (isNavbarVisible) {
+                navbar.classList.remove('visible');
+                navbar.classList.add('hiding');
+                isNavbarVisible = false;
+            }
+        }
+
+        // Event listener optimizado con throttle
+        let ticking = false;
+        
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    handleScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // Smooth scroll para los enlaces del navbar
+        document.querySelectorAll('.nav-links a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
             });
         });

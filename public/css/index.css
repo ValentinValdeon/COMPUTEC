@@ -23,19 +23,48 @@
   --color-bg-oscuro-rgba-08: rgba(26, 74, 71, 0.8);
 
   /* Gradientes */
-  --gradiente-logo: linear-gradient(135deg, var(--color-verde-claro),  var(--color-gris-oscuro), var(--color-verde-claro));
-  --gradiente-logo-texto: linear-gradient(135deg, var(--color-blanco-hueso), var(--color-azul));
-  --gradiente-subrayado: linear-gradient(135deg, var(--color-azul-claro), var(--color-azul));
-  --gradiente-section-title: linear-gradient(135deg, var(--color-blanco-hueso), var(--color-gris-medio));
-  --gradiente-mapa: linear-gradient(135deg, var(--color-gris-oscuro2) 0%, var(--color-gris-oscuro3) 100%);
+  --gradiente-logo: linear-gradient(
+    135deg,
+    var(--color-verde-claro),
+    var(--color-gris-oscuro),
+    var(--color-verde-claro)
+  );
+  --gradiente-logo-texto: linear-gradient(
+    135deg,
+    var(--color-blanco-hueso),
+    var(--color-azul)
+  );
+  --gradiente-subrayado: linear-gradient(
+    135deg,
+    var(--color-azul-claro),
+    var(--color-azul)
+  );
+  --gradiente-section-title: linear-gradient(
+    135deg,
+    var(--color-blanco-hueso),
+    var(--color-gris-medio)
+  );
+  --gradiente-mapa: linear-gradient(
+    135deg,
+    var(--color-gris-oscuro2) 0%,
+    var(--color-gris-oscuro3) 100%
+  );
 }
 
-/* Variante 2: Sólido oscuro con bordes luminosos */
-.navbar-v2 {
+.navbar {
   background: var(--color-bg-oscuro);
   border: 1px solid var(--color-azul-rgba-04);
   border-bottom: 2px solid var(--color-azul);
   box-shadow: 0 0 20px var(--color-azul-rgba-03);
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  transform: translateY(-100%);
+  transition: all 1s ease-in-out;
+}
+
+.navbar.scrolled {
+  transform: translateY(0);
 }
 
 /* Logo común */
