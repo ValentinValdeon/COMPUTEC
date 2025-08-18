@@ -14,7 +14,7 @@
   @import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
 </style>
 
-<body class="flex flex-col items-center w-full bg-cover bg-center bg-no-repeat bg-fixed"
+<body id="body" class="flex flex-col items-center w-full bg-cover bg-center bg-no-repeat bg-fixed"
   style="background-image: url('../assets/img/vishnu-mohanan-pfR18JNEMv8-unsplash.jpg');">
   <nav id="navbar" class="navbar px-6 py-4 w-full">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
@@ -29,12 +29,12 @@
       <div class="flex items-center gap-4">
         <div class="hidden lg:flex lg:items-center lg:space-x-8">
           <a href="?page=main" class="nav-link">INICIO</a>
-          <a href="#" class="nav-link">DESTACADO</a>
-          <a href="?page=product" class="nav-link">DESCUENTOS</a>
+          <a href="?page=main#destacado" class="nav-link scroll-link">DESTACADO</a>
+          <a href="?page=main#descuento" class="nav-link scroll-link">DESCUENTOS</a>
           <a href="?page=shop" class="nav-link">SHOP</a>
         </div>
 
-        <div class="hidden lg:block">
+        <!-- <div class="hidden lg:block">
           <div class="relative">
             <input type="text" placeholder="Buscar..." class="search-input pl-10 pr-4 py-2 rounded-lg w-64">
             <svg class="search-icon absolute left-3 top-2.5 w-5 h-5" fill="none" stroke="currentColor"
@@ -43,7 +43,7 @@
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
             </svg>
           </div>
-        </div>
+        </div> -->
 
         <button data-collapse-toggle="navbar-menu" type="button"
           class="inline-flex items-center p-2 w-10 h-10 justify-center text-yellow-500 rounded-lg lg:hidden focus:outline-none"
@@ -57,13 +57,13 @@
 
     <div class="hidden px-6 pt-4 pb-6" id="navbar-menu">
       <div class="flex flex-col space-y-2">
-        <a href="#" class="nav-link block py-2">INICIO</a>
-        <a href="#" class="nav-link block py-2">DESTACADO</a>
-        <a href="#" class="nav-link block py-2">DESCUENTOS</a>
-        <a href="#" class="nav-link block py-2">SHOP</a>
+        <a href="?page=main" class="nav-link block py-2">INICIO</a>
+        <a href="?page=main#destacado" class="nav-link block py-2">DESTACADO</a>
+        <a href="?page=main#descuento" class="nav-link block py-2">DESCUENTOS</a>
+        <a href="?page=shop" class="nav-link block py-2">SHOP</a>
       </div>
 
-      <div class="mt-4">
+      <!-- <div class="mt-4">
         <div class="relative">
           <input type="text" placeholder="Buscar..." class="search-input pl-10 pr-4 py-2 rounded-lg w-full">
           <svg class="search-icon absolute left-3 top-2.5 w-5 h-5" fill="none" stroke="currentColor"
@@ -72,7 +72,7 @@
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
           </svg>
         </div>
-      </div>
+      </div> -->
     </div>
   </nav>
   <main class="flex flex-col items-center w-full bg-cover bg-center bg-no-repeat bg-fixed backdrop-brightness-50">
@@ -162,6 +162,44 @@
     </footer>
   </main>
   <script src="js/index.js"></script>
+  <script>
+    // Detectar click en enlaces con hash
+    document.querySelectorAll('a.scroll-link').forEach(link => {
+      link.addEventListener('click', function (e) {
+        const url = new URL(this.href);
+        const targetPage = url.searchParams.get('page') || 'main';
+        const targetHash = url.hash.substring(1); // sin "#"
+
+        // Si es la misma página que ya está cargada → scroll directo
+        if (targetPage === '<?php echo $pagina; ?>' && targetHash) {
+          e.preventDefault();
+          const target = document.getElementById(targetHash);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+        // Si es otra página → guardar hash en localStorage y dejar que cargue
+        else if (targetHash) {
+          localStorage.setItem('scrollTarget', targetHash);
+        }
+      });
+    });
+
+    // Al cargar la página → si hay hash guardado, scrollear suavemente
+    window.addEventListener('load', () => {
+      const hash = localStorage.getItem('scrollTarget');
+      if (hash) {
+        const target = document.getElementById(hash);
+        if (target) {
+          setTimeout(() => {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 200); // pequeño delay para que el include se renderice
+        }
+        localStorage.removeItem('scrollTarget');
+      }
+    });
+  </script>
+
 </body>
 
 

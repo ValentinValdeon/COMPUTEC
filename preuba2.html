@@ -3,423 +3,587 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrusel Responsive</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Tech Gallery</title>
     <style>
-        .carousel-container {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+        :root {
+            --c-blanco-main: #ffffff;
+            --c-blanco-hueso-main: #f8fafc;
+            --c-gris-claro-main: #e2e8f0;
+            --c-gris-medio-main: #cbd5e1;
+            --c-gris-placeholder-main: #64748b;
+            --c-gris-icono-main: #94a3b8;
+            --c-amarillo-main: #f4d03f;
+            --c-amarillo-dorado: #ffd700;
+            --c-amarillo-oscuro: #e6c547;
+            --c-verde-main: #2d5a5a;
+            --c-verde-main-oscuro: #1a4a47;
+
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: rgba(0, 0, 0, 0.3);
+            --glass-hover-bg: rgba(255, 255, 255, 0.08);
+            --glass-hover-border: rgba(244, 208, 63, 0.3);
         }
-        .carousel-arrow {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            color: white;
-            transition: all 0.3s ease;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .carousel-arrow:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-50%) scale(1.1);
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--c-blanco-main);
+            overflow-x: hidden;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><rect width="1920" height="1080" fill="%23001122"/><circle cx="960" cy="540" r="300" fill="none" stroke="%23f4d03f" stroke-width="2" opacity="0.3"/><rect x="400" y="200" width="200" height="100" fill="%232d5a5a" opacity="0.4"/><rect x="1200" y="600" width="150" height="80" fill="%23e6c547" opacity="0.5"/></svg>') center/cover fixed;
+            min-height: 100vh;
         }
-        .product-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: all 0.3s ease;
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(26, 74, 71, 0.7) 0%, rgba(45, 90, 90, 0.5) 50%, rgba(0, 17, 34, 0.8) 100%);
+            z-index: -1;
         }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
         }
-        .product-title {
-            color: #ffffff;
-            font-weight: 600;
-        }
-        .product-price {
-            color: #fbbf24;
-            font-weight: 700;
-            font-size: 1.25rem;
-        }
-        .banner-title {
-            color: #ffffff;
-            font-weight: 800;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+
+        .header {
             text-align: center;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(20px);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px var(--glass-shadow);
         }
-        .carousel-grid {
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            background: linear-gradient(135deg, var(--c-amarillo-main), var(--c-amarillo-dorado));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--c-gris-claro-main);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: var(--c-blanco-main);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(244, 208, 63, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .filter-btn:hover::before {
+            left: 100%;
+        }
+
+        .filter-btn:hover {
+            background: var(--glass-hover-bg);
+            border-color: var(--glass-hover-border);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(244, 208, 63, 0.2);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--c-verde-main), var(--c-verde-main-oscuro));
+            border-color: var(--c-amarillo-main);
+            color: var(--c-blanco-main);
+            box-shadow: 0 8px 25px rgba(45, 90, 90, 0.4);
+        }
+
+        .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
         }
-        @media (max-width: 640px) {
-            .carousel-grid {
+
+        .product-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--glass-shadow);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--c-amarillo-main), var(--c-amarillo-dorado), var(--c-amarillo-main));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--glass-hover-border);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--c-verde-main-oscuro), var(--c-verde-main));
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-image::before {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: var(--c-amarillo-main);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        .product-image::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: var(--c-amarillo-dorado);
+            border-radius: 50%;
+            right: 20px;
+            bottom: 20px;
+            opacity: 0.4;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--c-blanco-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-category {
+            color: var(--c-amarillo-main);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+            color: var(--c-gris-claro-main);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--c-amarillo-dorado);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .product-specs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .spec-tag {
+            padding: 0.2rem 0.6rem;
+            background: rgba(45, 90, 90, 0.3);
+            border: 1px solid var(--c-verde-main);
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: var(--c-blanco-hueso-main);
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 400px;
+            margin: 0 auto 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem 1rem 3rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: var(--c-blanco-main);
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--c-amarillo-main);
+            box-shadow: 0 0 20px rgba(244, 208, 63, 0.3);
+        }
+
+        .search-input::placeholder {
+            color: var(--c-gris-placeholder-main);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--c-amarillo-main);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .gallery {
                 grid-template-columns: 1fr;
-                gap: 1rem;
+                gap: 1.5rem;
             }
-        }
-        @media (min-width: 641px) and (max-width: 1024px) {
-            .carousel-grid {
-                grid-template-columns: repeat(2, 1fr);
+
+            .filters {
+                justify-content: center;
             }
-        }
-        @media (min-width: 1025px) {
-            .carousel-grid {
-                grid-template-columns: repeat(3, 1fr);
+
+            .filter-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.8rem;
             }
         }
     </style>
 </head>
-<body class="bg-gray-100 p-2 sm:p-4">
-    <!-- Carousel Container -->
-    <section
-        class="carousel-container rounded-3xl p-4 sm:p-6 lg:p-8 relative mb-6 sm:mb-8 lg:mb-10 opacity-100 translate-y-0 transition-all duration-1000 ease-in-out will-change-transform"
-        data-animate>
-        <!-- Navigation Arrows -->
-        <button
-            class="carousel-arrow absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center z-20"
-            id="prevBtn">
-            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-        </button>
-
-        <button
-            class="carousel-arrow absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center z-20"
-            id="nextBtn">
-            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-            </svg>
-        </button>
-
-        <!-- Carousel Track -->
-        <div class="w-full flex justify-center items-center">
-            <h2 class="banner-title text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-4 sm:mb-6">PRODUCTOS DESTACADOS</h2>
+<body>
+    <div class="bg-overlay"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>TechVault</h1>
+            <p>Descubre la última tecnología con estilo futurista</p>
         </div>
-        <div class="overflow-hidden mx-8 sm:mx-12 lg:mx-16">
-            <div class="carousel-track carousel-grid m-1 sm:m-2" id="carouselTrack">
-                <!-- Product 2 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-4 sm:p-6 w-full cursor-pointer">
-                        <div class="product-image mb-4 sm:mb-6">
-                            <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop&crop=center"
-                                alt="Smart Watch" class="w-full h-32 sm:h-40 md:h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <h3 class="product-title text-lg sm:text-xl leading-tight">
-                                Smart Watch Pro
-                            </h3>
-                            <div class="flex items-center justify-between pt-1 sm:pt-2">
-                                <span class="product-price text-lg sm:text-xl">$449.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">En stock</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Product 3 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-4 sm:p-6 w-full cursor-pointer">
-                        <div class="product-image mb-4 sm:mb-6">
-                            <img src="https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?w=400&h=300&fit=crop&crop=center"
-                                alt="Wireless Speaker" class="w-full h-32 sm:h-40 md:h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <h3 class="product-title text-lg sm:text-xl leading-tight">
-                                Wireless Speaker Ultra
-                            </h3>
-                            <div class="flex items-center justify-between pt-1 sm:pt-2">
-                                <span class="product-price text-lg sm:text-xl">$199.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">Pocas unidades</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="search-container">
+            <div class="search-icon">🔍</div>
+            <input type="text" class="search-input" placeholder="Buscar productos..." id="searchInput">
+        </div>
 
-                <!-- Product 4 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-4 sm:p-6 w-full cursor-pointer">
-                        <div class="product-image mb-4 sm:mb-6">
-                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=300&fit=crop&crop=center"
-                                alt="Gaming Mouse" class="w-full h-32 sm:h-40 md:h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <h3 class="product-title text-lg sm:text-xl leading-tight">
-                                Gaming Mouse Elite
-                            </h3>
-                            <div class="flex items-center justify-between pt-1 sm:pt-2">
-                                <span class="product-price text-lg sm:text-xl">$89.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">En stock</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="filters">
+            <button class="filter-btn active" data-category="all">Todos</button>
+            <button class="filter-btn" data-category="smartphones">Smartphones</button>
+            <button class="filter-btn" data-category="laptops">Laptops</button>
+            <button class="filter-btn" data-category="tablets">Tablets</button>
+            <button class="filter-btn" data-category="accesorios">Accesorios</button>
+            <button class="filter-btn" data-category="gaming">Gaming</button>
+        </div>
 
-                <!-- Product 5 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-4 sm:p-6 w-full cursor-pointer">
-                        <div class="product-image mb-4 sm:mb-6">
-                            <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400&h=300&fit=crop&crop=center"
-                                alt="Laptop Pro" class="w-full h-32 sm:h-40 md:h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <h3 class="product-title text-lg sm:text-xl leading-tight">
-                                Laptop Pro 15"
-                            </h3>
-                            <div class="flex items-center justify-between pt-1 sm:pt-2">
-                                <span class="product-price text-lg sm:text-xl">$1,299.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">En stock</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <div class="gallery" id="gallery">
+            <!-- Smartphones -->
+            <div class="product-card fade-in" data-category="smartphones">
+                <div class="product-image"></div>
+                <div class="product-category">Smartphones</div>
+                <div class="product-title">Galaxy S24 Ultra</div>
+                <div class="product-specs">
+                    <span class="spec-tag">256GB</span>
+                    <span class="spec-tag">5G</span>
+                    <span class="spec-tag">AI</span>
                 </div>
-
-                <!-- Product 6 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-4 sm:p-6 w-full cursor-pointer">
-                        <div class="product-image mb-4 sm:mb-6">
-                            <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=300&fit=crop&crop=center"
-                                alt="Smartphone" class="w-full h-32 sm:h-40 md:h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <h3 class="product-title text-lg sm:text-xl leading-tight">
-                                Smartphone X1
-                            </h3>
-                            <div class="flex items-center justify-between pt-1 sm:pt-2">
-                                <span class="product-price text-lg sm:text-xl">$899.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">En stock</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="product-description">
+                    El smartphone más avanzado con cámaras profesionales y rendimiento excepcional.
                 </div>
+                <div class="product-price">$1,299 <span style="font-size: 0.8rem; color: var(--c-gris-medio-main);">USD</span></div>
+            </div>
 
-                <!-- Product 7 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-4 sm:p-6 w-full cursor-pointer">
-                        <div class="product-image mb-4 sm:mb-6">
-                            <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop&crop=center"
-                                alt="VR Headset" class="w-full h-32 sm:h-40 md:h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <h3 class="product-title text-lg sm:text-xl leading-tight">
-                                VR Headset Reality
-                            </h3>
-                            <div class="flex items-center justify-between pt-1 sm:pt-2">
-                                <span class="product-price text-lg sm:text-xl">$699.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">Nuevo</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="product-card fade-in" data-category="smartphones">
+                <div class="product-image"></div>
+                <div class="product-category">Smartphones</div>
+                <div class="product-title">iPhone 15 Pro Max</div>
+                <div class="product-specs">
+                    <span class="spec-tag">512GB</span>
+                    <span class="spec-tag">ProRAW</span>
+                    <span class="spec-tag">Titanium</span>
                 </div>
-
-                <!-- Product 8 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-4 sm:p-6 w-full cursor-pointer">
-                        <div class="product-image mb-4 sm:mb-6">
-                            <img src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&h=300&fit=crop&crop=center"
-                                alt="Mechanical Keyboard" class="w-full h-32 sm:h-40 md:h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <h3 class="product-title text-lg sm:text-xl leading-tight">
-                                Mechanical Keyboard RGB
-                            </h3>
-                            <div class="flex items-center justify-between pt-1 sm:pt-2">
-                                <span class="product-price text-lg sm:text-xl">$149.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">En stock</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="product-description">
+                    Innovación en cada detalle con el chip A17 Pro y cámara de acción revolucionaria.
                 </div>
+                <div class="product-price">$1,599 <span style="font-size: 0.8rem; color: var(--c-gris-medio-main);">USD</span></div>
+            </div>
 
-                <!-- Product 9 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-4 sm:p-6 w-full cursor-pointer">
-                        <div class="product-image mb-4 sm:mb-6">
-                            <img src="https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=400&h=300&fit=crop&crop=center"
-                                alt="Webcam 4K" class="w-full h-32 sm:h-40 md:h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <h3 class="product-title text-lg sm:text-xl leading-tight">
-                                Webcam 4K Pro
-                            </h3>
-                            <div class="flex items-center justify-between pt-1 sm:pt-2">
-                                <span class="product-price text-lg sm:text-xl">$179.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">Pocas unidades</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Laptops -->
+            <div class="product-card fade-in" data-category="laptops">
+                <div class="product-image"></div>
+                <div class="product-category">Laptops</div>
+                <div class="product-title">MacBook Pro M3</div>
+                <div class="product-specs">
+                    <span class="spec-tag">16"</span>
+                    <span class="spec-tag">32GB RAM</span>
+                    <span class="spec-tag">1TB SSD</span>
                 </div>
-
-                <!-- Product 10 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-4 sm:p-6 w-full cursor-pointer">
-                        <div class="product-image mb-4 sm:mb-6">
-                            <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=300&fit=crop&crop=center"
-                                alt="Tablet Pro" class="w-full h-32 sm:h-40 md:h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <h3 class="product-title text-lg sm:text-xl leading-tight">
-                                Tablet Pro 12.9"
-                            </h3>
-                            <div class="flex items-center justify-between pt-1 sm:pt-2">
-                                <span class="product-price text-lg sm:text-xl">$1,099.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">En stock</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="product-description">
+                    Potencia profesional con el chip M3, perfecto para creadores y desarrolladores.
                 </div>
+                <div class="product-price">$2,899 <span style="font-size: 0.8rem; color: var(--c-gris-medio-main);">USD</span></div>
+            </div>
 
-                <!-- Product 11 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-4 sm:p-6 w-full cursor-pointer">
-                        <div class="product-image mb-4 sm:mb-6">
-                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop&crop=center"
-                                alt="Sneakers" class="w-full h-32 sm:h-40 md:h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <h3 class="product-title text-lg sm:text-xl leading-tight">
-                                Premium Sneakers
-                            </h3>
-                            <div class="flex items-center justify-between pt-1 sm:pt-2">
-                                <span class="product-price text-lg sm:text-xl">$159.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">En stock</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="product-card fade-in" data-category="laptops">
+                <div class="product-image"></div>
+                <div class="product-category">Laptops</div>
+                <div class="product-title">Dell XPS 13 Plus</div>
+                <div class="product-specs">
+                    <span class="spec-tag">13"</span>
+                    <span class="spec-tag">Intel i7</span>
+                    <span class="spec-tag">OLED</span>
                 </div>
-
-                <!-- Product 12 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-4 sm:p-6 w-full cursor-pointer">
-                        <div class="product-image mb-4 sm:mb-6">
-                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop&crop=center"
-                                alt="Sunglasses" class="w-full h-32 sm:h-40 md:h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <h3 class="product-title text-lg sm:text-xl leading-tight">
-                                Designer Sunglasses
-                            </h3>
-                            <div class="flex items-center justify-between pt-1 sm:pt-2">
-                                <span class="product-price text-lg sm:text-xl">$249.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">Limitado</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="product-description">
+                    Diseño minimalista con pantalla OLED y rendimiento premium para profesionales.
                 </div>
+                <div class="product-price">$1,899 <span style="font-size: 0.8rem; color: var(--c-gris-medio-main);">USD</span></div>
+            </div>
 
-                <!-- Product 13 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-4 sm:p-6 w-full cursor-pointer">
-                        <div class="product-image mb-4 sm:mb-6">
-                            <img src="https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=400&h=300&fit=crop&crop=center"
-                                alt="Coffee Maker" class="w-full h-32 sm:h-40 md:h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <h3 class="product-title text-lg sm:text-xl leading-tight">
-                                Smart Coffee Maker
-                            </h3>
-                            <div class="flex items-center justify-between pt-1 sm:pt-2">
-                                <span class="product-price text-lg sm:text-xl">$329.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">En stock</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Tablets -->
+            <div class="product-card fade-in" data-category="tablets">
+                <div class="product-image"></div>
+                <div class="product-category">Tablets</div>
+                <div class="product-title">iPad Pro M2</div>
+                <div class="product-specs">
+                    <span class="spec-tag">12.9"</span>
+                    <span class="spec-tag">WiFi + 5G</span>
+                    <span class="spec-tag">Apple Pencil</span>
                 </div>
-
-                <!-- Product 14 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-4 sm:p-6 w-full cursor-pointer">
-                        <div class="product-image mb-4 sm:mb-6">
-                            <img src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=300&fit=crop&crop=center"
-                                alt="Drone" class="w-full h-32 sm:h-40 md:h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-2 sm:space-y-3">
-                            <h3 class="product-title text-lg sm:text-xl leading-tight">
-                                Professional Drone
-                            </h3>
-                            <div class="flex items-center justify-between pt-1 sm:pt-2">
-                                <span class="product-price text-lg sm:text-xl">$799.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">Nuevo</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="product-description">
+                    La tablet más poderosa con tecnología M2 y compatibilidad total con Apple Pencil.
                 </div>
+                <div class="product-price">$1,199 <span style="font-size: 0.8rem; color: var(--c-gris-medio-main);">USD</span></div>
+            </div>
 
+            <div class="product-card fade-in" data-category="tablets">
+                <div class="product-image"></div>
+                <div class="product-category">Tablets</div>
+                <div class="product-title">Surface Pro 9</div>
+                <div class="product-specs">
+                    <span class="spec-tag">13"</span>
+                    <span class="spec-tag">Intel i7</span>
+                    <span class="spec-tag">2-in-1</span>
+                </div>
+                <div class="product-description">
+                    Versatilidad máxima en un dispositivo 2-en-1 con Windows 11 y conectividad 5G.
+                </div>
+                <div class="product-price">$1,399 <span style="font-size: 0.8rem; color: var(--c-gris-medio-main);">USD</span></div>
+            </div>
+
+            <!-- Gaming -->
+            <div class="product-card fade-in" data-category="gaming">
+                <div class="product-image"></div>
+                <div class="product-category">Gaming</div>
+                <div class="product-title">Steam Deck OLED</div>
+                <div class="product-specs">
+                    <span class="spec-tag">7.4" OLED</span>
+                    <span class="spec-tag">512GB</span>
+                    <span class="spec-tag">Portable</span>
+                </div>
+                <div class="product-description">
+                    Consola portátil con pantalla OLED y acceso completo a la biblioteca de Steam.
+                </div>
+                <div class="product-price">$649 <span style="font-size: 0.8rem; color: var(--c-gris-medio-main);">USD</span></div>
+            </div>
+
+            <div class="product-card fade-in" data-category="gaming">
+                <div class="product-image"></div>
+                <div class="product-category">Gaming</div>
+                <div class="product-title">ROG Ally Extreme</div>
+                <div class="product-specs">
+                    <span class="spec-tag">AMD Z1</span>
+                    <span class="spec-tag">16GB RAM</span>
+                    <span class="spec-tag">120Hz</span>
+                </div>
+                <div class="product-description">
+                    Handheld gaming con Windows 11 y compatibilidad total con Game Pass y Steam.
+                </div>
+                <div class="product-price">$799 <span style="font-size: 0.8rem; color: var(--c-gris-medio-main);">USD</span></div>
+            </div>
+
+            <!-- Accesorios -->
+            <div class="product-card fade-in" data-category="accesorios">
+                <div class="product-image"></div>
+                <div class="product-category">Accesorios</div>
+                <div class="product-title">AirPods Pro 2</div>
+                <div class="product-specs">
+                    <span class="spec-tag">USB-C</span>
+                    <span class="spec-tag">ANC</span>
+                    <span class="spec-tag">Spatial Audio</span>
+                </div>
+                <div class="product-description">
+                    Auriculares inalámbricos con cancelación de ruido adaptativa y audio espacial.
+                </div>
+                <div class="product-price">$249 <span style="font-size: 0.8rem; color: var(--c-gris-medio-main);">USD</span></div>
+            </div>
+
+            <div class="product-card fade-in" data-category="accesorios">
+                <div class="product-image"></div>
+                <div class="product-category">Accesorios</div>
+                <div class="product-title">MagSafe Charger</div>
+                <div class="product-specs">
+                    <span class="spec-tag">15W</span>
+                    <span class="spec-tag">MagSafe</span>
+                    <span class="spec-tag">Qi2</span>
+                </div>
+                <div class="product-description">
+                    Carga inalámbrica magnética rápida y precisa para dispositivos compatibles.
+                </div>
+                <div class="product-price">$39 <span style="font-size: 0.8rem; color: var(--c-gris-medio-main);">USD</span></div>
             </div>
         </div>
-    </section>
+    </div>
+
+    <script>
+        // Estado de la aplicación
+        let currentFilter = 'all';
+        let searchTerm = '';
+
+        // Referencias DOM
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const productCards = document.querySelectorAll('.product-card');
+        const searchInput = document.getElementById('searchInput');
+
+        // Función para filtrar productos
+        function filterProducts() {
+            productCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                const title = card.querySelector('.product-title').textContent.toLowerCase();
+                const description = card.querySelector('.product-description').textContent.toLowerCase();
+                
+                const matchesFilter = currentFilter === 'all' || category === currentFilter;
+                const matchesSearch = searchTerm === '' || 
+                    title.includes(searchTerm.toLowerCase()) || 
+                    description.includes(searchTerm.toLowerCase());
+                
+                if (matchesFilter && matchesSearch) {
+                    card.style.display = 'block';
+                    card.classList.add('fade-in');
+                } else {
+                    card.style.display = 'none';
+                    card.classList.remove('fade-in');
+                }
+            });
+        }
+
+        // Event listeners para filtros
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Actualizar estado activo
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Actualizar filtro actual
+                currentFilter = btn.getAttribute('data-category');
+                
+                // Filtrar productos
+                filterProducts();
+            });
+        });
+
+        // Event listener para búsqueda
+        searchInput.addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            filterProducts();
+        });
+
+        // Animación inicial
+        document.addEventListener('DOMContentLoaded', () => {
+            productCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // Efectos de hover para las tarjetas
+        productCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
 </body>
 </html>

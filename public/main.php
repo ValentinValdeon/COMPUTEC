@@ -62,7 +62,7 @@
 
 
 <div class="space-y-[100px]">
-    <section
+    <section id="destacado"
         class="w-full h-auto mb-10 opacity-0 translate-y-32 transition-all duration-1000 ease-in-out will-change-transform delay-200"
         data-animate>
         <!-- Banner Servicios Técnicos -->
@@ -513,7 +513,7 @@
         </div>
     </section>
 
-    <section
+    <section id="descuento"
         class="px-8 py-12 max-w-screen-xl mx-auto text-gray-100 bg-transparent mb-10 opacity-0 translate-y-32 transition-all duration-1000 ease-in-out will-change-transform delay-200"
         data-animate>
         <!-- Productos en Descuento -->

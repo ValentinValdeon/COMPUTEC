@@ -110,7 +110,7 @@
         }
 
         updateCarousel() {
-            const itemWidth = 300 + 24; // card width
+            const itemWidth = 300 + 24; // card width + gap
             const translateX = -this.currentIndex * itemWidth;
             this.track.style.transform = `translateX(${translateX}px)`;
         }
@@ -340,3 +340,6 @@
         }, 150);
     });
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+document.getElementById('btn-ir-shop-descuento').addEventListener('click', function() {
+    window.location.href = 'index.php?page=shop';
+});

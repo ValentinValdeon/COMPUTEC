@@ -8,6 +8,22 @@
       });
     });
 
+    //Menu Hamburguesa
+    document.addEventListener("DOMContentLoaded", function () {
+      const toggleBtn = document.querySelector("[data-collapse-toggle='navbar-menu']");
+      const menu = document.getElementById("navbar-menu");
+
+      toggleBtn.addEventListener("click", function () {
+        const isExpanded = toggleBtn.getAttribute("aria-expanded") === "true";
+
+        // Alternar visibilidad
+        menu.classList.toggle("hidden", isExpanded);
+
+        // Actualizar aria-expanded
+        toggleBtn.setAttribute("aria-expanded", String(!isExpanded));
+      });
+    });
+
     // Efecto en inputs de búsqueda
     document.querySelectorAll('.search-input').forEach(input => {
       input.addEventListener('focus', function () {
@@ -33,3 +49,6 @@
       const url = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(location);
       window.open(url, '_blank');
     }
+
+
+    
