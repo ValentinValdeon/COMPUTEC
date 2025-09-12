@@ -3,288 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Cards - 3 Modelos</title>
+    <title>Gestión de Productos</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'military-green': '#5a6b3b',
+                        'olive': '#6b7c32',
+                        'warm-yellow': '#f4d03f',
+                        'bright-yellow': '#f1c40f'
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        .table-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: #5a6b3b #f3f4f6;
         }
         
-        .glass-card {
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        .table-scroll::-webkit-scrollbar {
+            height: 8px;
         }
         
-        .glass-light {
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            background: rgba(30, 41, 59, 0.4);
-            border: 1px solid rgba(148, 163, 184, 0.3);
+        .table-scroll::-webkit-scrollbar-track {
+            background: #f3f4f6;
+            border-radius: 4px;
         }
         
-        .glass-dark {
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            background: rgba(8, 47, 73, 0.7);
-            border: 1px solid rgba(56, 189, 248, 0.3);
+        .table-scroll::-webkit-scrollbar-thumb {
+            background: #5a6b3b;
+            border-radius: 4px;
         }
         
-        .thumbnail {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
+        .input-cell {
+            transition: all 0.2s ease;
+            background: transparent;
+            border: 1px solid transparent;
         }
         
-        .thumbnail:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
+        .input-cell:focus {
+            background: white;
+            border-color: #5a6b3b;
+            box-shadow: 0 0 0 2px rgba(90, 107, 59, 0.1);
         }
         
-        .thumbnail.active {
-            border-color: #38bdf8;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+        .row-disabled {
+            opacity: 0.5;
+            background-color: #f9fafb !important;
         }
         
-        .main-image {
-            transition: all 0.5s ease-in-out;
-        }
-        
-        .fade-in {
-            opacity: 0;
-            animation: fadeIn 0.5s ease-in-out forwards;
-        }
-        
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-        
-        .price-glow {
-            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
-        }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .filter-badge {
+            animation: pulse 0.3s ease-in-out;
         }
     </style>
 </head>
-<body class="p-8">
-    <div class="max-w-7xl mx-auto space-y-12">
-        <h1 class="text-4xl font-bold text-center text-white mb-12">3 Modelos de Product Cards</h1>
-        
-        <!-- MODELO 1: Minimalista Elegante -->
-        <div class="mb-16">
-            <h2 class="text-2xl font-semibold text-slate-300 mb-6">Modelo 1: Minimalista Elegante</h2>
-            <div class="glass-card rounded-2xl p-8 max-w-4xl mx-auto">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- Sección de Imágenes -->
-                    <div class="space-y-4">
-                        <div class="aspect-square bg-slate-800/50 rounded-xl overflow-hidden border border-slate-600/30">
-                            <img id="mainImage1" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop" 
-                                 alt="Producto principal" class="w-full h-full object-cover main-image">
-                        </div>
-                        <div class="flex gap-3">
-                            <div class="thumbnail active w-20 h-20 bg-slate-800/50 rounded-lg overflow-hidden border-2 border-slate-600/30" 
-                                 onclick="changeImage(1, 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop', this)">
-                                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=80&h=80&fit=crop" 
-                                     alt="Vista A" class="w-full h-full object-cover">
-                            </div>
-                            <div class="thumbnail w-20 h-20 bg-slate-800/50 rounded-lg overflow-hidden border-2 border-slate-600/30" 
-                                 onclick="changeImage(1, 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500&h=500&fit=crop', this)">
-                                <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=80&h=80&fit=crop" 
-                                     alt="Vista B" class="w-full h-full object-cover">
-                            </div>
-                            <div class="thumbnail w-20 h-20 bg-slate-800/50 rounded-lg overflow-hidden border-2 border-slate-600/30" 
-                                 onclick="changeImage(1, 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=500&h=500&fit=crop', this)">
-                                <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=80&h=80&fit=crop" 
-                                     alt="Vista C" class="w-full h-full object-cover">
-                            </div>
-                        </div>
+<body class="bg-white">
+    <div class="min-h-screen py-8">
+        <div class="max-w-full mx-auto px-4">
+            <div class="bg-gradient-to-r from-military-green to-olive rounded-3xl p-1">
+                <div class="bg-white rounded-3xl p-8">
+                    <!-- Header -->
+                    <div class="text-center mb-8">
+                        <h1 class="text-3xl font-bold text-gray-800">Gestión de Productos</h1>
+                        <div class="w-24 h-1 bg-bright-yellow mx-auto mt-3 rounded-full"></div>
                     </div>
                     
-                    <!-- Información del Producto -->
-                    <div class="space-y-6">
-                        <h3 class="text-3xl font-bold gradient-text">Auriculares Premium</h3>
-                        <div class="text-4xl font-bold text-white price-glow">$299.99</div>
+                    <!-- Filtros y Búsqueda -->
+                    <div class="mb-6 space-y-4">
+                        <!-- Barra de búsqueda -->
+                        <div class="flex flex-col lg:flex-row gap-4 items-center">
+                            <div class="flex-1">
+                                <div class="relative">
+                                    <input type="text" id="search-input" placeholder="Buscar productos por nombre, código o descripción..." class="w-full px-4 py-3 pl-12 bg-gray-50 border-2 border-transparent rounded-xl focus:bg-white focus:border-military-green transition-all duration-300">
+                                    <div class="absolute left-4 top-3.5 text-gray-400">
+                                        🔍
+                                    </div>
+                                </div>
+                            </div>
+                            <button onclick="clearAllFilters()" class="px-6 py-3 bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition-colors duration-200 font-medium">
+                                Limpiar Filtros
+                            </button>
+                        </div>
                         
-                        <div class="space-y-3">
-                            <h4 class="text-lg font-semibold text-slate-300 mb-3">Características:</h4>
+                        <!-- Filtros -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                            <!-- Filtro de categoría -->
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Categoría</label>
+                                <select id="category-filter" class="w-full px-3 py-2 bg-gray-50 border-2 border-transparent rounded-lg focus:bg-white focus:border-military-green transition-all duration-300">
+                                    <option value="">Todas las categorías</option>
+                                    <option value="electronica">📱 Electrónica</option>
+                                    <option value="telefonia">📞 Telefonía</option>
+                                    <option value="computacion">💻 Computación</option>
+                                    <option value="accesorios">🎧 Accesorios</option>
+                                    <option value="gaming">🎮 Gaming</option>
+                                    <option value="audio">🔊 Audio</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Checkbox Filtros -->
                             <div class="space-y-2">
-                                <div class="flex items-center text-slate-300">
-                                    <div class="w-2 h-2 bg-sky-400 rounded-full mr-3"></div>
-                                    <span>Cancelación activa de ruido</span>
-                                </div>
-                                <div class="flex items-center text-slate-300">
-                                    <div class="w-2 h-2 bg-sky-400 rounded-full mr-3"></div>
-                                    <span>Batería de 30 horas</span>
-                                </div>
-                                <div class="flex items-center text-slate-300">
-                                    <div class="w-2 h-2 bg-sky-400 rounded-full mr-3"></div>
-                                    <span>Conectividad Bluetooth 5.0</span>
-                                </div>
-                                <div class="flex items-center text-slate-300">
-                                    <div class="w-2 h-2 bg-sky-400 rounded-full mr-3"></div>
-                                    <span>Diseño ergonómico</span>
-                                </div>
-                                <div class="flex items-center text-slate-300">
-                                    <div class="w-2 h-2 bg-sky-400 rounded-full mr-3"></div>
-                                    <span>Resistente al agua IPX4</span>
-                                </div>
+                                <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-lg hover:bg-yellow-50 transition-colors">
+                                    <input type="checkbox" id="stock-minimo-filter" class="w-4 h-4 text-military-green border-gray-300 rounded focus:ring-military-green">
+                                    <span class="text-sm font-medium text-gray-700">⚠️ Stock Mínimo</span>
+                                </label>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-lg hover:bg-yellow-50 transition-colors">
+                                    <input type="checkbox" id="destacados-filter" class="w-4 h-4 text-military-green border-gray-300 rounded focus:ring-military-green">
+                                    <span class="text-sm font-medium text-gray-700">⭐ Destacados</span>
+                                </label>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-lg hover:bg-yellow-50 transition-colors">
+                                    <input type="checkbox" id="descuentos-filter" class="w-4 h-4 text-military-green border-gray-300 rounded focus:ring-military-green">
+                                    <span class="text-sm font-medium text-gray-700">💸 Con Descuento</span>
+                                </label>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label class="flex items-center space-x-2 cursor-pointer p-2 rounded-lg hover:bg-red-50 transition-colors">
+                                    <input type="checkbox" id="inactivos-filter" class="w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-500">
+                                    <span class="text-sm font-medium text-gray-700">🚫 Inactivos</span>
+                                </label>
                             </div>
                         </div>
+                        
+                        <!-- Badges de filtros activos -->
+                        <div id="active-filters" class="flex flex-wrap gap-2"></div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- MODELO 2: Futurista -->
-        <div class="mb-16">
-            <h2 class="text-2xl font-semibold text-slate-300 mb-6">Modelo 2: Futurista</h2>
-            <div class="glass-light rounded-3xl p-8 max-w-4xl mx-auto border-2">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- Sección de Imágenes -->
-                    <div class="space-y-6">
-                        <div class="aspect-square bg-gradient-to-br from-slate-900/80 to-blue-900/40 rounded-2xl overflow-hidden border border-blue-400/20 relative">
-                            <img id="mainImage2" src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500&h=500&fit=crop" 
-                                 alt="Producto principal" class="w-full h-full object-cover main-image">
-                            <div class="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent"></div>
+                    
+                    <!-- Tabla -->
+                    <div class="bg-gray-50 rounded-2xl p-4">
+                        <div class="table-scroll overflow-x-auto">
+                            <table class="w-full min-w-max">
+                                <thead>
+                                    <tr class="border-b-2 border-gray-200">
+                                        <th class="text-left p-4 font-bold text-gray-700 min-w-[60px]">Estado</th>
+                                        <th class="text-left p-4 font-bold text-gray-700 min-w-[200px]">Producto</th>
+                                        <th class="text-left p-4 font-bold text-gray-700 min-w-[120px]">Código</th>
+                                        <th class="text-left p-4 font-bold text-gray-700 min-w-[150px]">Categorías</th>
+                                        <th class="text-left p-4 font-bold text-gray-700 min-w-[120px]">P. Compra</th>
+                                        <th class="text-left p-4 font-bold text-gray-700 min-w-[120px]">P. Venta</th>
+                                        <th class="text-left p-4 font-bold text-gray-700 min-w-[100px]">Descuento</th>
+                                        <th class="text-left p-4 font-bold text-gray-700 min-w-[100px]">P. Final</th>
+                                        <th class="text-left p-4 font-bold text-gray-700 min-w-[80px]">Stock</th>
+                                        <th class="text-left p-4 font-bold text-gray-700 min-w-[80px]">S. Min</th>
+                                        <th class="text-left p-4 font-bold text-gray-700 min-w-[200px]">Propiedades</th>
+                                        <th class="text-left p-4 font-bold text-gray-700 min-w-[60px]">⭐</th>
+                                        <th class="text-left p-4 font-bold text-gray-700 min-w-[100px]">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="products-table-body">
+                                    <!-- Los productos se cargarán aquí -->
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="flex gap-4 justify-center">
-                            <div class="thumbnail active w-16 h-16 bg-slate-900/60 rounded-xl overflow-hidden border-2 border-blue-400/30 relative" 
-                                 onclick="changeImage(2, 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500&h=500&fit=crop', this)">
-                                <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=64&h=64&fit=crop" 
-                                     alt="Vista A" class="w-full h-full object-cover">
-                                <div class="absolute inset-0 bg-blue-500/10"></div>
-                            </div>
-                            <div class="thumbnail w-16 h-16 bg-slate-900/60 rounded-xl overflow-hidden border-2 border-blue-400/30 relative" 
-                                 onclick="changeImage(2, 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=500&fit=crop', this)">
-                                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=64&h=64&fit=crop" 
-                                     alt="Vista B" class="w-full h-full object-cover">
-                                <div class="absolute inset-0 bg-blue-500/10"></div>
-                            </div>
-                            <div class="thumbnail w-16 h-16 bg-slate-900/60 rounded-xl overflow-hidden border-2 border-blue-400/30 relative" 
-                                 onclick="changeImage(2, 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500&h=500&fit=crop', this)">
-                                <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=64&h=64&fit=crop" 
-                                     alt="Vista C" class="w-full h-full object-cover">
-                                <div class="absolute inset-0 bg-blue-500/10"></div>
-                            </div>
+                        
+                        <!-- Mensaje cuando no hay productos -->
+                        <div id="no-products-message" class="text-center py-12 hidden">
+                            <div class="text-gray-400 text-6xl mb-4">📦</div>
+                            <h3 class="text-xl font-semibold text-gray-600 mb-2">No se encontraron productos</h3>
+                            <p class="text-gray-500">Prueba ajustando los filtros o términos de búsqueda</p>
                         </div>
                     </div>
                     
-                    <!-- Información del Producto -->
-                    <div class="space-y-6">
-                        <h3 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-600">
-                            Zapatillas Tech Runner
-                        </h3>
-                        <div class="text-5xl font-black text-cyan-400 price-glow">$189.99</div>
-                        
-                        <div class="glass-dark rounded-2xl p-6">
-                            <h4 class="text-xl font-bold text-cyan-300 mb-4">Especificaciones:</h4>
-                            <div class="space-y-3">
-                                <div class="flex items-center text-slate-200">
-                                    <div class="w-3 h-3 bg-cyan-400 rounded-full mr-4 animate-pulse"></div>
-                                    <span>Tecnología de amortiguación avanzada</span>
-                                </div>
-                                <div class="flex items-center text-slate-200">
-                                    <div class="w-3 h-3 bg-cyan-400 rounded-full mr-4 animate-pulse"></div>
-                                    <span>Material transpirable ultraligero</span>
-                                </div>
-                                <div class="flex items-center text-slate-200">
-                                    <div class="w-3 h-3 bg-cyan-400 rounded-full mr-4 animate-pulse"></div>
-                                    <span>Suela antideslizante premium</span>
-                                </div>
-                                <div class="flex items-center text-slate-200">
-                                    <div class="w-3 h-3 bg-cyan-400 rounded-full mr-4 animate-pulse"></div>
-                                    <span>Diseño ergonómico para corredores</span>
-                                </div>
-                                <div class="flex items-center text-slate-200">
-                                    <div class="w-3 h-3 bg-cyan-400 rounded-full mr-4 animate-pulse"></div>
-                                    <span>Disponible en múltiples colores</span>
-                                </div>
-                            </div>
+                    <!-- Footer con estadísticas -->
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="bg-gray-50 rounded-xl p-4 text-center">
+                            <div class="text-2xl font-bold text-military-green" id="total-products">0</div>
+                            <div class="text-sm text-gray-600">Total Productos</div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- MODELO 3: Elegante Profesional -->
-        <div class="mb-16">
-            <h2 class="text-2xl font-semibold text-slate-300 mb-6">Modelo 3: Elegante Profesional</h2>
-            <div class="glass-dark rounded-3xl p-10 max-w-4xl mx-auto shadow-2xl">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                    <!-- Sección de Imágenes -->
-                    <div class="space-y-6">
-                        <div class="aspect-square bg-gradient-to-br from-slate-800/60 to-blue-900/30 rounded-3xl overflow-hidden border-2 border-blue-400/30 relative group">
-                            <img id="mainImage3" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop" 
-                                 alt="Producto principal" class="w-full h-full object-cover main-image group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-radial from-transparent via-blue-900/20 to-slate-900/40"></div>
+                        <div class="bg-yellow-50 rounded-xl p-4 text-center">
+                            <div class="text-2xl font-bold text-bright-yellow" id="featured-products">0</div>
+                            <div class="text-sm text-gray-600">Destacados</div>
                         </div>
-                        <div class="flex gap-4 justify-center">
-                            <div class="thumbnail active w-18 h-18 bg-slate-800/70 rounded-2xl overflow-hidden border-2 border-blue-400/40 relative shadow-lg" 
-                                 onclick="changeImage(3, 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop', this)">
-                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=72&h=72&fit=crop" 
-                                     alt="Vista A" class="w-full h-full object-cover">
-                                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent"></div>
-                            </div>
-                            <div class="thumbnail w-18 h-18 bg-slate-800/70 rounded-2xl overflow-hidden border-2 border-blue-400/40 relative shadow-lg" 
-                                 onclick="changeImage(3, 'https://images.unsplash.com/photo-1486312338219-ce68e2c6b81d?w=500&h=500&fit=crop', this)">
-                                <img src="https://images.unsplash.com/photo-1486312338219-ce68e2c6b81d?w=72&h=72&fit=crop" 
-                                     alt="Vista B" class="w-full h-full object-cover">
-                                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent"></div>
-                            </div>
-                            <div class="thumbnail w-18 h-18 bg-slate-800/70 rounded-2xl overflow-hidden border-2 border-blue-400/40 relative shadow-lg" 
-                                 onclick="changeImage(3, 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&h=500&fit=crop', this)">
-                                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=72&h=72&fit=crop" 
-                                     alt="Vista C" class="w-full h-full object-cover">
-                                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent"></div>
-                            </div>
+                        <div class="bg-red-50 rounded-xl p-4 text-center">
+                            <div class="text-2xl font-bold text-red-600" id="low-stock-products">0</div>
+                            <div class="text-sm text-gray-600">Stock Bajo</div>
                         </div>
-                    </div>
-                    
-                    <!-- Información del Producto -->
-                    <div class="space-y-8">
-                        <div class="space-y-4">
-                            <h3 class="text-4xl font-light text-white tracking-wide">Reloj Inteligente</h3>
-                            <h4 class="text-xl text-blue-300 font-light">Serie Professional</h4>
-                        </div>
-                        
-                        <div class="text-5xl font-thin text-white">
-                            <span class="text-2xl text-slate-400">$</span>
-                            <span class="price-glow">449</span>
-                            <span class="text-2xl text-slate-400">.99</span>
-                        </div>
-                        
-                        <div class="bg-slate-900/40 rounded-2xl p-6 border border-blue-400/20">
-                            <h4 class="text-lg font-medium text-blue-300 mb-6 tracking-wide">CARACTERÍSTICAS DESTACADAS</h4>
-                            <div class="space-y-4">
-                                <div class="flex items-start space-x-4">
-                                    <div class="w-1.5 h-1.5 bg-blue-400 rounded-full mt-2.5 flex-shrink-0"></div>
-                                    <span class="text-slate-200 leading-relaxed">Monitor de salud 24/7 con sensores avanzados</span>
-                                </div>
-                                <div class="flex items-start space-x-4">
-                                    <div class="w-1.5 h-1.5 bg-blue-400 rounded-full mt-2.5 flex-shrink-0"></div>
-                                    <span class="text-slate-200 leading-relaxed">Pantalla OLED de alta resolución</span>
-                                </div>
-                                <div class="flex items-start space-x-4">
-                                    <div class="w-1.5 h-1.5 bg-blue-400 rounded-full mt-2.5 flex-shrink-0"></div>
-                                    <span class="text-slate-200 leading-relaxed">Resistencia al agua hasta 50m</span>
-                                </div>
-                                <div class="flex items-start space-x-4">
-                                    <div class="w-1.5 h-1.5 bg-blue-400 rounded-full mt-2.5 flex-shrink-0"></div>
-                                    <span class="text-slate-200 leading-relaxed">GPS integrado y conectividad LTE</span>
-                                </div>
-                                <div class="flex items-start space-x-4">
-                                    <div class="w-1.5 h-1.5 bg-blue-400 rounded-full mt-2.5 flex-shrink-0"></div>
-                                    <span class="text-slate-200 leading-relaxed">Batería de larga duración (7 días)</span>
-                                </div>
-                            </div>
+                        <div class="bg-green-50 rounded-xl p-4 text-center">
+                            <div class="text-2xl font-bold text-green-600" id="active-products">0</div>
+                            <div class="text-sm text-gray-600">Activos</div>
                         </div>
                     </div>
                 </div>
@@ -293,64 +199,350 @@
     </div>
 
     <script>
-        function changeImage(cardNumber, newSrc, clickedThumbnail) {
-            // Obtener la imagen principal del card correspondiente
-            const mainImage = document.getElementById(`mainImage${cardNumber}`);
+        // Datos de ejemplo
+        let products = [
+            {
+                id: 1,
+                nombre: "iPhone 15 Pro",
+                codigo: "IPH15P001",
+                categorias: ["telefonia", "electronica"],
+                descripcion: "Smartphone premium con chip A17 Pro",
+                precioCompra: 850,
+                precioVenta: 1200,
+                descuento: 10,
+                stock: 25,
+                stockMinimo: 10,
+                propiedades: ["128GB", "5G", "6.1 pulgadas"],
+                destacado: true,
+                activo: true
+            },
+            {
+                id: 2,
+                nombre: "MacBook Air M3",
+                codigo: "MBA13M3",
+                categorias: ["computacion"],
+                descripcion: "Laptop ultradelgada con chip M3",
+                precioCompra: 1100,
+                precioVenta: 1500,
+                descuento: 0,
+                stock: 5,
+                stockMinimo: 8,
+                propiedades: ["16GB RAM", "512GB SSD", "13 pulgadas"],
+                destacado: false,
+                activo: true
+            },
+            {
+                id: 3,
+                nombre: "AirPods Pro 2",
+                codigo: "APP2GEN",
+                categorias: ["audio", "accesorios"],
+                descripcion: "Auriculares inalámbricos con cancelación de ruido",
+                precioCompra: 180,
+                precioVenta: 280,
+                descuento: 15,
+                stock: 40,
+                stockMinimo: 15,
+                propiedades: ["Cancelación Ruido", "USB-C", "Transparencia"],
+                destacado: true,
+                activo: false
+            },
+            {
+                id: 4,
+                nombre: "PlayStation 5",
+                codigo: "PS5CONS",
+                categorias: ["gaming", "electronica"],
+                descripcion: "Consola de videojuegos de última generación",
+                precioCompra: 400,
+                precioVenta: 550,
+                descuento: 5,
+                stock: 12,
+                stockMinimo: 5,
+                propiedades: ["4K Gaming", "SSD 825GB", "Ray Tracing"],
+                destacado: true,
+                activo: true
+            },
+            {
+                id: 5,
+                nombre: "Samsung Galaxy S24",
+                codigo: "SGS24ULT",
+                categorias: ["telefonia", "electronica"],
+                descripcion: "Smartphone Android con cámara profesional",
+                precioCompra: 700,
+                precioVenta: 950,
+                descuento: 0,
+                stock: 18,
+                stockMinimo: 10,
+                propiedades: ["200MP Cámara", "12GB RAM", "6.8 pulgadas"],
+                destacado: false,
+                activo: true
+            }
+        ];
+
+        let filteredProducts = [...products];
+
+        // Renderizar tabla
+        function renderTable() {
+            const tbody = document.getElementById('products-table-body');
+            const noProductsMsg = document.getElementById('no-products-message');
             
-            // Remover clase active de todos los thumbnails del card
-            const card = clickedThumbnail.closest('.grid').parentNode;
-            const thumbnails = card.querySelectorAll('.thumbnail');
-            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            if (filteredProducts.length === 0) {
+                tbody.innerHTML = '';
+                noProductsMsg.classList.remove('hidden');
+                return;
+            }
             
-            // Agregar clase active al thumbnail clickeado
-            clickedThumbnail.classList.add('active');
+            noProductsMsg.classList.add('hidden');
             
-            // Cambiar la imagen con efecto de fade
-            mainImage.style.opacity = '0';
+            tbody.innerHTML = filteredProducts.map(product => {
+                const precioFinal = product.precioVenta * (1 - product.descuento / 100);
+                const isLowStock = product.stock <= product.stockMinimo;
+                const rowClass = product.activo ? '' : 'row-disabled';
+                
+                return `
+                    <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors ${rowClass}" data-id="${product.id}">
+                        <td class="p-4">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" ${product.activo ? 'checked' : ''} 
+                                       onchange="toggleProductStatus(${product.id})" 
+                                       class="sr-only peer">
+                                <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-military-green"></div>
+                            </label>
+                        </td>
+                        <td class="p-4">
+                            <input type="text" value="${product.nombre}" 
+                                   onchange="updateProduct(${product.id}, 'nombre', this.value)"
+                                   class="input-cell w-full p-2 rounded-lg font-semibold">
+                        </td>
+                        <td class="p-4">
+                            <input type="text" value="${product.codigo}" 
+                                   onchange="updateProduct(${product.id}, 'codigo', this.value)"
+                                   class="input-cell w-full p-2 rounded-lg font-mono text-sm">
+                        </td>
+                        <td class="p-4">
+                            <div class="flex flex-wrap gap-1">
+                                ${product.categorias.map(cat => `<span class="px-2 py-1 bg-military-green text-white text-xs rounded-full">${getCategoryIcon(cat)} ${cat}</span>`).join('')}
+                            </div>
+                        </td>
+                        <td class="p-4">
+                            <div class="relative">
+                                <span class="absolute left-2 top-2 text-gray-500">$</span>
+                                <input type="number" value="${product.precioCompra}" step="0.01" min="0"
+                                       onchange="updateProduct(${product.id}, 'precioCompra', parseFloat(this.value))"
+                                       class="input-cell w-full pl-6 pr-2 py-2 rounded-lg">
+                            </div>
+                        </td>
+                        <td class="p-4">
+                            <div class="relative">
+                                <span class="absolute left-2 top-2 text-gray-500">$</span>
+                                <input type="number" value="${product.precioVenta}" step="0.01" min="0"
+                                       onchange="updateProduct(${product.id}, 'precioVenta', parseFloat(this.value))"
+                                       class="input-cell w-full pl-6 pr-2 py-2 rounded-lg">
+                            </div>
+                        </td>
+                        <td class="p-4">
+                            <select onchange="updateProduct(${product.id}, 'descuento', parseInt(this.value))"
+                                    class="input-cell w-full p-2 rounded-lg ${product.descuento > 0 ? 'text-red-600 font-semibold' : ''}">
+                                <option value="0" ${product.descuento === 0 ? 'selected' : ''}>0%</option>
+                                <option value="5" ${product.descuento === 5 ? 'selected' : ''}>5%</option>
+                                <option value="10" ${product.descuento === 10 ? 'selected' : ''}>10%</option>
+                                <option value="15" ${product.descuento === 15 ? 'selected' : ''}>15%</option>
+                            </select>
+                        </td>
+                        <td class="p-4">
+                            <span class="font-bold text-military-green">$${precioFinal.toFixed(2)}</span>
+                        </td>
+                        <td class="p-4">
+                            <input type="number" value="${product.stock}" min="0"
+                                   onchange="updateProduct(${product.id}, 'stock', parseInt(this.value))"
+                                   class="input-cell w-full p-2 rounded-lg ${isLowStock ? 'text-red-600 font-bold bg-red-50' : ''}">
+                            ${isLowStock ? '<div class="text-xs text-red-600 mt-1">⚠️ Bajo</div>' : ''}
+                        </td>
+                        <td class="p-4">
+                            <input type="number" value="${product.stockMinimo}" min="0"
+                                   onchange="updateProduct(${product.id}, 'stockMinimo', parseInt(this.value))"
+                                   class="input-cell w-full p-2 rounded-lg text-gray-600">
+                        </td>
+                        <td class="p-4">
+                            <div class="space-y-1">
+                                ${product.propiedades.map((prop, index) => `
+                                    <div class="flex items-center space-x-1">
+                                        <div class="w-2 h-2 bg-bright-yellow rounded-full"></div>
+                                        <input type="text" value="${prop}" 
+                                               onchange="updateProductProperty(${product.id}, ${index}, this.value)"
+                                               class="input-cell flex-1 p-1 rounded text-xs">
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </td>
+                        <td class="p-4 text-center">
+                            <button onclick="toggleFeatured(${product.id})" 
+                                    class="text-2xl hover:scale-110 transition-transform ${product.destacado ? 'text-bright-yellow' : 'text-gray-300'}">
+                                ⭐
+                            </button>
+                        </td>
+                        <td class="p-4">
+                            <button onclick="deleteProduct(${product.id})" 
+                                    class="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm">
+                                🗑️
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
             
-            setTimeout(() => {
-                mainImage.src = newSrc;
-                mainImage.style.opacity = '1';
-            }, 200);
+            updateStats();
         }
 
-        // Agregar efecto de hover a las imágenes principales
-        document.addEventListener('DOMContentLoaded', function() {
-            const mainImages = document.querySelectorAll('[id^="mainImage"]');
+        // Obtener icono de categoría
+        function getCategoryIcon(category) {
+            const icons = {
+                'electronica': '📱',
+                'telefonia': '📞',
+                'computacion': '💻',
+                'accesorios': '🎧',
+                'gaming': '🎮',
+                'audio': '🔊'
+            };
+            return icons[category] || '📦';
+        }
+
+        // Actualizar producto
+        function updateProduct(id, field, value) {
+            const productIndex = products.findIndex(p => p.id === id);
+            if (productIndex !== -1) {
+                products[productIndex][field] = value;
+                applyFilters();
+            }
+        }
+
+        // Actualizar propiedad del producto
+        function updateProductProperty(id, propertyIndex, value) {
+            const productIndex = products.findIndex(p => p.id === id);
+            if (productIndex !== -1) {
+                products[productIndex].propiedades[propertyIndex] = value;
+                applyFilters();
+            }
+        }
+
+        // Toggle estado del producto
+        function toggleProductStatus(id) {
+            const productIndex = products.findIndex(p => p.id === id);
+            if (productIndex !== -1) {
+                products[productIndex].activo = !products[productIndex].activo;
+                applyFilters();
+            }
+        }
+
+        // Toggle producto destacado
+        function toggleFeatured(id) {
+            const productIndex = products.findIndex(p => p.id === id);
+            if (productIndex !== -1) {
+                products[productIndex].destacado = !products[productIndex].destacado;
+                applyFilters();
+            }
+        }
+
+        // Eliminar producto
+        function deleteProduct(id) {
+            if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+                products = products.filter(p => p.id !== id);
+                applyFilters();
+            }
+        }
+
+        // Aplicar filtros
+        function applyFilters() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const categoryFilter = document.getElementById('category-filter').value;
+            const stockMinimoFilter = document.getElementById('stock-minimo-filter').checked;
+            const destacadosFilter = document.getElementById('destacados-filter').checked;
+            const descuentosFilter = document.getElementById('descuentos-filter').checked;
+            const inactivosFilter = document.getElementById('inactivos-filter').checked;
+
+            filteredProducts = products.filter(product => {
+                // Búsqueda por texto
+                const matchesSearch = !searchTerm || 
+                    product.nombre.toLowerCase().includes(searchTerm) ||
+                    product.codigo.toLowerCase().includes(searchTerm) ||
+                    product.descripcion.toLowerCase().includes(searchTerm);
+
+                // Filtro de categoría
+                const matchesCategory = !categoryFilter || product.categorias.includes(categoryFilter);
+
+                // Filtro stock mínimo
+                const matchesStockMinimo = !stockMinimoFilter || product.stock <= product.stockMinimo;
+
+                // Filtro destacados
+                const matchesDestacados = !destacadosFilter || product.destacado;
+
+                // Filtro descuentos
+                const matchesDescuentos = !descuentosFilter || product.descuento > 0;
+
+                // Filtro inactivos
+                const matchesActivos = inactivosFilter ? !product.activo : product.activo;
+
+                return matchesSearch && matchesCategory && matchesStockMinimo && 
+                       matchesDestacados && matchesDescuentos && matchesActivos;
+            });
+
+            renderTable();
+            updateActiveFilters();
+        }
+
+        // Actualizar badges de filtros activos
+        function updateActiveFilters() {
+            const activeFiltersContainer = document.getElementById('active-filters');
+            const badges = [];
             
-            mainImages.forEach(img => {
-                img.addEventListener('mouseenter', function() {
-                    this.style.transform = 'scale(1.02)';
-                });
-                
-                img.addEventListener('mouseleave', function() {
-                    this.style.transform = 'scale(1)';
-                });
-            });
-        });
+            const searchTerm = document.getElementById('search-input').value;
+            const categoryFilter = document.getElementById('category-filter').value;
+            
+            if (searchTerm) badges.push(`Búsqueda: "${searchTerm}"`);
+            if (categoryFilter) badges.push(`Categoría: ${getCategoryIcon(categoryFilter)} ${categoryFilter}`);
+            if (document.getElementById('stock-minimo-filter').checked) badges.push('⚠️ Stock Bajo');
+            if (document.getElementById('destacados-filter').checked) badges.push('⭐ Destacados');
+            if (document.getElementById('descuentos-filter').checked) badges.push('💸 Con Descuento');
+            if (document.getElementById('inactivos-filter').checked) badges.push('🚫 Inactivos');
 
-        // Animación de entrada para los elementos
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+            activeFiltersContainer.innerHTML = badges.map(badge => 
+                `<span class="filter-badge px-3 py-1 bg-military-green text-white text-sm rounded-full">${badge}</span>`
+            ).join('');
+        }
 
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+        // Limpiar filtros
+        function clearAllFilters() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('category-filter').value = '';
+            document.getElementById('stock-minimo-filter').checked = false;
+            document.getElementById('destacados-filter').checked = false;
+            document.getElementById('descuentos-filter').checked = false;
+            document.getElementById('inactivos-filter').checked = false;
+            applyFilters();
+        }
 
-        // Observar todos los cards
-        document.querySelectorAll('.glass-card, .glass-light, .glass-dark').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-            observer.observe(card);
-        });
+        // Actualizar estadísticas
+        function updateStats() {
+            const totalProducts = products.filter(p => p.activo).length;
+            const featuredProducts = products.filter(p => p.activo && p.destacado).length;
+            const lowStockProducts = products.filter(p => p.activo && p.stock <= p.stockMinimo).length;
+            const activeProducts = products.filter(p => p.activo).length;
+
+            document.getElementById('total-products').textContent = totalProducts;
+            document.getElementById('featured-products').textContent = featuredProducts;
+            document.getElementById('low-stock-products').textContent = lowStockProducts;
+            document.getElementById('active-products').textContent = activeProducts;
+        }
+
+        // Event listeners
+        document.getElementById('search-input').addEventListener('input', applyFilters);
+        document.getElementById('category-filter').addEventListener('change', applyFilters);
+        document.getElementById('stock-minimo-filter').addEventListener('change', applyFilters);
+        document.getElementById('destacados-filter').addEventListener('change', applyFilters);
+        document.getElementById('descuentos-filter').addEventListener('change', applyFilters);
+        document.getElementById('inactivos-filter').addEventListener('change', applyFilters);
+
+        // Inicializar
+        renderTable();
     </script>
 </body>
 </html>

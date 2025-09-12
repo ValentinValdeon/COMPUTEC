@@ -38,14 +38,19 @@
                     </p>
 
                     <!-- Botón CTA -->
-                    <button
-                        class="bg-gradient-to-r from-yellow-500 to-green-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-yellow-600 hover:to-green-700 transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-yellow-500/25">
-                        Descubre más
-                        <svg class="inline-block ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </button>
+                    <a href="?page=main#destacado ">
+                        <button
+                            class="flex items-center bg-gradient-to-r from-yellow-500 to-green-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-yellow-600 hover:to-green-700 transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-yellow-500/25 ">
+                            Descubre más
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-move-down-icon lucide-move-down">
+                                <path d="M8 18L12 22L16 18" />
+                                <path d="M12 2V22" />
+                            </svg>
+                        </button>
+                    </a>
+
                 </div>
             </div>
         </div>
@@ -60,14 +65,14 @@
     </section>
 </div>
 
-
 <div class="space-y-[100px]">
-    <section id="destacado"
+    <div id="destacado" style="position: relative; top: -100px;"></div>
+    <section
         class="w-full h-auto mb-10 opacity-0 translate-y-32 transition-all duration-1000 ease-in-out will-change-transform delay-200"
         data-animate>
         <!-- Banner Servicios Técnicos -->
         <div class="glass-banner rounded-2xl p-6 min-h-[140px]">
-            <div class="flex flex-col md:flex-row items-center md:items-start justify-between h-full gap-6 md:gap-0">
+            <div class="flex flex-col md:flex-row items-center md:items-start justify-between h-full gap-6 md:gap-0" >
 
                 <div class="flex-1 text-center md:text-left">
                     <h2 class="banner-title text-2xl sm:text-3xl md:text-4xl mb-2">Servicios Técnicos</h2>
@@ -528,36 +533,36 @@
                 class="showcase-grid-descuento grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
 
                 <!-- Card grande (lado izquierdo) -->
-                 <div class="space-y-4">
+                <div class="space-y-4">
                     <div id="product-card-large-descuento-1"
-                    class="product-card-large-descuento rounded-2xl p-6 cursor-pointer ">
-                    <div
-                        class="image-placeholder-descuento w-full h-80 rounded-xl mb-6 flex items-center justify-center">
-                        <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=300&fit=crop&crop=center"
+                        class="product-card-large-descuento rounded-2xl p-6 cursor-pointer ">
+                        <div
+                            class="image-placeholder-descuento w-full h-80 rounded-xl mb-6 flex items-center justify-center">
+                            <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=300&fit=crop&crop=center"
                                 alt="Tablet Pro" class="w-full h-full object-cover rounded-xl">
+                        </div>
+
+                        <div class="space-y-3">
+                            <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
+                            <div class="product-price-descuento text-3xl">$300</div>
+                        </div>
                     </div>
 
-                    <div class="space-y-3">
-                        <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
-                        <div class="product-price-descuento text-3xl">$300</div>
+                    <div id="product-card-large-descuento-1"
+                        class="product-card-large-descuento rounded-2xl p-6 cursor-pointer ">
+                        <div
+                            class="image-placeholder-descuento w-full h-80 rounded-xl mb-6 flex items-center justify-center">
+                            <img src="https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=400&h=300&fit=crop&crop=center"
+                                alt="Coffee Maker" class="w-full h-full object-cover rounded-xl">
+                        </div>
+
+                        <div class="space-y-3">
+                            <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
+                            <div class="product-price-descuento text-3xl">$300</div>
+                        </div>
                     </div>
                 </div>
 
-                <div id="product-card-large-descuento-1"
-                    class="product-card-large-descuento rounded-2xl p-6 cursor-pointer ">
-                    <div
-                        class="image-placeholder-descuento w-full h-80 rounded-xl mb-6 flex items-center justify-center">
-                        <img src="https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=400&h=300&fit=crop&crop=center"
-                            alt="Coffee Maker" class="w-full h-full object-cover rounded-xl">
-                    </div>
-
-                    <div class="space-y-3">
-                        <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
-                        <div class="product-price-descuento text-3xl">$300</div>
-                    </div>
-                </div>
-                 </div>
-                
 
                 <!-- Cards pequeñas (lado derecho) -->
                 <div id="product-grid-descuento" class="product-grid-descuento">
@@ -573,7 +578,7 @@
                         <div class="product-price-descuento text-lg">$300</div>
                     </div>
 
-                    
+
 
                     <!-- Card 2 -->
                     <div id="product-card-descuento-2" class="product-card-descuento rounded-xl p-4 cursor-pointer">

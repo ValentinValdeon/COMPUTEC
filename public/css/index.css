@@ -1,12 +1,12 @@
 :root {
   /* Colores sólidos */
   --color-bg-oscuro: #1a4a47;
-  --color-azul: #f4d03f;
+  --color-amarillo: #f4d03f;
   --color-gris-oscuro: #2d5a5a;
   --color-blanco: #ffffff;
   --color-blanco-hueso: #f8fafc;
   --color-gris-texto: #e2e8f0;
-  --color-azul-claro: #ffd700;
+  --color-amarillo-claro: #ffd700;
   --color-gris-placeholder: #64748b;
   --color-gris-medio: #cbd5e1;
   --color-gris-oscuro2: #374151;
@@ -15,10 +15,10 @@
   --color-verde-claro: #27ae60;
 
   /* Colores RGBA */
-  --color-azul-rgba-04: rgba(244, 208, 63, 0.4);
-  --color-azul-rgba-03: rgba(244, 208, 63, 0.3);
-  --color-azul-rgba-02: rgba(244, 208, 63, 0.2);
-  --color-azul-rgba-06: rgba(244, 208, 63, 0.6);
+  --color-amarillo-rgba-04: rgba(244, 208, 63, 0.4);
+  --color-amarillo-rgba-03: rgba(244, 208, 63, 0.3);
+  --color-amarillo-rgba-02: rgba(244, 208, 63, 0.2);
+  --color-amarillo-rgba-06: rgba(244, 208, 63, 0.6);
   --color-bg-oscuro-rgba-06: rgba(26, 74, 71, 0.6);
   --color-bg-oscuro-rgba-08: rgba(26, 74, 71, 0.8);
 
@@ -32,12 +32,12 @@
   --gradiente-logo-texto: linear-gradient(
     135deg,
     var(--color-blanco-hueso),
-    var(--color-azul)
+    var(--color-amarillo)
   );
   --gradiente-subrayado: linear-gradient(
     135deg,
-    var(--color-azul-claro),
-    var(--color-azul)
+    var(--color-amarillo-claro),
+    var(--color-amarillo)
   );
   --gradiente-section-title: linear-gradient(
     135deg,
@@ -55,9 +55,9 @@
 
 .navbar {
   background: var(--color-bg-oscuro);
-  border: 1px solid var(--color-azul-rgba-04);
-  border-bottom: 2px solid var(--color-azul);
-  box-shadow: 0 0 20px var(--color-azul-rgba-03);
+  border: 1px solid var(--color-amarillo-rgba-04);
+  border-bottom: 2px solid var(--color-amarillo);
+  box-shadow: 0 0 20px var(--color-amarillo-rgba-03);
   position: fixed;
   top: 0;
   z-index: 1000;
@@ -95,7 +95,7 @@
 }
 
 .nav-link:hover {
-  color: var(--color-azul-claro);
+  color: var(--color-amarillo-claro);
 }
 
 .nav-link::after {
@@ -116,16 +116,16 @@
 /* Buscador */
 .search-input {
   background: var(--color-bg-oscuro-rgba-06);
-  border: 1px solid var(--color-azul-rgba-03);
+  border: 1px solid var(--color-amarillo-rgba-03);
   color: var(--color-blanco-hueso);
   transition: all 0.2s ease;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: var(--color-azul);
+  border-color: var(--color-amarillo);
   background: var(--color-bg-oscuro-rgba-08);
-  box-shadow: 0 0 10px var(--color-azul-rgba-03);
+  box-shadow: 0 0 10px var(--color-amarillo-rgba-03);
 }
 
 .search-input::placeholder {
@@ -138,7 +138,7 @@
 }
 
 .search-input:focus + .search-icon {
-  color: var(--color-azul);
+  color: var(--color-amarillo);
   transform: scale(1.1);
 }
 
@@ -146,8 +146,8 @@
 .footer-v2 {
   background: var(--color-bg-oscuro);
   border: 0px;
-  border-top: 2px solid var(--color-azul);
-  box-shadow: 0 0 20px var(--color-azul-rgba-03);
+  border-top: 2px solid var(--color-amarillo);
+  box-shadow: 0 0 20px var(--color-amarillo-rgba-03);
 }
 
 .section-title {
@@ -164,25 +164,25 @@
 }
 
 .footer-link:hover {
-  color: var(--color-azul-claro);
+  color: var(--color-amarillo-claro);
 }
 
 .social-icon {
-  background: var(--color-azul-rgba-02);
-  border: 1px solid var(--color-azul-rgba-03);
+  background: var(--color-amarillo-rgba-02);
+  border: 1px solid var(--color-amarillo-rgba-03);
   transition: all 0.2s ease;
-  color: var(--color-azul-claro);
+  color: var(--color-amarillo-claro);
 }
 
 .social-icon:hover {
-  background: var(--color-azul-rgba-04);
-  border-color: var(--color-azul);
+  background: var(--color-amarillo-rgba-04);
+  border-color: var(--color-amarillo);
   transform: scale(1.1);
   color: var(--color-blanco);
 }
 
 .map-container {
-  border: 1px solid var(--color-azul-rgba-03);
+  border: 1px solid var(--color-amarillo-rgba-03);
   border-radius: 12px;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -190,8 +190,8 @@
 }
 
 .map-container:hover {
-  border-color: var(--color-azul-rgba-06);
-  box-shadow: 0 0 15px var(--color-azul-rgba-03);
+  border-color: var(--color-amarillo-rgba-06);
+  box-shadow: 0 0 15px var(--color-amarillo-rgba-03);
 }
 
 .map-placeholder {
@@ -205,7 +205,7 @@
 .copyright {
   color: var(--color-gris-placeholder);
   text-align: center;
-  border-top: 1px solid var(--color-azul-rgba-02);
+  border-top: 1px solid var(--color-amarillo-rgba-02);
   padding-top: 1rem;
   margin-top: 1.5rem;
 }
