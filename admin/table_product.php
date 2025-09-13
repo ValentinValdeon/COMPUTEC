@@ -73,6 +73,11 @@
             background-color: #f9fafb !important;
         }
 
+        .row-modified {
+            background-color: #fef3c7 !important;
+            border-left: 4px solid #f1c40f;
+        }
+
         .filter-badge {
             animation: pulse 0.3s ease-in-out;
         }
@@ -86,6 +91,91 @@
         .stats-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-confirm {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            transition: all 0.2s ease;
+        }
+
+        .btn-confirm:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .category-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            margin: 4px 0;
+            background: #f3f4f6;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .category-item.selected {
+            background: #5a6b3b;
+            color: white;
+        }
+
+        .category-item:hover {
+            background: #e5e7eb;
+        }
+
+        .category-item.selected:hover {
+            background: #6b7c32;
+        }
+
+        .add-btn {
+            background: #5a6b3b;
+            font-weight: bold;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            margin-left: 8px;
+        }
+
+        .add-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(241, 196, 15, 0.3);
+        }
+
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
@@ -269,19 +359,19 @@
                                             // Estado
                                             echo "<td class='p-4'>";
                                             echo "<label class='relative inline-flex items-center cursor-pointer'>";
-                                            echo "<input type='checkbox' " . ($producto['estado'] == 1 ? 'checked' : '') . " onchange=\"toggleProductStatus({$producto['id_producto']})\" class='sr-only peer'>";
+                                            echo "<input type='checkbox' " . ($producto['estado'] == 1 ? 'checked' : '') . " class='sr-only peer product-estado' data-id='{$producto['id_producto']}'>";
                                             echo "<div class='relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-military-green/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[\"\"] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-military-green'></div>";
                                             echo "</label>";
                                             echo "</td>";
 
                                             // Producto
                                             echo "<td class='p-4'>";
-                                            echo "<input type='text' value='{$producto['nombre']}' onchange=\"updateProduct({$producto['id_producto']}, 'nombre', this.value)\" class='input-cell w-full p-2 rounded-lg font-semibold'>";
+                                            echo "<input type='text' value='{$producto['nombre']}' class='input-cell w-full p-2 rounded-lg font-semibold product-nombre' data-id='{$producto['id_producto']}'>";
                                             echo "</td>";
 
                                             // Código
                                             echo "<td class='p-4'>";
-                                            echo "<input type='text' value='{$producto['codigo']}' onchange=\"updateProduct({$producto['id_producto']}, 'codigo', this.value)\" class='input-cell w-full p-2 rounded-lg font-mono text-sm'>";
+                                            echo "<input type='text' value='{$producto['codigo']}' class='input-cell w-full p-2 rounded-lg font-mono text-sm product-codigo' data-id='{$producto['id_producto']}'>";
                                             echo "</td>";
 
                                             // Categorías
@@ -290,6 +380,7 @@
                                             foreach ($categorias as $categoria) {
                                                 echo "<span class='px-2 py-1 bg-military-green text-white text-xs rounded-full'>📦 {$categoria}</span>";
                                             }
+                                            echo "<button class='add-btn text-white' onclick='openCategoryModal({$producto['id_producto']})' title='Gestionar categorías'>+</button>";
                                             echo "</div>";
                                             echo "</td>";
 
@@ -297,7 +388,7 @@
                                             echo "<td class='p-4'>";
                                             echo "<div class='relative'>";
                                             echo "<span class='absolute left-2 top-2 text-gray-500'>$</span>";
-                                            echo "<input type='number' value='{$producto['precio_compra']}' step='0.01' min='0' onchange=\"updateProduct({$producto['id_producto']}, 'precio_compra', parseFloat(this.value))\" class='input-cell w-full pl-6 pr-2 py-2 rounded-lg'>";
+                                            echo "<input type='number' value='{$producto['precio_compra']}' step='0.01' min='0' class='input-cell w-full pl-6 pr-2 py-2 rounded-lg product-precio_compra' data-id='{$producto['id_producto']}'>";
                                             echo "</div>";
                                             echo "</td>";
 
@@ -305,7 +396,7 @@
                                             echo "<td class='p-4'>";
                                             echo "<div class='relative'>";
                                             echo "<span class='absolute left-2 top-2 text-gray-500'>$</span>";
-                                            echo "<input type='number' value='{$producto['precio_venta']}' step='0.01' min='0' onchange=\"updateProduct({$producto['id_producto']}, 'precio_venta', parseFloat(this.value))\" class='input-cell w-full pl-6 pr-2 py-2 rounded-lg'>";
+                                            echo "<input type='number' value='{$producto['precio_venta']}' step='0.01' min='0' class='input-cell w-full pl-6 pr-2 py-2 rounded-lg product-precio_venta' data-id='{$producto['id_producto']}'>";
                                             echo "</div>";
                                             echo "</td>";
 
@@ -323,7 +414,7 @@
                                             // Stock
                                             echo "<td class='p-4'>";
                                             $stock_class = $is_low_stock ? 'text-red-600 font-bold bg-red-50' : '';
-                                            echo "<input type='number' value='{$producto['stock']}' min='0' onchange=\"updateProduct({$producto['id_producto']}, 'stock', parseInt(this.value))\" class='input-cell w-full p-2 rounded-lg {$stock_class}'>";
+                                            echo "<input type='number' value='{$producto['stock']}' min='0' class='input-cell w-full p-2 rounded-lg {$stock_class} product-stock' data-id='{$producto['id_producto']}'>";
                                             if ($is_low_stock) {
                                                 echo "<div class='text-xs text-red-600 mt-1'>⚠️ Bajo</div>";
                                             }
@@ -331,7 +422,7 @@
 
                                             // Stock Mínimo
                                             echo "<td class='p-4'>";
-                                            echo "<input type='number' value='{$producto['stock_min']}' min='0' onchange=\"updateProduct({$producto['id_producto']}, 'stock_min', parseInt(this.value))\" class='input-cell w-full p-2 rounded-lg text-gray-600'>";
+                                            echo "<input type='number' value='{$producto['stock_min']}' min='0' class='input-cell w-full p-2 rounded-lg text-gray-600 product-stock_min' data-id='{$producto['id_producto']}'>";
                                             echo "</td>";
 
                                             // Propiedades
@@ -343,22 +434,21 @@
                                                 echo "<span class='text-xs text-gray-600'>{$propiedad}</span>";
                                                 echo "</div>";
                                             }
+                                            echo "<button class='add-btn text-white' onclick='openPropertiesModal({$producto['id_producto']})' title='Gestionar propiedades'>+</button>";
                                             echo "</div>";
                                             echo "</td>";
 
                                             // Destacado
                                             echo "<td class='p-4 text-center'>";
                                             echo "<label class='relative inline-flex items-center cursor-pointer'>";
-                                            echo "<input type='checkbox' " . ($producto['destacado'] == 1 ? 'checked' : '') . " onchange=\"toggleFeatured({$producto['id_producto']})\" class='sr-only peer'>";
+                                            echo "<input type='checkbox' " . ($producto['destacado'] == 1 ? 'checked' : '') . " class='sr-only peer product-destacado' data-id='{$producto['id_producto']}'>";
                                             echo "<div class='relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-bright-yellow/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[\"\"] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-bright-yellow'></div>";
                                             echo "</label>";
                                             echo "</td>";
 
                                             // Acciones
                                             echo "<td class='p-4'>";
-                                            echo "<button onclick=\"deleteProduct({$producto['id_producto']})\" class='px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm'>";
-                                            echo "🗑️";
-                                            echo "</button>";
+                                            echo "<button onclick=\"saveProduct({$producto['id_producto']})\" class='btn-confirm px-4 py-2 text-white rounded-lg text-sm font-medium'>Guardar</button>";
                                             echo "</td>";
 
                                             echo "</tr>";
@@ -382,7 +472,7 @@
                         <div class="stats-card rounded-xl p-4 text-center">
                             <div class="text-2xl font-bold text-military-green" id="total-products">
                                 <?php
-                                $sql_total = "SELECT COUNT(*) as total FROM productos WHERE estado = 1";
+                                $sql_total = "SELECT COUNT(*) as total FROM productos";
                                 $result_total = $conn->query($sql_total);
                                 $total = $result_total->fetch_assoc()['total'];
                                 echo $total;
@@ -393,7 +483,7 @@
                         <div class="stats-card rounded-xl p-4 text-center">
                             <div class="text-2xl font-bold text-bright-yellow" id="featured-products">
                                 <?php
-                                $sql_destacados = "SELECT COUNT(*) as total FROM productos WHERE estado = 1 AND destacado = 1";
+                                $sql_destacados = "SELECT COUNT(*) as total FROM productos WHERE destacado = 1";
                                 $result_destacados = $conn->query($sql_destacados);
                                 $destacados = $result_destacados->fetch_assoc()['total'];
                                 echo $destacados;
@@ -404,7 +494,7 @@
                         <div class="stats-card rounded-xl p-4 text-center">
                             <div class="text-2xl font-bold text-red-600" id="low-stock-products">
                                 <?php
-                                $sql_bajo_stock = "SELECT COUNT(*) as total FROM productos WHERE estado = 1 AND stock <= stock_min";
+                                $sql_bajo_stock = "SELECT COUNT(*) as total FROM productos WHERE stock <= stock_min";
                                 $result_bajo_stock = $conn->query($sql_bajo_stock);
                                 $bajo_stock = $result_bajo_stock->fetch_assoc()['total'];
                                 echo $bajo_stock;
@@ -429,64 +519,250 @@
         </div>
     </div>
 
+
+    <!-- Modal para categorías -->
+    <div id="categoryModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Gestionar Categorías</h3>
+                <button onclick="closeCategoryModal()"
+                    class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <div class="mb-4">
+                <p class="text-sm text-gray-600 mb-2">Producto: <span id="categoryProductName"
+                        class="font-semibold"></span></p>
+            </div>
+            <div class="space-y-2 max-h-60 overflow-y-auto" id="categoriesList">
+                <!-- Las categorías se cargarán aquí -->
+            </div>
+            <div class="flex gap-2 mt-6">
+                <button onclick="saveCategoryChanges()"
+                    class="flex-1 btn-confirm px-4 py-2 text-white rounded-lg font-medium">
+                    Guardar Cambios
+                </button>
+                <button onclick="closeCategoryModal()"
+                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para propiedades -->
+    <div id="propertiesModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Gestionar Propiedades</h3>
+                <button onclick="closePropertiesModal()"
+                    class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <div class="mb-4">
+                <p class="text-sm text-gray-600 mb-2">Producto: <span id="propertiesProductName"
+                        class="font-semibold"></span></p>
+            </div>
+            <div class="space-y-3">
+                <div class="flex items-center gap-2">
+                    <label class="text-sm font-medium text-gray-700 w-20">Prop 1:</label>
+                    <input type="text" id="prop1Input" class="flex-1 input-cell p-2 rounded-lg border"
+                        placeholder="Ej: 128GB">
+                </div>
+                <div class="flex items-center gap-2">
+                    <label class="text-sm font-medium text-gray-700 w-20">Prop 2:</label>
+                    <input type="text" id="prop2Input" class="flex-1 input-cell p-2 rounded-lg border"
+                        placeholder="Ej: 5G">
+                </div>
+                <div class="flex items-center gap-2">
+                    <label class="text-sm font-medium text-gray-700 w-20">Prop 3:</label>
+                    <input type="text" id="prop3Input" class="flex-1 input-cell p-2 rounded-lg border"
+                        placeholder="Ej: 6.1 pulgadas">
+                </div>
+            </div>
+            <div class="flex gap-2 mt-6">
+                <button onclick="savePropertyChanges()"
+                    class="flex-1 btn-confirm px-4 py-2 text-white rounded-lg font-medium">
+                    Guardar Cambios
+                </button>
+                <button onclick="closePropertiesModal()"
+                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Funciones para actualizar productos (necesitarás implementar las llamadas AJAX)
-        function updateProduct(id, field, value) {
-            // Implementar llamada AJAX para actualizar producto
-            console.log(`Actualizando producto ${id}: ${field} = ${value}`);
-            // Ejemplo de llamada AJAX:
-            // fetch('update_product.php', {
-            //     method: 'POST',
-            //     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            //     body: `id=${id}&field=${field}&value=${encodeURIComponent(value)}`
-            // }).then(response => response.json()).then(data => {
-            //     if (data.success) {
-            //         // Actualización exitosa
-            //     }
-            // });
+        let modifiedProducts = new Set();
+        let currentProductId = null;
+        let allCategories = [];
+        let productCategories = [];
+
+        // Cargar categorías al iniciar
+        document.addEventListener('DOMContentLoaded', function () {
+            loadAllCategories();
+
+            // Event listeners para cerrar modales
+            document.getElementById('categoryModal').addEventListener('click', function (e) {
+                if (e.target === this) closeCategoryModal();
+            });
+
+            document.getElementById('propertiesModal').addEventListener('click', function (e) {
+                if (e.target === this) closePropertiesModal();
+            });
+        });
+
+        // FUNCIONES DE CATEGORÍAS
+        function loadAllCategories() {
+            fetch('get_categories.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        allCategories = data.categories;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         }
 
-        function toggleProductStatus(id) {
-            // Implementar llamada AJAX para cambiar estado
-            console.log(`Cambiando estado del producto ${id}`);
+        function openCategoryModal(productId) {
+            currentProductId = productId;
+            const productName = document.querySelector(`.product-nombre[data-id="${productId}"]`).value;
+            document.getElementById('categoryProductName').textContent = productName;
+
+            loadProductCategories(productId);
+            document.getElementById('categoryModal').classList.remove('hidden');
         }
 
-        function toggleFeatured(id) {
-            // Implementar llamada AJAX para cambiar destacado
-            console.log(`Cambiando destacado del producto ${id}`);
+        function closeCategoryModal() {
+            document.getElementById('categoryModal').classList.add('hidden');
+            currentProductId = null;
+            productCategories = [];
         }
 
-        function deleteProduct(id) {
-            if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
-                // Implementar llamada AJAX para eliminar producto
-                console.log(`Eliminando producto ${id}`);
+        function loadProductCategories(productId) {
+            fetch(`get_products_categories.php?id=${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        productCategories = data.categories;
+                        renderCategoriesList();
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function renderCategoriesList() {
+            const categoriesList = document.getElementById('categoriesList');
+
+            categoriesList.innerHTML = allCategories.map(category => {
+                const isSelected = productCategories.includes(category.id_categoria);
+                return `
+            <div class="category-item ${isSelected ? 'selected' : ''}" 
+                 onclick="toggleCategory(${category.id_categoria})">
+                <span>📦 ${category.nombre_categoria}</span>
+                <span>${isSelected ? 'x' : '✓'}</span>
+            </div>
+        `;
+            }).join('');
+        }
+
+        function toggleCategory(categoryId) {
+            const index = productCategories.indexOf(categoryId);
+            if (index > -1) {
+                productCategories.splice(index, 1);
+            } else {
+                productCategories.push(categoryId);
             }
+            renderCategoriesList();
         }
 
-        // Filtros (implementar lógica de filtrado)
-        function applyFilters() {
-            console.log('Aplicando filtros...');
-            // Implementar lógica de filtrado con AJAX o JavaScript
+        function saveCategoryChanges() {
+            if (!currentProductId) return;
+
+            const formData = new FormData();
+            formData.append('id_producto', currentProductId);
+            formData.append('categorias', JSON.stringify(productCategories));
+
+            fetch('update_product_categories.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Categorías actualizadas correctamente');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error de conexión');
+                })
+                .finally(() => {
+                    closeCategoryModal();
+                });
         }
 
-        function clearAllFilters() {
-            document.getElementById('search-input').value = '';
-            document.getElementById('category-filter').value = '';
-            document.getElementById('stock-minimo-filter').checked = false;
-            document.getElementById('destacados-filter').checked = false;
-            document.getElementById('descuentos-filter').checked = false;
-            document.getElementById('inactivos-filter').checked = false;
-            applyFilters();
+        // FUNCIONES DE PROPIEDADES
+        function openPropertiesModal(productId) {
+            currentProductId = productId;
+            const productName = document.querySelector(`.product-nombre[data-id="${productId}"]`).value;
+            document.getElementById('propertiesProductName').textContent = productName;
+
+            loadProductProperties(productId);
+            document.getElementById('propertiesModal').classList.remove('hidden');
         }
 
-        // Event listeners
-        document.getElementById('search-input').addEventListener('input', applyFilters);
-        document.getElementById('category-filter').addEventListener('change', applyFilters);
-        document.getElementById('stock-minimo-filter').addEventListener('change', applyFilters);
-        document.getElementById('destacados-filter').addEventListener('change', applyFilters);
-        document.getElementById('descuentos-filter').addEventListener('change', applyFilters);
-        document.getElementById('inactivos-filter').addEventListener('change', applyFilters);
+        function closePropertiesModal() {
+            document.getElementById('propertiesModal').classList.add('hidden');
+            currentProductId = null;
+        }
+
+        function loadProductProperties(productId) {
+            fetch(`get_product_properties.php?id=${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('prop1Input').value = data.properties.prop_1 || '';
+                        document.getElementById('prop2Input').value = data.properties.prop_2 || '';
+                        document.getElementById('prop3Input').value = data.properties.prop_3 || '';
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function savePropertyChanges() {
+            if (!currentProductId) return;
+
+            const formData = new FormData();
+            formData.append('id_producto', currentProductId);
+            formData.append('prop_1', document.getElementById('prop1Input').value);
+            formData.append('prop_2', document.getElementById('prop2Input').value);
+            formData.append('prop_3', document.getElementById('prop3Input').value);
+
+            fetch('update_product_properties.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Propiedades actualizadas correctamente');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error de conexión');
+                })
+                .finally(() => {
+                    closePropertiesModal();
+                });
+        }
     </script>
+
 </body>
 
 </html>
