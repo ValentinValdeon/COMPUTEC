@@ -35,6 +35,8 @@
                 linear-gradient(135deg, var(--color-bg-oscuro) 0%, var(--color-gris-oscuro) 100%);
         }
 
+        
+
         .sidebar-item {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
@@ -68,7 +70,7 @@
         }
     </style>
 </head>
-<body class="gradient-mesh-bg min-h-screen">
+<body class="min-h-screen">
     <div class="flex h-screen">
         <!-- Sidebar -->
         <div class="w-80 bg-gradient-to-b from-military-green via-olive to-military-green shadow-2xl relative">
@@ -133,7 +135,7 @@
         </div>
 
         <!-- Main Content Area (Empty) -->
-        <div class="flex-1 bg-gray-100">
+        <div class="flex-1 gradient-mesh-bg">
             <!-- Área vacía para contenido futuro -->
         </div>
     </div>

@@ -171,7 +171,7 @@
                                     class="block text-sm font-bold text-gray-700 mb-2 group-focus-within:text-military-green transition-colors">Categorías</label>
                                 <div class="space-y-3">
                                     <div class="flex space-x-2">
-                                        <select id="categoria-select" name="id_categoria" required
+                                        <select id="categoria-select" name="id_categoria"
                                             class="flex-1 px-4 py-3 bg-gray-50 border-2 rounded-xl focus:bg-white focus:border-military-green transition-all duration-300">
                                             <option value="" disabled selected>Selecciona una categoría</option>
                                             <?php
