@@ -1,0 +1,122 @@
+:root {
+  --color-verde-claro: #27ae60;
+  --color-bg-oscuro: #1a4a47;
+  --color-amarillo: #f4d03f;
+  --color-gris-oscuro: #2d5a5a;
+}
+
+.gradient-mesh-bg {
+  background: radial-gradient(
+      circle at 80% 20%,
+      var(--color-verde-claro) 0%,
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 20% 80%,
+      var(--color-amarillo) 0%,
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 70% 70%,
+      var(--color-gris-oscuro) 0%,
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      var(--color-bg-oscuro) 0%,
+      var(--color-gris-oscuro) 100%
+    );
+  position: relative;
+}
+
+.gradient-mesh-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 49%,
+    rgba(39, 174, 96, 0.1) 50%,
+    transparent 51%
+  );
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.property-input {
+  transition: all 0.2s ease;
+}
+
+.property-input:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(90, 107, 59, 0.15);
+}
+
+input {
+  border-color: lightgray;
+}
+
+.image-preview {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.image-preview:hover img {
+  transform: scale(1.05);
+}
+
+.remove-image {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255, 0, 0, 0.8);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.remove-image:hover {
+  background: rgba(255, 0, 0, 1);
+  transform: scale(1.1);
+}
+
+.drag-over {
+  border-color: var(--color-verde-claro) !important;
+  background-color: rgba(39, 174, 96, 0.1) !important;
+}
+
+.category-tag {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

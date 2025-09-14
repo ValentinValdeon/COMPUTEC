@@ -21,159 +21,7 @@
             }
         }
     </script>
-    <style>
-        :root {
-            --color-verde-claro: #27ae60;
-            --color-bg-oscuro: #1a4a47;
-            --color-amarillo: #f4d03f;
-            --color-gris-oscuro: #2d5a5a;
-        }
-
-        .gradient-mesh-bg {
-            background:
-                radial-gradient(circle at 80% 20%, var(--color-verde-claro) 0%, transparent 30%),
-                radial-gradient(circle at 20% 80%, var(--color-amarillo) 0%, transparent 25%),
-                radial-gradient(circle at 70% 70%, var(--color-gris-oscuro) 0%, transparent 35%),
-                linear-gradient(135deg, var(--color-bg-oscuro) 0%, var(--color-gris-oscuro) 100%);
-        }
-
-        .table-scroll {
-            scrollbar-width: thin;
-            scrollbar-color: #5a6b3b #f3f4f6;
-        }
-
-        .table-scroll::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .table-scroll::-webkit-scrollbar-track {
-            background: #f3f4f6;
-            border-radius: 4px;
-        }
-
-        .table-scroll::-webkit-scrollbar-thumb {
-            background: #5a6b3b;
-            border-radius: 4px;
-        }
-
-        .input-cell {
-            transition: all 0.2s ease;
-            background: transparent;
-            border: 1px solid transparent;
-        }
-
-        .input-cell:focus {
-            background: white;
-            border-color: #5a6b3b;
-            box-shadow: 0 0 0 2px rgba(90, 107, 59, 0.1);
-        }
-
-
-
-        .row-modified {
-            background-color: #fef3c7 !important;
-            border-left: 4px solid #f1c40f;
-        }
-
-        .filter-badge {
-            animation: pulse 0.3s ease-in-out;
-        }
-
-        .stats-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .stats-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-confirm {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-            transition: all 0.2s ease;
-        }
-
-        .btn-confirm:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(4px);
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .category-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px 12px;
-            margin: 4px 0;
-            background: #f3f4f6;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .category-item.selected {
-            background: #5a6b3b;
-            color: white;
-        }
-
-        .category-item:hover {
-            background: #e5e7eb;
-        }
-
-        .category-item.selected:hover {
-            background: #6b7c32;
-        }
-
-        .add-btn {
-            background: #5a6b3b;
-            font-weight: bold;
-            border: none;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 14px;
-            margin-left: 8px;
-        }
-
-        .add-btn:hover {
-            transform: scale(1.2);
-        }
-
-        .hidden {
-            display: none !important;
-        }
-    </style>
+    <link rel="stylesheet" href="css/table_product.css">
 </head>
 
 <body class="gradient-mesh-bg min-h-screen">
@@ -288,8 +136,8 @@
                                         </th>
                                         <th class="text-left p-4 font-bold text-military-green min-w-[100px]">P. Final
                                         </th>
-                                        <th class="text-left p-4 font-bold text-military-green min-w-[30px]">Stock</th>
-                                        <th class="text-left p-4 font-bold text-military-green min-w-[30px]">S. Min</th>
+                                        <th class="text-left p-4 font-bold text-military-green w-[150px]">Stock</th>
+                                        <th class="text-left p-4 font-bold text-military-green w-[150px]">S. Min</th>
                                         <th class="text-left p-4 font-bold text-military-green min-w-[200px]">
                                             Propiedades</th>
                                         <th class="text-left p-4 font-bold text-military-green min-w-[60px]">⭐ Destacado
@@ -420,21 +268,23 @@
                                             echo "<td class='p-4'>";
                                             echo "<div class='flex space-x-2 items-center'>";
                                             $stock_class = $is_low_stock ? 'text-red-600 font-bold' : '';
-                                            echo "<input type='number' value='{$producto['stock']}' min='0' class='input-cell w-1/4 p-2 rounded-lg {$stock_class} product-stock' data-id='{$producto['id_producto']}'>";
+                                            echo "<input type='number' value='{$producto['stock']}' min='0' class='input-cell w-full p-2 rounded-lg {$stock_class} product-stock' data-id='{$producto['id_producto']}'>";
                                             if ($is_low_stock) {
                                                 echo "<div>⚠️</div>";
+                                            } else {
+                                                echo "<div>✅</div>";
                                             }
                                             echo "</div>";
                                             echo "</td>";
 
                                             // Stock Mínimo
                                             echo "<td class='p-4'>";
-                                            echo "<input type='number' value='{$producto['stock_min']}' min='0' class='input-cell w-1/2 p-2 rounded-lg text-gray-600 product-stock_min' data-id='{$producto['id_producto']}'>";
+                                            echo "<input type='number' value='{$producto['stock_min']}' min='0' class='input-cell w-full p-2 rounded-lg text-gray-600 product-stock_min' data-id='{$producto['id_producto']}'>";
                                             echo "</td>";
 
                                             // Propiedades
                                             echo "<td class='p-4'>";
-                                            echo "<div class='flex space-y-3 items-start'>";
+                                            echo "<div class='flex space-x-4 items-center'>";
                                             echo "<div class='space-y-1'>";
                                             foreach ($propiedades as $index => $propiedad) {
                                                 echo "<div class='flex items-center space-x-1'>";
@@ -443,7 +293,7 @@
                                                 echo "</div>";
                                             }
                                             echo "</div>";
-                                            echo "<button class='add-btn bg-transparent' onclick='openPropertiesModal({$producto['id_producto']})' title='Gestionar propiedades'>✏</button>";
+                                            echo "<button class='add-btn add-btn-lapiz' onclick='openPropertiesModal({$producto['id_producto']})' title='Gestionar propiedades'>✏</button>";
                                             echo "</div>";
                                             echo "</td>";
 
@@ -478,7 +328,7 @@
 
                     <!-- Footer con estadísticas -->
                     <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div class="stats-card rounded-xl p-4 text-center">
+                        <div class="stats-card rounded-xl p-4 text-center bg-military-green/15">
                             <div class="text-2xl font-bold text-military-green" id="total-products">
                                 <?php
                                 $sql_total = "SELECT COUNT(*) as total FROM productos";
@@ -489,7 +339,7 @@
                             </div>
                             <div class="text-sm text-gray-600">Total Productos</div>
                         </div>
-                        <div class="stats-card rounded-xl p-4 text-center">
+                        <div class="stats-card rounded-xl p-4 text-center bg-bright-yellow/20">
                             <div class="text-2xl font-bold text-bright-yellow" id="featured-products">
                                 <?php
                                 $sql_destacados = "SELECT COUNT(*) as total FROM productos WHERE destacado = 1";
@@ -500,7 +350,7 @@
                             </div>
                             <div class="text-sm text-gray-600">Destacados</div>
                         </div>
-                        <div class="stats-card rounded-xl p-4 text-center">
+                        <div class="stats-card rounded-xl p-4 text-center bg-red-100">
                             <div class="text-2xl font-bold text-red-600" id="low-stock-products">
                                 <?php
                                 $sql_bajo_stock = "SELECT COUNT(*) as total FROM productos WHERE stock <= stock_min";
@@ -511,7 +361,7 @@
                             </div>
                             <div class="text-sm text-gray-600">Stock Bajo</div>
                         </div>
-                        <div class="stats-card rounded-xl p-4 text-center">
+                        <div class="stats-card rounded-xl p-4 text-center bg-military-green/15">
                             <div class="text-2xl font-bold text-green-600" id="active-products">
                                 <?php
                                 $sql_activos = "SELECT COUNT(*) as total FROM productos WHERE estado = 1";
@@ -572,17 +422,17 @@
             <div class="space-y-3">
                 <div class="flex items-center gap-2">
                     <label class="text-sm font-medium text-gray-700 w-20">Prop 1:</label>
-                    <input type="text" id="prop1Input" class="flex-1 input-cell p-2 rounded-lg border"
+                    <input type="text" id="prop1Input" class="flex-1 input-cell-modal p-2 rounded-lg"
                         placeholder="Ej: 128GB">
                 </div>
                 <div class="flex items-center gap-2">
                     <label class="text-sm font-medium text-gray-700 w-20">Prop 2:</label>
-                    <input type="text" id="prop2Input" class="flex-1 input-cell p-2 rounded-lg border"
+                    <input type="text" id="prop2Input" class="flex-1 input-cell-modal p-2 rounded-lg "
                         placeholder="Ej: 5G">
                 </div>
                 <div class="flex items-center gap-2">
                     <label class="text-sm font-medium text-gray-700 w-20">Prop 3:</label>
-                    <input type="text" id="prop3Input" class="flex-1 input-cell p-2 rounded-lg border"
+                    <input type="text" id="prop3Input" class="flex-1 input-cell-modal p-2 rounded-lg"
                         placeholder="Ej: 6.1 pulgadas">
                 </div>
             </div>
@@ -599,337 +449,7 @@
         </div>
     </div>
 
-    <script>
-        let modifiedProducts = new Set();
-        let currentProductId = null;
-        let allCategories = [];
-        let productCategories = [];
-
-        // Cargar categorías al iniciar
-        document.addEventListener('DOMContentLoaded', function () {
-            loadAllCategories();
-            setupEventListeners();
-            filterTable();
-
-            // Event listeners para cerrar modales
-            document.getElementById('categoryModal').addEventListener('click', function (e) {
-                if (e.target === this) closeCategoryModal();
-            });
-
-            document.getElementById('propertiesModal').addEventListener('click', function (e) {
-                if (e.target === this) closePropertiesModal();
-            });
-        });
-
-        // FUNCIONES DE CATEGORÍAS
-        function loadAllCategories() {
-            fetch('get_categories.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        allCategories = data.categories;
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
-        function openCategoryModal(productId) {
-            currentProductId = productId;
-            const productName = document.querySelector(`.product-nombre[data-id="${productId}"]`).value;
-            document.getElementById('categoryProductName').textContent = productName;
-
-            loadProductCategories(productId);
-            document.getElementById('categoryModal').classList.remove('hidden');
-        }
-
-        function closeCategoryModal() {
-            document.getElementById('categoryModal').classList.add('hidden');
-            currentProductId = null;
-            productCategories = [];
-        }
-
-        function loadProductCategories(productId) {
-            fetch(`get_products_categories.php?id=${productId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Asegurarnos que sean números
-                        productCategories = data.categories.map(id => Number(id));
-                        renderCategoriesList();
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
-
-        function renderCategoriesList() {
-            const categoriesList = document.getElementById('categoriesList');
-
-            categoriesList.innerHTML = '';
-
-            allCategories.forEach(category => {
-                const isSelected = productCategories.includes(Number(category.id_categoria));
-
-                const div = document.createElement('div');
-                div.className = 'category-item' + (isSelected ? ' selected' : '');
-                div.innerHTML = `<span>📦 ${category.nombre_categoria}</span>
-                 <span>${isSelected ? '✗' : '▢'}</span>`;
-
-                // Evento click
-                div.addEventListener('click', () => {
-                    toggleCategory(category.id_categoria);
-                });
-
-                categoriesList.appendChild(div);
-            });
-        }
-
-
-        function toggleCategory(categoryId) {
-            categoryId = Number(categoryId);
-            const index = productCategories.indexOf(categoryId);
-            if (index > -1) {
-                productCategories.splice(index, 1);
-            } else {
-                productCategories.push(categoryId);
-            }
-            renderCategoriesList(); // vuelve a renderizar con los cambios
-        }
-
-
-        function saveCategoryChanges() {
-            if (!currentProductId) return;
-
-            const formData = new FormData();
-            formData.append('id_producto', currentProductId);
-            formData.append('categorias', JSON.stringify(productCategories));
-
-            fetch('update_product_categories.php', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Categorías actualizadas correctamente');
-                        location.reload();
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error de conexión');
-                })
-                .finally(() => {
-                    closeCategoryModal();
-                });
-        }
-
-        // FUNCIÓN PARA GUARDAR PRODUCTO
-        function saveProduct(id) {
-            const nombre = document.querySelector(`.product-nombre[data-id="${id}"]`).value;
-            const codigo = document.querySelector(`.product-codigo[data-id="${id}"]`).value;
-            const precio_compra = document.querySelector(`.product-precio_compra[data-id="${id}"]`).value;
-            const precio_venta = document.querySelector(`.product-precio_venta[data-id="${id}"]`).value;
-            const stock = document.querySelector(`.product-stock[data-id="${id}"]`).value;
-            const stock_min = document.querySelector(`.product-stock_min[data-id="${id}"]`).value;
-            const estado = document.querySelector(`.product-estado[data-id="${id}"]`).checked ? 1 : 0;
-            const destacado = document.querySelector(`.product-destacado[data-id="${id}"]`).checked ? 1 : 0;
-
-            const formData = new FormData();
-            formData.append('id_producto', id);
-            formData.append('nombre', nombre);
-            formData.append('codigo', codigo);
-            formData.append('precio_compra', precio_compra);
-            formData.append('precio_venta', precio_venta);
-            formData.append('stock', stock);
-            formData.append('stock_min', stock_min);
-            formData.append('estado', estado);
-            formData.append('destacado', destacado);
-
-            fetch('update_product.php', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Producto actualizado correctamente');
-                        location.reload();
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error de conexión');
-                });
-        }
-
-        // FUNCIONES DE PROPIEDADES
-        function openPropertiesModal(productId) {
-            currentProductId = productId;
-            const productName = document.querySelector(`.product-nombre[data-id="${productId}"]`).value;
-            document.getElementById('propertiesProductName').textContent = productName;
-
-            loadProductProperties(productId);
-            document.getElementById('propertiesModal').classList.remove('hidden');
-        }
-
-        function closePropertiesModal() {
-            document.getElementById('propertiesModal').classList.add('hidden');
-            currentProductId = null;
-        }
-
-        function loadProductProperties(productId) {
-            fetch(`get_product_properties.php?id=${productId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        document.getElementById('prop1Input').value = data.properties.prop_1 || '';
-                        document.getElementById('prop2Input').value = data.properties.prop_2 || '';
-                        document.getElementById('prop3Input').value = data.properties.prop_3 || '';
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
-        function savePropertyChanges() {
-            if (!currentProductId) return;
-
-            const formData = new FormData();
-            formData.append('id_producto', currentProductId);
-            formData.append('prop_1', document.getElementById('prop1Input').value);
-            formData.append('prop_2', document.getElementById('prop2Input').value);
-            formData.append('prop_3', document.getElementById('prop3Input').value);
-
-            fetch('update_product_properties.php', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Propiedades actualizadas correctamente');
-                        location.reload();
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error de conexión');
-                })
-                .finally(() => {
-                    closePropertiesModal();
-                });
-        }
-
-        // FUNCIONES DE FILTRADO
-
-        function setupEventListeners() {
-            // Event listeners para filtros
-            document.getElementById('search-input').addEventListener('input', filterTable);
-            document.getElementById('category-filter').addEventListener('change', filterTable);
-            document.getElementById('stock-minimo-filter').addEventListener('change', filterTable);
-            document.getElementById('destacados-filter').addEventListener('change', filterTable);
-            document.getElementById('descuentos-filter').addEventListener('change', filterTable);
-            document.getElementById('inactivos-filter').addEventListener('change', filterTable);
-
-            // Cerrar modales al hacer click fuera
-            document.getElementById('categoryModal').addEventListener('click', function (e) {
-                if (e.target === this) closeCategoryModal();
-            });
-
-            document.getElementById('propertiesModal').addEventListener('click', function (e) {
-                if (e.target === this) closePropertiesModal();
-            });
-        }
-
-        function filterTable() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const categoryFilter = document.getElementById('category-filter').value;
-            const stockMinimoFilter = document.getElementById('stock-minimo-filter').checked;
-            const destacadosFilter = document.getElementById('destacados-filter').checked;
-            const descuentosFilter = document.getElementById('descuentos-filter').checked;
-            const inactivosFilter = document.getElementById('inactivos-filter').checked;
-
-            const rows = document.querySelectorAll('#products-table-body tr');
-            let visibleCount = 0;
-
-            rows.forEach(row => {
-                const nombre = row.querySelector('.product-nombre').value.toLowerCase();
-                const codigo = row.querySelector('.product-codigo').value.toLowerCase();
-                const estado = row.querySelector('.product-estado').checked;
-                const destacado = row.querySelector('.product-destacado').checked;
-                const stock = parseInt(row.querySelector('.product-stock').value);
-                const stockMin = parseInt(row.querySelector('.product-stock_min').value);
-
-                const productCategories = row.getAttribute('data-categories').split(',');
-
-                const descuentoCell = row.cells[6];
-                const descuentoText = descuentoCell.textContent.trim();
-                const descuentoValue = parseInt(descuentoText.replace('%', '')) || 0;
-
-                let visible = true;
-
-                // Filtro de búsqueda
-                if (searchTerm && !nombre.includes(searchTerm) && !codigo.includes(searchTerm)) {
-                    visible = false;
-                }
-
-                // Filtro de categoría
-                if (categoryFilter && !productCategories.includes(categoryFilter)) {
-                    visible = false;
-                }
-
-                // LÓGICA MODIFICADA PARA ESTADO:
-                if (!inactivosFilter && !estado) {
-                    visible = false; // Ocultar inactivos por defecto
-                } else if (inactivosFilter && estado) {
-                    visible = false; // Si filtro inactivos está marcado, ocultar activos
-                }
-
-                // Filtro destacados
-                if (destacadosFilter && !destacado) visible = false;
-
-                // Filtro stock mínimo
-                if (stockMinimoFilter && stock > stockMin) visible = false;
-
-                // Filtro de descuentos
-                if (descuentosFilter && descuentoValue === 0) {
-                    visible = false;
-                }
-
-                if (visible) {
-                    row.style.display = '';
-                    visibleCount++;
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            const noProductsMsg = document.getElementById('no-products-message');
-            if (visibleCount === 0) {
-                noProductsMsg.classList.remove('hidden');
-            } else {
-                noProductsMsg.classList.add('hidden');
-            }
-        }
-
-        // LIMPIAR FILTROS
-        function clearAllFilters() {
-            document.getElementById('search-input').value = '';
-            document.getElementById('category-filter').value = '';
-            document.getElementById('stock-minimo-filter').checked = false;
-            document.getElementById('destacados-filter').checked = false;
-            document.getElementById('descuentos-filter').checked = false;
-            document.getElementById('inactivos-filter').checked = false;
-            filterTable();
-        }
-    </script>
-
+    <script src="js/table_product.js"></script>
 </body>
 
 </html>

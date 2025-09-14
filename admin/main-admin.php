@@ -19,70 +19,8 @@
             }
         }
     </script>
-    <style>
-        :root {
-            --color-verde-claro: #27ae60;
-            --color-bg-oscuro: #1a4a47;
-            --color-amarillo: #f4d03f;
-            --color-gris-oscuro: #2d5a5a;
-        }
-
-        .gradient-mesh-bg {
-            background: 
-                radial-gradient(circle at 80% 20%, var(--color-verde-claro) 0%, transparent 30%),
-                radial-gradient(circle at 20% 80%, var(--color-amarillo) 0%, transparent 25%),
-                radial-gradient(circle at 70% 70%, var(--color-gris-oscuro) 0%, transparent 35%),
-                linear-gradient(135deg, var(--color-bg-oscuro) 0%, var(--color-gris-oscuro) 100%);
-        }
-
-        .sidebar-item {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .sidebar-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.6s;
-        }
-
-        .sidebar-item:hover::before {
-            left: 100%;
-        }
-
-        .sidebar-item:hover {
-            transform: translateX(8px);
-            background: linear-gradient(135deg, var(--color-verde-claro), var(--color-amarillo));
-        }
-
-        .sidebar-item.active {
-            background: linear-gradient(135deg, var(--color-amarillo), var(--color-verde-claro));
-            transform: translateX(8px);
-            box-shadow: 0 8px 32px rgba(244, 208, 63, 0.3);
-        }
-
-        .content-container {
-            min-height: 100vh;
-            overflow-y: auto;
-        }
-
-        .page-transition {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease-in-out;
-        }
-
-        .page-transition.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+    <link rel="stylesheet" href="css/main-admin.css">
+    
 </head>
 <body class="min-h-screen">
     <?php
@@ -95,7 +33,7 @@
         'create_product' => 'create_product.php',
         'table_product' => 'table_product.php',
         'create_categorie' => 'create_categorie.php',
-        'create_desc' => 'create_desc.php'
+        'create_discount' => 'create_discount.php'
     ];
     
     // Verificar si la página existe
@@ -143,7 +81,7 @@
                     <span>Tabla Productos</span>
                 </a>
                 
-                <a href="?page=create_desc" class="sidebar-item <?php echo ($page == 'create_desc') ? 'active' : ''; ?> flex items-center space-x-4 p-4 rounded-xl text-white font-medium">
+                <a href="?page=create_discount" class="sidebar-item <?php echo ($page == 'create_discount') ? 'active' : ''; ?> flex items-center space-x-4 p-4 rounded-xl text-white font-medium">
                     <span class="text-xl">💸</span>
                     <span>Nuevo Descuento</span>
                 </a>
@@ -205,7 +143,7 @@
                     echo '<p class="text-gray-600">Administrar inventario</p>';
                     echo '</a>';
 
-                    echo '<a href="?page=create_desc" class="bg-olive/10 p-6 rounded-xl hover:bg-olive/20 transition-colors">';
+                    echo '<a href="?page=create_discount" class="bg-olive/10 p-6 rounded-xl hover:bg-olive/20 transition-colors">';
                     echo '<div class="text-4xl mb-4">💸</div>';
                     echo '<h3 class="text-lg font-semibold text-gray-800">Nuevo Descuento</h3>';
                     echo '<p class="text-gray-600">Crear nuevos descuentos</p>';
@@ -235,56 +173,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        // Función para cerrar sesión
-        function logout() {
-            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
-                // Aquí puedes agregar la lógica para cerrar sesión
-                alert('Cerrando sesión...');
-                // window.location.href = 'logout.php';
-            }
-        }
-
-        // Agregar efectos de transición al cambiar de página (opcional)
-        document.addEventListener('DOMContentLoaded', function() {
-            // Efecto de entrada para el contenido
-            const content = document.getElementById('main-content');
-            if (content) {
-                content.classList.add('show');
-            }
-
-            // Agregar efecto hover a los enlaces del sidebar
-            document.querySelectorAll('.sidebar-item[data-page]').forEach(item => {
-                item.addEventListener('click', function(e) {
-                    // Efecto visual de carga (opcional)
-                    const content = document.getElementById('main-content');
-                    content.classList.remove('show');
-                    
-                    // Pequeño delay para el efecto visual
-                    setTimeout(() => {
-                        content.classList.add('show');
-                    }, 150);
-                });
-            });
-        });
-
-        // Actualizar estado activo de la navegación
-        function updateActiveNavigation() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const currentPage = urlParams.get('page') || 'dashboard';
-            
-            // Remover active de todos
-            document.querySelectorAll('.sidebar-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Agregar active al actual
-            const activeItem = document.querySelector(`[data-page="${currentPage}"]`);
-            if (activeItem) {
-                activeItem.classList.add('active');
-            }
-        }
-    </script>
+<script src="js/main-admin.js"></script>
 </body>
 </html>
