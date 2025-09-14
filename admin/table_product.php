@@ -140,6 +140,7 @@
                                         <th class="text-left p-4 font-bold text-military-green w-[150px]">S. Min</th>
                                         <th class="text-left p-4 font-bold text-military-green min-w-[200px]">
                                             Propiedades</th>
+                                        <th class="text-left p-4 font-bold text-military-green min-w-[100px]">Imágenes
                                         <th class="text-left p-4 font-bold text-military-green min-w-[60px]">⭐ Destacado
                                         </th>
                                         <th class="text-left p-4 font-bold text-military-green min-w-[100px]">Acciones
@@ -161,7 +162,9 @@
                                                 p.prop_3,
                                                 p.destacado,
                                                 p.descripcion,
-                                                p.imagen,
+                                                p.imagen_1,
+                                                p.imagen_2,
+                                                p.imagen_3,
                                                 p.id_descuento,
                                                 p.estado,
                                                 COALESCE(d.cantidad, 0) as descuento_cantidad
@@ -294,6 +297,13 @@
                                             }
                                             echo "</div>";
                                             echo "<button class='add-btn add-btn-lapiz' onclick='openPropertiesModal({$producto['id_producto']})' title='Gestionar propiedades'>✏</button>";
+                                            echo "</div>";
+                                            echo "</td>";
+
+                                            // Imágenes
+                                            echo "<td class='p-4'>";
+                                            echo "<div class='flex flex-col items-center space-y-1'>";
+                                            echo "<button class='add-btn' onclick='openImagesModal({$producto['id_producto']})' title='Gestionar imágenes'>🖼️</button>";
                                             echo "</div>";
                                             echo "</td>";
 
@@ -442,6 +452,80 @@
                     Guardar Cambios
                 </button>
                 <button onclick="closePropertiesModal()"
+                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para imágenes -->
+    <div id="imagesModal" class="modal-overlay hidden">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Gestionar Imágenes</h3>
+                <button onclick="closeImagesModal()"
+                    class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <div class="mb-4">
+                <p class="text-sm text-gray-600 mb-2">Producto: <span id="imagesProductName"
+                        class="font-semibold"></span></p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" id="imagesContainer">
+                <!-- Imagen 1 -->
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Imagen 1</label>
+                    <div class="mb-2">
+                        <img id="preview1" src="" alt="Preview 1" class="w-full h-32 object-cover rounded border hidden">
+                        <div id="placeholder1" class="w-full h-32 bg-gray-200 rounded border flex items-center justify-center text-gray-400">
+                            Sin imagen
+                        </div>
+                    </div>
+                    <input type="file" id="image1Input" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-military-green file:text-white hover:file:bg-olive">
+                    <input type="hidden" id="current1" value="">
+                </div>
+
+                <!-- Imagen 2 -->
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Imagen 2</label>
+                    <div class="mb-2">
+                        <img id="preview2" src="" alt="Preview 2" class="w-full h-32 object-cover rounded border hidden">
+                        <div id="placeholder2" class="w-full h-32 bg-gray-200 rounded border flex items-center justify-center text-gray-400">
+                            Sin imagen
+                        </div>
+                    </div>
+                    <input type="file" id="image2Input" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-military-green file:text-white hover:file:bg-olive">
+                    <input type="hidden" id="current2" value="">
+                </div>
+
+                <!-- Imagen 3 -->
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Imagen 3</label>
+                    <div class="mb-2">
+                        <img id="preview3" src="" alt="Preview 3" class="w-full h-32 object-cover rounded border hidden">
+                        <div id="placeholder3" class="w-full h-32 bg-gray-200 rounded border flex items-center justify-center text-gray-400">
+                            Sin imagen
+                        </div>
+                    </div>
+                    <input type="file" id="image3Input" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-military-green file:text-white hover:file:bg-olive">
+                    <input type="hidden" id="current3" value="">
+                </div>
+            </div>
+
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                <p class="text-sm text-yellow-800">
+                    <strong>Nota:</strong> Las imágenes se subirán a la carpeta "uploads/productos/". 
+                    Formatos permitidos: JPG, PNG, GIF. Tamaño máximo: 5MB por imagen.
+                </p>
+            </div>
+            
+            <div class="flex gap-2">
+                <button onclick="saveImageChanges()"
+                    class="flex-1 btn-confirm px-4 py-2 text-white rounded-lg font-medium">
+                    Guardar Imágenes
+                </button>
+                <button onclick="closeImagesModal()"
                     class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors">
                     Cancelar
                 </button>

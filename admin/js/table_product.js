@@ -17,6 +17,29 @@ let modifiedProducts = new Set();
             document.getElementById('propertiesModal').addEventListener('click', function (e) {
                 if (e.target === this) closePropertiesModal();
             });
+
+            document.getElementById('imagesModal').addEventListener('click', function (e) {
+                if (e.target === this) closeImagesModal();
+            });
+
+            // Event listeners para inputs de imágenes
+
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`image${i}Input`).addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const preview = document.getElementById(`preview${i}`);
+                            const placeholder = document.getElementById(`placeholder${i}`);
+                            preview.src = e.target.result;
+                            preview.classList.remove('hidden');
+                            placeholder.classList.add('hidden');
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
         });
 
         // FUNCIONES DE CATEGORÍAS
@@ -325,4 +348,96 @@ let modifiedProducts = new Set();
             document.getElementById('descuentos-filter').checked = false;
             document.getElementById('inactivos-filter').checked = false;
             filterTable();
+        }
+
+        // FUNCIONES DE IMÁGENES
+        function openImagesModal(productId) {
+            currentProductId = productId;
+            const productName = document.querySelector(`.product-nombre[data-id="${productId}"]`).value;
+            document.getElementById('imagesProductName').textContent = productName;
+            
+            loadProductImages(productId);
+            document.getElementById('imagesModal').classList.remove('hidden');
+            console.log("Abriendo modal de imágenes para el producto ID:", productId);
+            
+        }
+
+        function closeImagesModal() {
+            document.getElementById('imagesModal').classList.add('hidden');
+            currentProductId = null;
+            // Limpiar previews
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`preview${i}`).classList.add('hidden');
+                document.getElementById(`placeholder${i}`).classList.remove('hidden');
+                document.getElementById(`image${i}Input`).value = '';
+                document.getElementById(`current${i}`).value = '';
+            }
+        }
+
+        function loadProductImages(productId) {
+            fetch(`get_product_images.php?id=${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const images = data.images;
+                        for (let i = 1; i <= 3; i++) {
+                            const imageUrl = images[`imagen_${i}`];
+                            const preview = document.getElementById(`preview${i}`);
+                            const placeholder = document.getElementById(`placeholder${i}`);
+                            const current = document.getElementById(`current${i}`);
+                            
+                            if (imageUrl && imageUrl.trim() !== '') {
+                                preview.src = imageUrl;
+                                preview.classList.remove('hidden');
+                                placeholder.classList.add('hidden');
+                                current.value = imageUrl;
+                            } else {
+                                preview.classList.add('hidden');
+                                placeholder.classList.remove('hidden');
+                                current.value = '';
+                            }
+                        }
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function saveImageChanges() {
+            if (!currentProductId) return;
+
+            const formData = new FormData();
+            formData.append('id_producto', currentProductId);
+            
+            // Agregar archivos e imágenes actuales
+            for (let i = 1; i <= 3; i++) {
+                const fileInput = document.getElementById(`image${i}Input`);
+                const currentImage = document.getElementById(`current${i}`).value;
+                
+                if (fileInput.files[0]) {
+                    formData.append(`imagen_${i}`, fileInput.files[0]);
+                } else if (currentImage) {
+                    formData.append(`current_imagen_${i}`, currentImage);
+                }
+            }
+
+            fetch('update_product_images.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Imágenes actualizadas correctamente');
+                    location.reload();
+                } else {
+                    alert('Error al actualizar imágenes: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error de conexión');
+            })
+            .finally(() => {
+                closeImagesModal();
+            });
         }

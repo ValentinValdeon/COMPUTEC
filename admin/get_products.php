@@ -15,7 +15,9 @@ try {
                 p.prop_3,
                 p.destacado,
                 p.descripcion,
-                p.imagen,
+                p.imagen_1,
+                p.imagen_2,
+                p.imagen_3,
                 p.id_descuento,
                 p.estado,
                 COALESCE(d.cantidad, 0) as descuento_cantidad
