@@ -68,10 +68,7 @@
             box-shadow: 0 0 0 2px rgba(90, 107, 59, 0.1);
         }
 
-        .row-disabled {
-            opacity: 0.5;
-            background-color: #f9fafb !important;
-        }
+
 
         .row-modified {
             background-color: #fef3c7 !important;
@@ -170,8 +167,7 @@
         }
 
         .add-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 2px 8px rgba(241, 196, 15, 0.3);
+            transform: scale(1.2);
         }
 
         .hidden {
@@ -199,7 +195,7 @@
                                 <div class="relative">
                                     <input type="text" id="search-input"
                                         placeholder="Buscar productos por nombre, código o descripción..."
-                                        class="w-full px-4 py-3 pl-12 bg-gray-50 border-2 border-transparent rounded-xl focus:bg-white focus:border-military-green transition-all duration-300">
+                                        class="w-full px-4 py-3 pl-12 bg-gray-50 border-2 rounded-xl focus:bg-white focus:border-military-green transition-all duration-300">
                                     <div class="absolute left-4 top-3.5 text-gray-400">
                                         🔍
                                     </div>
@@ -215,9 +211,9 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                             <!-- Filtro de categoría -->
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">Categoría</label>
+                                <!-- <label class="block text-sm font-bold text-gray-700 mb-2">Categoría</label> -->
                                 <select id="category-filter"
-                                    class="w-full px-3 py-2 bg-gray-50 border-2 border-transparent rounded-lg focus:bg-white focus:border-military-green transition-all duration-300">
+                                    class="w-full px-3 py-2 bg-gray-50 border-2 rounded-lg focus:bg-white focus:border-military-green transition-all duration-300">
                                     <option value="">Todas las categorías</option>
                                     <?php
                                     $sql = "SELECT id_categoria, nombre_categoria FROM categorias";
@@ -292,8 +288,8 @@
                                         </th>
                                         <th class="text-left p-4 font-bold text-military-green min-w-[100px]">P. Final
                                         </th>
-                                        <th class="text-left p-4 font-bold text-military-green min-w-[80px]">Stock</th>
-                                        <th class="text-left p-4 font-bold text-military-green min-w-[80px]">S. Min</th>
+                                        <th class="text-left p-4 font-bold text-military-green min-w-[30px]">Stock</th>
+                                        <th class="text-left p-4 font-bold text-military-green min-w-[30px]">S. Min</th>
                                         <th class="text-left p-4 font-bold text-military-green min-w-[200px]">
                                             Propiedades</th>
                                         <th class="text-left p-4 font-bold text-military-green min-w-[60px]">⭐ Destacado
@@ -345,7 +341,6 @@
 
                                             $precio_final = $producto['precio_venta'] * (1 - $producto['descuento_cantidad'] / 100);
                                             $is_low_stock = $producto['stock'] <= $producto['stock_min'];
-                                            $row_class = $producto['estado'] == 1 ? '' : 'row-disabled';
 
                                             // Crear array de propiedades no vacías
                                             $propiedades = array_filter([
@@ -354,13 +349,23 @@
                                                 $producto['prop_3']
                                             ]);
 
-                                            echo "<tr class='border-b border-military-green/10 hover:bg-military-green/5 transition-colors {$row_class}' data-id='{$producto['id_producto']}'>";
+                                            // Obtener IDs de categorías del producto
+                                            $sql_cat_ids = "SELECT id_categoria FROM producto_categoria WHERE id_producto = {$producto['id_producto']}";
+                                            $result_cat_ids = $conn->query($sql_cat_ids);
+                                            $categoria_ids = array();
+                                            while ($cat_id = $result_cat_ids->fetch_assoc()) {
+                                                $categoria_ids[] = $cat_id['id_categoria'];
+                                            }
+
+                                            echo "<tr class='border-b border-military-green/10 hover:bg-military-green/5 transition-colors' 
+                                            data-id='{$producto['id_producto']}' 
+                                            data-categories='" . implode(',', $categoria_ids) . "'>";
 
                                             // Estado
                                             echo "<td class='p-4'>";
                                             echo "<label class='relative inline-flex items-center cursor-pointer'>";
                                             echo "<input type='checkbox' " . ($producto['estado'] == 1 ? 'checked' : '') . " class='sr-only peer product-estado' data-id='{$producto['id_producto']}'>";
-                                            echo "<div class='relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-military-green/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[\"\"] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-military-green'></div>";
+                                            echo "<div class='relative w-11 h-6 bg-gray-500 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-military-green/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[\"\"] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-military-green'></div>";
                                             echo "</label>";
                                             echo "</td>";
 
@@ -413,20 +418,23 @@
 
                                             // Stock
                                             echo "<td class='p-4'>";
-                                            $stock_class = $is_low_stock ? 'text-red-600 font-bold bg-red-50' : '';
-                                            echo "<input type='number' value='{$producto['stock']}' min='0' class='input-cell w-full p-2 rounded-lg {$stock_class} product-stock' data-id='{$producto['id_producto']}'>";
+                                            echo "<div class='flex space-x-2 items-center'>";
+                                            $stock_class = $is_low_stock ? 'text-red-600 font-bold' : '';
+                                            echo "<input type='number' value='{$producto['stock']}' min='0' class='input-cell w-1/4 p-2 rounded-lg {$stock_class} product-stock' data-id='{$producto['id_producto']}'>";
                                             if ($is_low_stock) {
-                                                echo "<div class='text-xs text-red-600 mt-1'>⚠️ Bajo</div>";
+                                                echo "<div>⚠️</div>";
                                             }
+                                            echo "</div>";
                                             echo "</td>";
 
                                             // Stock Mínimo
                                             echo "<td class='p-4'>";
-                                            echo "<input type='number' value='{$producto['stock_min']}' min='0' class='input-cell w-full p-2 rounded-lg text-gray-600 product-stock_min' data-id='{$producto['id_producto']}'>";
+                                            echo "<input type='number' value='{$producto['stock_min']}' min='0' class='input-cell w-1/2 p-2 rounded-lg text-gray-600 product-stock_min' data-id='{$producto['id_producto']}'>";
                                             echo "</td>";
 
                                             // Propiedades
                                             echo "<td class='p-4'>";
+                                            echo "<div class='flex space-y-3 items-start'>";
                                             echo "<div class='space-y-1'>";
                                             foreach ($propiedades as $index => $propiedad) {
                                                 echo "<div class='flex items-center space-x-1'>";
@@ -434,7 +442,8 @@
                                                 echo "<span class='text-xs text-gray-600'>{$propiedad}</span>";
                                                 echo "</div>";
                                             }
-                                            echo "<button class='add-btn text-white' onclick='openPropertiesModal({$producto['id_producto']})' title='Gestionar propiedades'>+</button>";
+                                            echo "</div>";
+                                            echo "<button class='add-btn bg-transparent' onclick='openPropertiesModal({$producto['id_producto']})' title='Gestionar propiedades'>✏</button>";
                                             echo "</div>";
                                             echo "</td>";
 
@@ -442,7 +451,7 @@
                                             echo "<td class='p-4 text-center'>";
                                             echo "<label class='relative inline-flex items-center cursor-pointer'>";
                                             echo "<input type='checkbox' " . ($producto['destacado'] == 1 ? 'checked' : '') . " class='sr-only peer product-destacado' data-id='{$producto['id_producto']}'>";
-                                            echo "<div class='relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-bright-yellow/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[\"\"] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-bright-yellow'></div>";
+                                            echo "<div class='relative w-11 h-6 bg-gray-500 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-bright-yellow/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[\"\"] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-bright-yellow'></div>";
                                             echo "</label>";
                                             echo "</td>";
 
@@ -599,6 +608,8 @@
         // Cargar categorías al iniciar
         document.addEventListener('DOMContentLoaded', function () {
             loadAllCategories();
+            setupEventListeners();
+            filterTable();
 
             // Event listeners para cerrar modales
             document.getElementById('categoryModal').addEventListener('click', function (e) {
@@ -642,37 +653,49 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        productCategories = data.categories;
+                        // Asegurarnos que sean números
+                        productCategories = data.categories.map(id => Number(id));
                         renderCategoriesList();
                     }
                 })
                 .catch(error => console.error('Error:', error));
         }
 
+
         function renderCategoriesList() {
             const categoriesList = document.getElementById('categoriesList');
 
-            categoriesList.innerHTML = allCategories.map(category => {
-                const isSelected = productCategories.includes(category.id_categoria);
-                return `
-            <div class="category-item ${isSelected ? 'selected' : ''}" 
-                 onclick="toggleCategory(${category.id_categoria})">
-                <span>📦 ${category.nombre_categoria}</span>
-                <span>${isSelected ? 'x' : '✓'}</span>
-            </div>
-        `;
-            }).join('');
+            categoriesList.innerHTML = '';
+
+            allCategories.forEach(category => {
+                const isSelected = productCategories.includes(Number(category.id_categoria));
+
+                const div = document.createElement('div');
+                div.className = 'category-item' + (isSelected ? ' selected' : '');
+                div.innerHTML = `<span>📦 ${category.nombre_categoria}</span>
+                 <span>${isSelected ? '✗' : '▢'}</span>`;
+
+                // Evento click
+                div.addEventListener('click', () => {
+                    toggleCategory(category.id_categoria);
+                });
+
+                categoriesList.appendChild(div);
+            });
         }
 
+
         function toggleCategory(categoryId) {
+            categoryId = Number(categoryId);
             const index = productCategories.indexOf(categoryId);
             if (index > -1) {
                 productCategories.splice(index, 1);
             } else {
                 productCategories.push(categoryId);
             }
-            renderCategoriesList();
+            renderCategoriesList(); // vuelve a renderizar con los cambios
         }
+
 
         function saveCategoryChanges() {
             if (!currentProductId) return;
@@ -700,6 +723,47 @@
                 })
                 .finally(() => {
                     closeCategoryModal();
+                });
+        }
+
+        // FUNCIÓN PARA GUARDAR PRODUCTO
+        function saveProduct(id) {
+            const nombre = document.querySelector(`.product-nombre[data-id="${id}"]`).value;
+            const codigo = document.querySelector(`.product-codigo[data-id="${id}"]`).value;
+            const precio_compra = document.querySelector(`.product-precio_compra[data-id="${id}"]`).value;
+            const precio_venta = document.querySelector(`.product-precio_venta[data-id="${id}"]`).value;
+            const stock = document.querySelector(`.product-stock[data-id="${id}"]`).value;
+            const stock_min = document.querySelector(`.product-stock_min[data-id="${id}"]`).value;
+            const estado = document.querySelector(`.product-estado[data-id="${id}"]`).checked ? 1 : 0;
+            const destacado = document.querySelector(`.product-destacado[data-id="${id}"]`).checked ? 1 : 0;
+
+            const formData = new FormData();
+            formData.append('id_producto', id);
+            formData.append('nombre', nombre);
+            formData.append('codigo', codigo);
+            formData.append('precio_compra', precio_compra);
+            formData.append('precio_venta', precio_venta);
+            formData.append('stock', stock);
+            formData.append('stock_min', stock_min);
+            formData.append('estado', estado);
+            formData.append('destacado', destacado);
+
+            fetch('update_product.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Producto actualizado correctamente');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error de conexión');
                 });
         }
 
@@ -760,6 +824,109 @@
                 .finally(() => {
                     closePropertiesModal();
                 });
+        }
+
+        // FUNCIONES DE FILTRADO
+
+        function setupEventListeners() {
+            // Event listeners para filtros
+            document.getElementById('search-input').addEventListener('input', filterTable);
+            document.getElementById('category-filter').addEventListener('change', filterTable);
+            document.getElementById('stock-minimo-filter').addEventListener('change', filterTable);
+            document.getElementById('destacados-filter').addEventListener('change', filterTable);
+            document.getElementById('descuentos-filter').addEventListener('change', filterTable);
+            document.getElementById('inactivos-filter').addEventListener('change', filterTable);
+
+            // Cerrar modales al hacer click fuera
+            document.getElementById('categoryModal').addEventListener('click', function (e) {
+                if (e.target === this) closeCategoryModal();
+            });
+
+            document.getElementById('propertiesModal').addEventListener('click', function (e) {
+                if (e.target === this) closePropertiesModal();
+            });
+        }
+
+        function filterTable() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const categoryFilter = document.getElementById('category-filter').value;
+            const stockMinimoFilter = document.getElementById('stock-minimo-filter').checked;
+            const destacadosFilter = document.getElementById('destacados-filter').checked;
+            const descuentosFilter = document.getElementById('descuentos-filter').checked;
+            const inactivosFilter = document.getElementById('inactivos-filter').checked;
+
+            const rows = document.querySelectorAll('#products-table-body tr');
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                const nombre = row.querySelector('.product-nombre').value.toLowerCase();
+                const codigo = row.querySelector('.product-codigo').value.toLowerCase();
+                const estado = row.querySelector('.product-estado').checked;
+                const destacado = row.querySelector('.product-destacado').checked;
+                const stock = parseInt(row.querySelector('.product-stock').value);
+                const stockMin = parseInt(row.querySelector('.product-stock_min').value);
+
+                const productCategories = row.getAttribute('data-categories').split(',');
+
+                const descuentoCell = row.cells[6];
+                const descuentoText = descuentoCell.textContent.trim();
+                const descuentoValue = parseInt(descuentoText.replace('%', '')) || 0;
+
+                let visible = true;
+
+                // Filtro de búsqueda
+                if (searchTerm && !nombre.includes(searchTerm) && !codigo.includes(searchTerm)) {
+                    visible = false;
+                }
+
+                // Filtro de categoría
+                if (categoryFilter && !productCategories.includes(categoryFilter)) {
+                    visible = false;
+                }
+
+                // LÓGICA MODIFICADA PARA ESTADO:
+                if (!inactivosFilter && !estado) {
+                    visible = false; // Ocultar inactivos por defecto
+                } else if (inactivosFilter && estado) {
+                    visible = false; // Si filtro inactivos está marcado, ocultar activos
+                }
+
+                // Filtro destacados
+                if (destacadosFilter && !destacado) visible = false;
+
+                // Filtro stock mínimo
+                if (stockMinimoFilter && stock > stockMin) visible = false;
+
+                // Filtro de descuentos
+                if (descuentosFilter && descuentoValue === 0) {
+                    visible = false;
+                }
+
+                if (visible) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            const noProductsMsg = document.getElementById('no-products-message');
+            if (visibleCount === 0) {
+                noProductsMsg.classList.remove('hidden');
+            } else {
+                noProductsMsg.classList.add('hidden');
+            }
+        }
+
+        // LIMPIAR FILTROS
+        function clearAllFilters() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('category-filter').value = '';
+            document.getElementById('stock-minimo-filter').checked = false;
+            document.getElementById('destacados-filter').checked = false;
+            document.getElementById('descuentos-filter').checked = false;
+            document.getElementById('inactivos-filter').checked = false;
+            filterTable();
         }
     </script>
 
