@@ -21,25 +21,6 @@ let modifiedProducts = new Set();
             document.getElementById('imagesModal').addEventListener('click', function (e) {
                 if (e.target === this) closeImagesModal();
             });
-
-            // Event listeners para inputs de imágenes
-
-            for (let i = 1; i <= 3; i++) {
-                document.getElementById(`image${i}Input`).addEventListener('change', function(e) {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const preview = document.getElementById(`preview${i}`);
-                            const placeholder = document.getElementById(`placeholder${i}`);
-                            preview.src = e.target.result;
-                            preview.classList.remove('hidden');
-                            placeholder.classList.add('hidden');
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-            }
         });
 
         // FUNCIONES DE CATEGORÍAS
@@ -62,6 +43,16 @@ let modifiedProducts = new Set();
             loadProductCategories(productId);
             document.getElementById('categoryModal').classList.remove('hidden');
         }
+
+        function openImagesModal(productId) {
+            currentProductId = productId;
+            const productName = document.querySelector(`.product-nombre[data-id="${productId}"]`).value;
+            document.getElementById('imagesProductName').textContent = productName;
+            
+            loadProductImages(productId);
+            document.getElementById('imagesModal').classList.remove('hidden');
+        }
+
 
         function closeCategoryModal() {
             document.getElementById('categoryModal').classList.add('hidden');
@@ -157,6 +148,8 @@ let modifiedProducts = new Set();
             const stock_min = document.querySelector(`.product-stock_min[data-id="${id}"]`).value;
             const estado = document.querySelector(`.product-estado[data-id="${id}"]`).checked ? 1 : 0;
             const destacado = document.querySelector(`.product-destacado[data-id="${id}"]`).checked ? 1 : 0;
+            const descuento = document.querySelector(`.product-descuento[data-id="${id}"]`).value;
+            
 
             const formData = new FormData();
             formData.append('id_producto', id);
@@ -167,6 +160,7 @@ let modifiedProducts = new Set();
             formData.append('stock', stock);
             formData.append('stock_min', stock_min);
             formData.append('estado', estado);
+            formData.append('id_descuento', descuento)
             formData.append('destacado', destacado);
 
             fetch('update_product.php', {
@@ -266,6 +260,10 @@ let modifiedProducts = new Set();
             document.getElementById('propertiesModal').addEventListener('click', function (e) {
                 if (e.target === this) closePropertiesModal();
             });
+
+            document.getElementById('imagesModal').addEventListener('click', function (e) {
+                if (e.target === this) closeImagesModal();
+            });
         }
 
         function filterTable() {
@@ -289,9 +287,10 @@ let modifiedProducts = new Set();
 
                 const productCategories = row.getAttribute('data-categories').split(',');
 
-                const descuentoCell = row.cells[6];
-                const descuentoText = descuentoCell.textContent.trim();
-                const descuentoValue = parseInt(descuentoText.replace('%', '')) || 0;
+                const descuentoSelect = row.querySelector('.product-descuento'); // o el selector correcto
+                const selectedOption = descuentoSelect.options[descuentoSelect.selectedIndex];
+                const descuentoValue = parseInt(selectedOption.dataset.cantidad) || 0;
+
 
                 let visible = true;
 
@@ -351,16 +350,6 @@ let modifiedProducts = new Set();
         }
 
         // FUNCIONES DE IMÁGENES
-        function openImagesModal(productId) {
-            currentProductId = productId;
-            const productName = document.querySelector(`.product-nombre[data-id="${productId}"]`).value;
-            document.getElementById('imagesProductName').textContent = productName;
-            
-            loadProductImages(productId);
-            document.getElementById('imagesModal').classList.remove('hidden');
-            console.log("Abriendo modal de imágenes para el producto ID:", productId);
-            
-        }
 
         function closeImagesModal() {
             document.getElementById('imagesModal').classList.add('hidden');
@@ -375,32 +364,35 @@ let modifiedProducts = new Set();
         }
 
         function loadProductImages(productId) {
-            fetch(`get_product_images.php?id=${productId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const images = data.images;
-                        for (let i = 1; i <= 3; i++) {
-                            const imageUrl = images[`imagen_${i}`];
-                            const preview = document.getElementById(`preview${i}`);
-                            const placeholder = document.getElementById(`placeholder${i}`);
-                            const current = document.getElementById(`current${i}`);
-                            
-                            if (imageUrl && imageUrl.trim() !== '') {
-                                preview.src = imageUrl;
-                                preview.classList.remove('hidden');
-                                placeholder.classList.add('hidden');
-                                current.value = imageUrl;
-                            } else {
-                                preview.classList.add('hidden');
-                                placeholder.classList.remove('hidden');
-                                current.value = '';
-                            }
-                        }
+    fetch(`get_product_images.php?id=${productId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const images = data.images;
+                for (let i = 1; i <= 3; i++) {
+                    const imageUrl = images[`imagen_${i}`];
+                    const preview = document.getElementById(`preview${i}`);
+                    const placeholder = document.getElementById(`placeholder${i}`);
+                    const current = document.getElementById(`current${i}`);
+                    
+                    if (imageUrl && imageUrl.trim() !== '') {
+                        preview.src = imageUrl;
+                        preview.classList.remove('hidden');
+                        placeholder.classList.add('hidden');
+                        current.value = imageUrl;
+                    } else {
+                        preview.classList.add('hidden');
+                        placeholder.classList.remove('hidden');
+                        current.value = '';
                     }
-                })
-                .catch(error => console.error('Error:', error));
-        }
+                }
+            } else {
+                console.error('Error:', data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
 
         function saveImageChanges() {
             if (!currentProductId) return;
@@ -441,3 +433,23 @@ let modifiedProducts = new Set();
                 closeImagesModal();
             });
         }
+
+        // Agregar previews en tiempo real
+        document.addEventListener('DOMContentLoaded', function() {
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`image${i}Input`).addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const preview = document.getElementById(`preview${i}`);
+                            const placeholder = document.getElementById(`placeholder${i}`);
+                            preview.src = e.target.result;
+                            preview.classList.remove('hidden');
+                            placeholder.classList.add('hidden');
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        });

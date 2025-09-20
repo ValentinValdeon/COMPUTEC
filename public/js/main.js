@@ -48,81 +48,113 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Carousel functionality
     class ModernCarousel {
-        constructor() {
-            this.track = document.getElementById('carouselTrack');
-            this.prevBtn = document.getElementById('prevBtn');
-            this.nextBtn = document.getElementById('nextBtn');
-            this.items = this.track.children;
-            this.currentIndex = 0;
-            this.itemsPerView = this.getItemsPerView();
-            this.totalItems = this.items.length;
-            this.maxIndex = Math.max(0, this.totalItems - this.itemsPerView);
+    constructor() {
+        this.track = document.getElementById('carouselTrack');
+        this.prevBtn = document.getElementById('prevBtn');
+        this.nextBtn = document.getElementById('nextBtn');
+        this.items = this.track.children;
+        this.currentIndex = 0;
+        this.itemsPerView = this.getItemsPerView();
+        this.totalItems = this.items.length;
+        this.maxIndex = Math.max(0, this.totalItems - this.itemsPerView);
 
-            this.init();
-            this.setupEventListeners();
+        // 🔹 Log inicial
+        console.log("[Carousel] Constructor - items detectados:", this.totalItems);
+
+        this.init();
+        this.setupEventListeners();
+        this.updateButtons();
+    }
+
+    getItemsPerView() {
+        const width = window.innerWidth;
+        if (width >= 1280) return 4;
+        if (width >= 1024) return 3;
+        if (width >= 768) return 2;
+        return 1;
+    }
+
+    init() {
+        this.updateCarousel();
+    }
+
+    setupEventListeners() {
+        this.prevBtn.addEventListener('click', () => this.prev());
+        this.nextBtn.addEventListener('click', () => this.next());
+
+        window.addEventListener('resize', () => {
+            this.itemsPerView = this.getItemsPerView();
+            this.maxIndex = Math.max(0, this.totalItems - this.itemsPerView);
+            this.currentIndex = Math.min(this.currentIndex, this.maxIndex);
+            this.updateCarousel();
+            this.updateButtons();
+        });
+    }
+
+    prev() {
+        if (this.currentIndex > 0) {
+            // Avanza exactamente la cantidad de elementos visibles
+            const step = this.itemsPerView;
+            this.currentIndex = Math.max(0, this.currentIndex - step);
+            this.updateCarousel();
             this.updateButtons();
         }
+    }
 
-        getItemsPerView() {
-            const width = window.innerWidth;
-            if (width >= 1280) return 4; // xl screens
-            if (width >= 1024) return 3; // lg screens
-            if (width >= 768) return 2;  // md screens
-            return 1; // sm screens
-        }
-
-        init() {
-            // Set initial position
+    next() {
+        if (this.currentIndex < this.maxIndex) {
+            // Avanza exactamente la cantidad de elementos visibles
+            const step = this.itemsPerView;
+            this.currentIndex = Math.min(this.maxIndex, this.currentIndex + step);
             this.updateCarousel();
-        }
-
-        setupEventListeners() {
-            this.prevBtn.addEventListener('click', () => this.prev());
-            this.nextBtn.addEventListener('click', () => this.next());
-
-            window.addEventListener('resize', () => {
-                this.itemsPerView = this.getItemsPerView();
-                this.maxIndex = Math.max(0, this.totalItems - this.itemsPerView);
-                this.currentIndex = Math.min(this.currentIndex, this.maxIndex);
-                this.updateCarousel();
-                this.updateButtons();
-            });
-        }
-
-        prev() {
-            if (this.currentIndex > 0) {
-                // Avanza según el tamaño de pantalla
-                const step = Math.max(1, Math.floor(this.itemsPerView / 2)); 
-                this.currentIndex = Math.max(0, this.currentIndex - step);
-                this.updateCarousel();
-                this.updateButtons();
-            }
-        }
-
-        next() {
-            if (this.currentIndex < this.maxIndex) {
-                // Avanza según el tamaño de pantalla
-                const step = Math.max(1, Math.floor(this.itemsPerView / 2));
-                this.currentIndex = Math.min(this.maxIndex, this.currentIndex + step);
-                this.updateCarousel();
-                this.updateButtons();
-            }
-        }
-
-        updateCarousel() {
-            const itemWidth = 300 + 24; // card width + gap
-            const translateX = -this.currentIndex * itemWidth;
-            this.track.style.transform = `translateX(${translateX}px)`;
-        }
-
-        updateButtons() {
-            this.prevBtn.style.opacity = this.currentIndex === 0 ? '0.5' : '1';
-            this.prevBtn.style.pointerEvents = this.currentIndex === 0 ? 'none' : 'auto';
-
-            this.nextBtn.style.opacity = this.currentIndex >= this.maxIndex ? '0.5' : '1';
-            this.nextBtn.style.pointerEvents = this.currentIndex >= this.maxIndex ? 'none' : 'auto';
+            this.updateButtons();
         }
     }
+
+
+    updateCarousel() {
+        if (this.items.length === 0) return;
+
+        const item = this.items[0];
+        const style = window.getComputedStyle(item);
+        const gap = parseInt(style.marginRight) || 0;
+        const itemWidth = item.offsetWidth + gap;
+
+        // Calcular máximo desplazamiento para que no se vea espacio vacío
+        const maxTranslate = Math.max(0, (this.totalItems - this.itemsPerView) * itemWidth);
+
+        let translateX = this.currentIndex * itemWidth;
+        translateX = Math.min(translateX, maxTranslate); // no pasar el límite
+        translateX = -translateX; // invertimos para el translateX
+
+        this.track.style.transform = `translateX(${translateX}px)`;
+        this.track.style.transition = 'transform 0.5s ease';
+    }
+
+
+
+    updateItems() {
+        // Contar SOLO los elementos que tengan la clase product-card
+        this.items = this.track.querySelectorAll('.product-card');
+        this.totalItems = this.items.length;
+        this.maxIndex = Math.max(0, this.totalItems - this.itemsPerView);
+        this.currentIndex = Math.min(this.currentIndex, this.maxIndex);
+        this.updateCarousel();
+        this.updateButtons();
+
+        console.log("[Carousel] updateItems - totalItems:", this.totalItems, "maxIndex:", this.maxIndex);
+    }
+
+
+    updateButtons() {
+        this.prevBtn.style.opacity = this.currentIndex === 0 ? '0.5' : '1';
+        this.prevBtn.style.pointerEvents = this.currentIndex === 0 ? 'none' : 'auto';
+
+        this.nextBtn.style.opacity = this.currentIndex >= this.maxIndex ? '0.5' : '1';
+        this.nextBtn.style.pointerEvents = this.currentIndex >= this.maxIndex ? 'none' : 'auto';
+    }
+}
+
 
     // Product card effects
     const productCards = document.querySelectorAll('.product-card');
@@ -171,7 +203,8 @@
 
     // Initialize carousel when DOM is loaded
     document.addEventListener('DOMContentLoaded', function () {
-        new ModernCarousel();
+        const carousel = new ModernCarousel();
+        carousel.updateItems();
 
         // Entrada animada de las cards
         productCards.forEach((card, index) => {

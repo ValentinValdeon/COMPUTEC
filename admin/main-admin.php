@@ -33,7 +33,7 @@
         'create_product' => 'create_product.php',
         'table_product' => 'table_product.php',
         'create_categorie' => 'create_categorie.php',
-        'create_discount' => 'create_discount.php'
+        'create_discount' => 'create_discount.php',
     ];
     
     // Verificar si la página existe
@@ -88,8 +88,8 @@
                 
                 <!-- Separador -->
                 <div class="h-px bg-white/20 my-6"></div>
-                
-                <a href="#" class="sidebar-item flex items-center space-x-4 p-4 rounded-xl text-white font-medium hover:bg-red-600/20" onclick="logout()">
+
+                <a href="login.php" class="sidebar-item flex items-center space-x-4 p-4 rounded-xl text-white font-medium hover:bg-red-600/20" onclick="logout()">
                     <span class="text-xl">🚪</span>
                     <span>Cerrar Sesión</span>
                 </a>

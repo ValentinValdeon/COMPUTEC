@@ -1,4 +1,4 @@
- let imagenesSubidas = [];
+        let imagenesSubidas = [];
         const MAX_IMAGENES = 3;
         // Array para almacenar categorías seleccionadas
         let categoriasSeleccionadas = [];
@@ -52,103 +52,92 @@
         }
 
         // Funcionalidad de subida de imágenes
-        const dropZone = document.getElementById('drop-zone');
-        const imagenInput = document.getElementById('imagen-input');
-        const imagenesPreview = document.getElementById('imagenes-preview');
+        const form = document.getElementById('form-producto');
+const dropZone = document.getElementById('drop-zone');
+const imagenInput = document.getElementById('imagen-input');
+const imagenesPreview = document.getElementById('imagenes-preview');
 
-        // Click en zona de drop para abrir selector
-        dropZone.addEventListener('click', () => {
-            imagenInput.click();
-        });
+dropZone.addEventListener('click', () => imagenInput.click());
 
-        // Drag and drop
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('drag-over');
-        });
+dropZone.addEventListener('dragover', e => {
+    e.preventDefault();
+    dropZone.classList.add('drag-over');
+});
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+    manejarArchivos(Array.from(e.dataTransfer.files));
+});
+imagenInput.addEventListener('change', e => manejarArchivos(Array.from(e.target.files)));
 
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('drag-over');
-        });
-
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('drag-over');
-            const archivos = Array.from(e.dataTransfer.files);
-            manejarArchivos(archivos);
-        });
-
-        // Selección de archivos
-        imagenInput.addEventListener('change', (e) => {
-            const archivos = Array.from(e.target.files);
-            manejarArchivos(archivos);
-        });
-
-        function manejarArchivos(archivos) {
-            const archivosImagen = archivos.filter(archivo => archivo.type.startsWith('image/'));
-
-            archivosImagen.forEach(archivo => {
-                if (imagenesSubidas.length < MAX_IMAGENES) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        imagenesSubidas.push({
-                            archivo: archivo,
-                            url: e.target.result,
-                            id: Date.now() + Math.random()
-                        });
-                        actualizarVistaPrevia();
-                    };
-                    reader.readAsDataURL(archivo);
-                }
-            });
+function manejarArchivos(archivos) {
+    archivos.filter(f => f.type.startsWith('image/')).forEach(archivo => {
+        if (imagenesSubidas.length < MAX_IMAGENES) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                imagenesSubidas.push({ archivo, url: e.target.result, id: Date.now() + Math.random() });
+                actualizarVistaPrevia();
+            };
+            reader.readAsDataURL(archivo);
         }
+    });
+}
 
-        function actualizarVistaPrevia() {
-            imagenesPreview.innerHTML = '';
+function actualizarVistaPrevia() {
+    imagenesPreview.innerHTML = '';
+    imagenesSubidas.forEach(imagen => {
+        const cont = document.createElement('div');
+        cont.className = 'image-preview relative bg-gray-100 aspect-square';
+        cont.innerHTML = `
+            <img src="${imagen.url}" alt="Preview">
+            <button type="button" class="remove-image absolute top-1 right-1" onclick="removerImagen(${imagen.id})">×</button>
+        `;
+        imagenesPreview.appendChild(cont);
+    });
+}
 
-            imagenesSubidas.forEach((imagen, index) => {
-                const contenedor = document.createElement('div');
-                contenedor.className = 'image-preview relative bg-gray-100 aspect-square';
-                contenedor.innerHTML = `
-                    <img src="${imagen.url}" alt="Preview ${index + 1}">
-                    <button type="button" class="remove-image" onclick="removerImagen(${imagen.id})">×</button>
-                `;
-                imagenesPreview.appendChild(contenedor);
-            });
-        }
+function removerImagen(id) {
+    imagenesSubidas = imagenesSubidas.filter(img => img.id !== id);
+    actualizarVistaPrevia();
+}
 
-        function removerImagen(id) {
-            imagenesSubidas = imagenesSubidas.filter(img => img.id !== id);
-            actualizarVistaPrevia();
-        }
 
-        // Manejar envío del formulario
-        document.querySelector('form').addEventListener('submit', function (e) {
-            e.preventDefault(); // detener envío por un momento
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
 
-            // Aquí procesás categorías, imágenes, etc.
-            console.log('Categorías seleccionadas:', categoriasSeleccionadas);
-            console.log('Imágenes subidas:', imagenesSubidas.length);
+        // Agregar las imágenes del array JS
+        imagenesSubidas.forEach(img => formData.append('imagenes[]', img.archivo));
 
-            // Opcional: mostrar alert
-            alert(`Formulario enviado!\nCategorías: ${categoriasSeleccionadas.length}\nImágenes: ${imagenesSubidas.length}`);
+        // Agregar categorías
+        categoriasSeleccionadas.forEach(cat => formData.append('categorias_seleccionadas[]', cat));
 
-            // Finalmente enviamos el formulario al servidor
-            this.submit(); // ahora sí va al PHP
-        });
-
+        fetch(this.action, { method: 'POST', body: formData })
+            .then(res => res.text())
+            .then(data => {
+                alert('Producto creado correctamente');
+                form.reset();
+                imagenesSubidas = [];
+                categoriasSeleccionadas = [];
+                actualizarVistaPrevia();
+                actualizarCategoriasVisuales();
+            })
+            .catch(err => console.error(err));
+    });
 
         // Calculadora de precios en tiempo real
         function updatePriceCalculations() {
+            
             const precioCompraInput = document.getElementById('precio-compra');
             const precioVentaInput = document.getElementById('precio-venta');
-            const descuentoSelect = document.getElementById('descuento');
+            const selectedOption = descuentoSelect.options[descuentoSelect.selectedIndex];
 
             if (!precioCompraInput || !precioVentaInput || !descuentoSelect) return;
 
             const precioCompra = parseFloat(precioCompraInput.value) || 0;
             const precioVenta = parseFloat(precioVentaInput.value) || 0;
-            const descuentoPorcentaje = parseFloat(descuentoSelect.value) || 0;
+            const descuentoPorcentaje = parseFloat(selectedOption.dataset.cantidad) || 0;
 
             // Calcular precio final con descuento
             const descuentoMonto = (precioVenta * descuentoPorcentaje) / 100;

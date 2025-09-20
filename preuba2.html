@@ -3,163 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Diseño 1</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'military-green': '#5a6b3b',
-                        'olive': '#6b7c32',
-                        'warm-yellow': '#f4d03f',
-                        'bright-yellow': '#f1c40f'
-                    }
-                }
-            }
-        }
-    </script>
+    <title>Tecnología Inteligente</title>
+    <link rel="stylesheet" href="css/main.css">
     <style>
-        :root {
-            --color-verde-claro: #27ae60;
-            --color-bg-oscuro: #1a4a47;
-            --color-amarillo: #f4d03f;
-            --color-gris-oscuro: #2d5a5a;
+        /* Estilos adicionales para mejor presentación */
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: white;
         }
-
-        .gradient-mesh-bg {
-            background: 
-                radial-gradient(circle at 80% 20%, var(--color-verde-claro) 0%, transparent 30%),
-                radial-gradient(circle at 20% 80%, var(--color-amarillo) 0%, transparent 25%),
-                radial-gradient(circle at 70% 70%, var(--color-gris-oscuro) 0%, transparent 35%),
-                linear-gradient(135deg, var(--color-bg-oscuro) 0%, var(--color-gris-oscuro) 100%);
+        .error-message {
+            text-align: center;
+            padding: 20px;
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            margin: 20px 0;
         }
-
-        .sidebar-item {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .sidebar-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.6s;
-        }
-
-        .sidebar-item:hover::before {
-            left: 100%;
-        }
-
-        .sidebar-item:hover {
-            transform: translateX(8px);
-            background: linear-gradient(135deg, var(--color-verde-claro), var(--color-amarillo));
-        }
-
-        .sidebar-item.active {
-            background: linear-gradient(135deg, var(--color-amarillo), var(--color-verde-claro));
-            transform: translateX(8px);
-            box-shadow: 0 8px 32px rgba(244, 208, 63, 0.3);
+        .product-card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
         }
     </style>
 </head>
-<body class="gradient-mesh-bg min-h-screen">
-    <div class="flex h-screen">
-        <!-- Sidebar -->
-        <div class="w-80 bg-gradient-to-b from-military-green via-olive to-military-green shadow-2xl relative">
-            <!-- Logo/Header -->
-            <div class="p-6 border-b border-white/20">
-                <div class="flex items-center space-x-3">
-                    <div class="w-12 h-12 bg-bright-yellow rounded-xl flex items-center justify-center shadow-lg">
-                        <span class="text-2xl font-bold text-military-green">📦</span>
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-bold text-white">ProductManager</h1>
-                        <p class="text-green-200 text-sm">Panel de Control</p>
-                    </div>
-                </div>
+<body>
+
+<link rel="stylesheet" href="css/main.css">
+
+<div class="overflow-x-hidden w-full mb-20">
+    <section class="relative h-screen flex items-center">
+        <!-- Contenedor de imágenes de fondo -->
+        <div class="absolute inset-0">
+            <div id="image1" class="image-container absolute inset-0 fade-in"
+                style="background-image: url('../assets/img/20250804_1318_Instalación\ de\ Cámaras_simple_compose_01k1txz3yye2er126npqcc434f.png');">
             </div>
+            <div id="image2" class="image-container absolute inset-0 fade-out"
+                style="background-image: url('../assets/img/samsung-memory-IO6lB6zHo7M-unsplash.jpg');"></div>
+            <div id="image3" class="image-container absolute inset-0 fade-out"
+                style="background-image: url('../assets/img/listening-to-music.jpg');"></div>
+            <div id="image4" class="image-container absolute inset-0 fade-out"
+                style="background-image: url('../assets/img/raychan-LdiTW9nzMcg-unsplash.jpg');"></div>
+        </div>
 
-            <!-- Navigation -->
-            <nav class="p-6 space-y-3">
-                <a href="#" class="sidebar-item active flex items-center space-x-4 p-4 rounded-xl text-white font-medium">
-                    <span class="text-xl">➕</span>
-                    <span>Nuevo Producto</span>
-                </a>
-                
-                <a href="#" class="sidebar-item flex items-center space-x-4 p-4 rounded-xl text-white font-medium">
-                    <span class="text-xl">🏷️</span>
-                    <span>Nueva Categoría</span>
-                </a>
-                
-                <a href="#" class="sidebar-item flex items-center space-x-4 p-4 rounded-xl text-white font-medium">
-                    <span class="text-xl">📊</span>
-                    <span>Tabla Productos</span>
-                </a>
-                
-                <a href="#" class="sidebar-item flex items-center space-x-4 p-4 rounded-xl text-white font-medium">
-                    <span class="text-xl">🎯</span>
-                    <span>Nuevo Descuento</span>
-                </a>
-                
-                <!-- Separador -->
-                <div class="h-px bg-white/20 my-6"></div>
-                
-                <a href="#" class="sidebar-item flex items-center space-x-4 p-4 rounded-xl text-white font-medium hover:bg-red-600/20">
-                    <span class="text-xl">🚪</span>
-                    <span>Cerrar Sesión</span>
-                </a>
-            </nav>
+        <!-- Overlay principal -->
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-800/70 to-transparent"></div>
 
-            <!-- User Info -->
-            <div class="absolute bottom-6 left-6 right-6">
-                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-bright-yellow rounded-full flex items-center justify-center">
-                            <span class="text-military-green font-bold">👤</span>
-                        </div>
-                        <div>
-                            <p class="text-white font-medium text-sm">Admin Usuario</p>
-                            <p class="text-green-200 text-xs">En línea</p>
-                        </div>
-                    </div>
+        <!-- Contenido principal -->
+        <div class="relative z-10 container mx-auto px-6 lg:px-8">
+            <div class="max-w-2xl">
+                <!-- Texto principal -->
+                <div class="animate-slide-in-left">
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight text-glow">
+                        Tecnología que
+                        <span class="bg-gradient-to-r from-yellow-400 to-green-500 bg-clip-text text-transparent">
+                            conecta y protege
+                        </span>
+                        tu hogar
+                    </h1>
+
+                    <p class="text-xl md:text-2xl text-gray-300 mb-8 font-light">
+                        Innovación inteligente para un futuro más seguro
+                    </p>
+
+                    <!-- Botón CTA -->
+                    <a href="?page=main#destacado ">
+                        <button
+                            class="flex items-center bg-gradient-to-r from-yellow-500 to-green-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-yellow-600 hover:to-green-700 transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-yellow-500/25 ">
+                            Descubre más
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-move-down-icon lucide-move-down">
+                                <path d="M8 18L12 22L16 18" />
+                                <path d="M12 2V22" />
+                            </svg>
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
 
-        <!-- Main Content Area (Empty) -->
-        <div class="flex-1 bg-gray-100">
-            <!-- Área vacía para contenido futuro -->
+        <!-- Indicadores de imagen -->
+        <div class="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+            <div class="w-3 h-3 rounded-full bg-white/50 indicator active"></div>
+            <div class="w-3 h-3 rounded-full bg-white/30 indicator"></div>
+            <div class="w-3 h-3 rounded-full bg-white/30 indicator"></div>
+            <div class="w-3 h-3 rounded-full bg-white/30 indicator"></div>
         </div>
-    </div>
+    </section>
+</div>
 
-    <script>
-        // Navegación interactiva
-        document.querySelectorAll('.sidebar-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Remover active de todos los items
-                document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-                
-                // Agregar active al item clickeado (excepto cerrar sesión)
-                if (!this.textContent.includes('Cerrar Sesión')) {
-                    this.classList.add('active');
-                }
-                
-                // Efecto especial para cerrar sesión
-                if (this.textContent.includes('Cerrar Sesión')) {
-                    if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
-                        alert('Cerrando sesión...');
-                    }
-                }
-            });
-        });
-    </script>
+<div class="space-y-[100px]">
+    <div id="destacado" style="position: relative; top: -100px;"></div>
+    <section
+        class="w-full h-auto mb-10 opacity-0 translate-y-32 transition-all duration-1000 ease-in-out will-change-transform delay-200"
+        data-animate>
+        <!-- Banner Servicios Técnicos -->
+        <div class="glass-banner rounded-2xl p-6 min-h-[140px]">
+            <div class="flex flex-col md:flex-row items-center md:items-start justify-between h-full gap-6 md:gap-0">
+
+                <div class="flex-1 text-center md:text-left">
+                    <h2 class="banner-title text-2xl sm:text-3xl md:text-4xl mb-2">Servicios Técnicos</h2>
+                    <p class="banner-subtitle text-xs text-white sm:text-sm md:text-base max-w-md mx-auto md:mx-0">
+                        Soluciones profesionales para tu hogar y oficina. Instalación, reparación y mantenimiento
+                        especializado.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 ml-0 md:ml-6 w-full max-w-md">
+                    <!-- Cámaras de Seguridad -->
+                    <div class="flex flex-col items-center space-y-2 group cursor-pointer">
+                        <div class="service-icon w-12 h-12 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="service-text text-xs text-white text-center">Cámaras de Seguridad</span>
+                    </div>
+
+                    <!-- Reparación PC -->
+                    <div class="flex flex-col items-center space-y-2 group cursor-pointer">
+                        <div class="service-icon w-12 h-12 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="service-text text-xs text-white text-center">Reparación de PC</span>
+                    </div>
+
+                    <!-- Antenas WiFi -->
+                    <div class="flex flex-col items-center space-y-2 group cursor-pointer">
+                        <div class="service-icon w-12 h-12 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="service-text text-xs text-white text-center">Antenas WiFi</span>
+                    </div>
+
+                    <!-- Soporte Técnico -->
+                    <div class="flex flex-col items-center space-y-2 group cursor-pointer">
+                        <div class="service-icon w-12 h-12 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <span class="service-text text-xs text-white text-center">Soporte Técnico</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carousel Container - PRODUCTOS DESTACADOS -->
+    <section
+        class="carousel-container rounded-3xl p-8 relative mb-10 opacity-0 translate-y-32 transition-all duration-1000 ease-in-out will-change-transform delay-200"
+        data-animate>
+        <!-- Navigation Arrows -->
+        <button
+            class="carousel-arrow absolute left-0 sm:left-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-12 sm:h-12 rounded-full hidden sm:flex sm:items-center sm:justify-center z-20"
+            id="prevBtn">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+        </button>
+
+        <button
+            class="carousel-arrow absolute right-0 sm:right-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-12 sm:h-12 rounded-full hidden sm:flex sm:items-center sm:justify-center z-20"
+            id="nextBtn">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+        </button>
+
+        <!-- Carousel Track -->
+        <div class="w-full flex justify-center items-center">
+            <h2 class="banner-title text-2xl sm:text-3xl md:text-4xl mb-4">PRODUCTOS DESTACADOS</h2>
+        </div>
+        
+        <!-- Loading/Error States -->
+        <div id="destacados-loading" class="loading">
+            <p>Cargando productos destacados...</p>
+        </div>
+        
+        <div id="destacados-error" class="error-message" style="display: none;">
+            <p>Error al cargar los productos. Por favor, intenta nuevamente.</p>
+        </div>
+        
+        <div class="overflow-y-hidden sm:overflow-hidden mx-1 sm:mx-8">
+            <div class="carousel-track carousel-grid m-2" id="carouselTrack">
+                <!-- Los productos destacados se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+    </section>
+
+    <section
+        class="w-full h-[20vh] mb-10 opacity-0 translate-y-32 transition-all duration-1000 ease-in-out will-change-transform delay-200"
+        data-animate>
+        <!-- Banner Newsletter -->
+        <div class="glass-banner rounded-2xl p-6 flex items-center justify-between">
+            <div class="flex-1">
+                <h2 class="banner-title text-3xl md:text-4xl mb-2">Suscríbete!</h2>
+                <p class="banner-subtitle text-sm md:text-base max-w-md">
+                    Mantente al día con nuestros productos y ofertas exclusivas. Recibe las últimas novedades
+                    directamente en tu email.
+                </p>
+            </div>
+
+            <div class="flex items-center space-x-3 ml-6">
+                <input type="email" placeholder="tu@email.com" class="glass-input px-4 py-3 rounded-lg w-64 text-sm">
+                <button class="glass-button px-6 py-3 rounded-lg text-sm whitespace-nowrap">
+                    Suscribirse
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE DESCUENTOS -->
+    <section id="descuento"
+        class="px-8 py-12 max-w-screen-xl mx-auto text-gray-100 bg-transparent mb-10 opacity-0 translate-y-32 transition-all duration-1000 ease-in-out will-change-transform delay-200"
+        data-animate>
+        <!-- Productos en Descuento -->
+        <div id="showcase-container-descuento" class="showcase-container-descuento rounded-3xl p-8 w-full max-w-6xl">
+
+            <div class="w-full flex justify-center items-center">
+                <h2 class="banner-title text-2xl sm:text-3xl md:text-4xl mb-4">DESCUENTOS</h2>
+            </div>
+
+            <!-- Loading/Error States -->
+            <div id="descuentos-loading" class="loading">
+                <p>Cargando productos con descuentos...</p>
+            </div>
+            
+            <div id="descuentos-error" class="error-message" style="display: none;">
+                <p>Error al cargar los productos con descuentos. Por favor, intenta nuevamente.</p>
+            </div>
+
+            <!-- Grid principal -->
+            <div id="showcase-grid-descuento"
+                class="showcase-grid-descuento grid grid-cols-1 md:grid-cols-2 gap-8 mb-8" style="display: none;">
+
+                <!-- Card grande (lado izquierdo) -->
+                <div class="space-y-4">
+                    <div id="product-card-large-descuento-1"
+                        class="product-card-large-descuento rounded-2xl p-6 cursor-pointer">
+                        <!-- Contenido se cargará dinámicamente -->
+                    </div>
+
+                    <div id="product-card-large-descuento-2"
+                        class="product-card-large-descuento rounded-2xl p-6 cursor-pointer">
+                        <!-- Contenido se cargará dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Cards pequeñas (lado derecho) -->
+                <div id="product-grid-descuento" class="product-grid-descuento">
+                    <!-- 6 cards pequeñas se cargarán dinámicamente -->
+                    <div id="product-card-descuento-1" class="product-card-descuento rounded-xl p-4 cursor-pointer"></div>
+                    <div id="product-card-descuento-2" class="product-card-descuento rounded-xl p-4 cursor-pointer"></div>
+                    <div id="product-card-descuento-3" class="product-card-descuento rounded-xl p-4 cursor-pointer"></div>
+                    <div id="product-card-descuento-4" class="product-card-descuento rounded-xl p-4 cursor-pointer"></div>
+                    <div id="product-card-descuento-5" class="product-card-descuento rounded-xl p-4 cursor-pointer"></div>
+                    <div id="product-card-descuento-6" class="product-card-descuento rounded-xl p-4 cursor-pointer"></div>
+                </div>
+            </div>
+
+            <!-- Botón separado en la parte inferior -->
+            <div class="flex justify-center" style="display: none;" id="descuentos-button">
+                <button id="btn-ir-shop-descuento"
+                    class="glass-button-descuento px-8 py-3 rounded-full text-white font-semibold text-lg hover:text-blue-100 transition-colors">
+                    IR AL SHOP
+                </button>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="js/main.js"></script>
 </body>
 </html>

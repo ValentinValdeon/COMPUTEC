@@ -10,6 +10,17 @@ if (isset($_GET['id'])) {
         
         if ($result->num_rows > 0) {
             $images = $result->fetch_assoc();
+            
+            // Ruta absoluta con dominio
+            $baseURL = "http://localhost/COMPUTEC/uploads/products/"; // Cambiar si tu dominio es otro
+            foreach ($images as $key => $value) {
+                if ($value && trim($value) !== '') {
+                    $images[$key] = $baseURL . $value;
+                } else {
+                    $images[$key] = ''; // si no hay imagen
+                }
+            }
+
             echo json_encode(['success' => true, 'images' => $images]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Producto no encontrado']);

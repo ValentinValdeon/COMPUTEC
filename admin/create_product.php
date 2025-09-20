@@ -22,7 +22,7 @@
             }
         }
     </script>
-<link rel="stylesheet" href="css/create_product.css">
+    <link rel="stylesheet" href="css/create_product.css">
 </head>
 
 <body class="gradient-mesh-bg">
@@ -36,8 +36,8 @@
                         <div class="w-24 h-1 bg-bright-yellow mx-auto mt-3 rounded-full"></div>
                     </div>
 
-                    <form action="action-create_product.php" method="POST"
-                        class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <form action="action-create_product.php" method="POST" id="form-producto"
+                        class="grid grid-cols-1 lg:grid-cols-3 gap-8" enctype="multipart/form-data">
                         <!-- Columna izquierda: Información básica -->
                         <div class="space-y-6">
                             <h3 class="text-lg font-semibold text-gray-700 border-b-2 border-bright-yellow pb-2 mb-4">📝
@@ -167,7 +167,8 @@
                                     $sql = "SELECT id_descuento, cantidad FROM descuento";
                                     $result = $conn->query($sql);
                                     while ($row = $result->fetch_assoc()) {
-                                        echo "<option value='" . $row['id_descuento'] . "'>" . $row['cantidad'] . "%</option>";
+                                        echo "<option value='" . $row['id_descuento'] . "' data-cantidad='" . $row['cantidad'] . "'>" . $row['cantidad'] . "%</option>";
+
                                     }
                                     ?>
                                 </select>
@@ -182,7 +183,7 @@
                                 <div id="drop-zone"
                                     class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center cursor-pointer hover:border-military-green hover:bg-gray-50 transition-all duration-300">
                                     <input type="file" id="imagen-input" accept="image/*" multiple class="hidden"
-                                        name="imagenes">
+                                        name="imagenes[]">
                                     <div class="space-y-2">
                                         <div class="text-4xl">📷</div>
                                         <p class="text-gray-600 font-medium">Arrastra imágenes aquí o haz clic para

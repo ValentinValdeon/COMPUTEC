@@ -1,3 +1,16 @@
+<?php
+require_once __DIR__ . '/../config/db_conect.php';
+$ruta_imagenes = "/uploads/productos/";
+
+// Consulta: productos destacados y activos
+$sql_destacado = "SELECT id_producto, nombre, precio_venta, imagen_1 
+        FROM productos 
+        WHERE destacado = 1 AND estado = 1";
+
+$resultado = $conn->query($sql_destacado);
+
+
+?>
 <link rel="stylesheet" href="css/main.css">
 
 <div class="overflow-x-hidden w-full mb-20">
@@ -72,7 +85,7 @@
         data-animate>
         <!-- Banner Servicios Técnicos -->
         <div class="glass-banner rounded-2xl p-6 min-h-[140px]">
-            <div class="flex flex-col md:flex-row items-center md:items-start justify-between h-full gap-6 md:gap-0" >
+            <div class="flex flex-col md:flex-row items-center md:items-start justify-between h-full gap-6 md:gap-0">
 
                 <div class="flex-1 text-center md:text-left">
                     <h2 class="banner-title text-2xl sm:text-3xl md:text-4xl mb-2">Servicios Técnicos</h2>
@@ -165,331 +178,38 @@
         </div>
         <div class="overflow-y-hidden sm:overflow-hidden mx-1 sm:mx-8">
             <div class="carousel-track carousel-grid m-2" id="carouselTrack">
-                <!-- Product 2 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                        <div class="product-image mb-6 ">
-                            <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop&crop=center"
-                                alt="Smart Watch" class="w-full h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-3">
-                            <h3 class="product-title text-xl leading-tight">
-                                Smart Watch Pro
-                            </h3>
-                            <div class="flex items-center justify-between pt-2">
-                                <span class="product-price">$449.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">En stock</span>
+                <div class="carousel-track carousel-grid m-2" id="carouselTrack">
+                    <?php if ($resultado && $resultado->num_rows > 0): ?>
+                        <?php while ($p = $resultado->fetch_assoc()): ?>
+                            <div class="text-center bg-transparent w-[300px]">
+                                <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
+                                    <div class="product-image mb-6">
+                                        <img src="../uploads/products/<?= $p['imagen_1'] ?>"
+                                            alt="<?= htmlspecialchars($p['nombre']) ?>"
+                                            class="w-full h-48 object-contain rounded-xl bg-white">
+                                    </div>
+                                    <h3 class="product-title text-xl leading-tight h-20">
+                                        <?= htmlspecialchars($p['nombre']) ?>
+                                    </h3>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between ">
+                                            <span class="product-price">$<?= number_format($p['precio_venta'], 2) ?></span>
+                                            <div class="flex items-center space-x-1 text-slate-500">
+                                                <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                                <span class="text-xs text-white">En stock</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <p class="text-white">No hay productos disponibles con descuento.</p>
+                    <?php endif; ?>
                 </div>
-
-                <!-- Product 3 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                        <div class="product-image mb-6">
-                            <img src="https://images.unsplash.com/photo-1588423771073-b8903fbb85b5?w=400&h=300&fit=crop&crop=center"
-                                alt="Wireless Speaker" class="w-full h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-3">
-                            <h3 class="product-title text-xl leading-tight">
-                                Wireless Speaker Ultra
-                            </h3>
-                            <div class="flex items-center justify-between pt-2">
-                                <span class="product-price">$199.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">Pocas unidades</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 4 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                        <div class="product-image mb-6">
-                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=300&fit=crop&crop=center"
-                                alt="Gaming Mouse" class="w-full h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-3">
-                            <h3 class="product-title text-xl leading-tight">
-                                Gaming Mouse Elite
-                            </h3>
-                            <div class="flex items-center justify-between pt-2">
-                                <span class="product-price">$89.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">En stock</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 5 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                        <div class="product-image mb-6">
-                            <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400&h=300&fit=crop&crop=center"
-                                alt="Laptop Pro" class="w-full h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-3">
-                            <h3 class="product-title text-xl leading-tight">
-                                Laptop Pro 15"
-                            </h3>
-                            <div class="flex items-center justify-between pt-2">
-                                <span class="product-price">$1,299.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">En stock</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 6 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                        <div class="product-image mb-6">
-                            <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=300&fit=crop&crop=center"
-                                alt="Smartphone" class="w-full h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-3">
-                            <h3 class="product-title text-xl leading-tight">
-                                Smartphone X1
-                            </h3>
-                            <div class="flex items-center justify-between pt-2">
-                                <span class="product-price">$899.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">En stock</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 7 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                        <div class="product-image mb-6">
-                            <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop&crop=center"
-                                alt="VR Headset" class="w-full h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-3">
-                            <h3 class="product-title text-xl leading-tight">
-                                VR Headset Reality
-                            </h3>
-                            <div class="flex items-center justify-between pt-2">
-                                <span class="product-price">$699.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">Nuevo</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 8 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                        <div class="product-image mb-6">
-                            <img src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&h=300&fit=crop&crop=center"
-                                alt="Mechanical Keyboard" class="w-full h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-3">
-                            <h3 class="product-title text-xl leading-tight">
-                                Mechanical Keyboard RGB
-                            </h3>
-                            <div class="flex items-center justify-between pt-2">
-                                <span class="product-price">$149.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">En stock</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 9 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                        <div class="product-image mb-6">
-                            <img src="https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=400&h=300&fit=crop&crop=center"
-                                alt="Webcam 4K" class="w-full h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-3">
-                            <h3 class="product-title text-xl leading-tight">
-                                Webcam 4K Pro
-                            </h3>
-                            <div class="flex items-center justify-between pt-2">
-                                <span class="product-price">$179.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">Pocas unidades</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 10 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                        <div class="product-image mb-6">
-                            <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=300&fit=crop&crop=center"
-                                alt="Tablet Pro" class="w-full h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-3">
-                            <h3 class="product-title text-xl leading-tight">
-                                Tablet Pro 12.9"
-                            </h3>
-                            <div class="flex items-center justify-between pt-2">
-                                <span class="product-price">$1,099.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">En stock</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 11 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                        <div class="product-image mb-6">
-                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop&crop=center"
-                                alt="Sneakers" class="w-full h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-3">
-                            <h3 class="product-title text-xl leading-tight">
-                                Premium Sneakers
-                            </h3>
-                            <div class="flex items-center justify-between pt-2">
-                                <span class="product-price">$159.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">En stock</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 12 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                        <div class="product-image mb-6">
-                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop&crop=center"
-                                alt="Sunglasses" class="w-full h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-3">
-                            <h3 class="product-title text-xl leading-tight">
-                                Designer Sunglasses
-                            </h3>
-                            <div class="flex items-center justify-between pt-2">
-                                <span class="product-price">$249.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">Limitado</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 13 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                        <div class="product-image mb-6">
-                            <img src="https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=400&h=300&fit=crop&crop=center"
-                                alt="Coffee Maker" class="w-full h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-3">
-                            <h3 class="product-title text-xl leading-tight">
-                                Smart Coffee Maker
-                            </h3>
-                            <div class="flex items-center justify-between pt-2">
-                                <span class="product-price">$329.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">En stock</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 14 -->
-                <div class="text-center bg-transparent">
-                    <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
-                        <div class="product-image mb-6">
-                            <img src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=300&fit=crop&crop=center"
-                                alt="Drone" class="w-full h-48 object-cover rounded-xl">
-                        </div>
-                        <div class="space-y-3">
-                            <h3 class="product-title text-xl leading-tight">
-                                Professional Drone
-                            </h3>
-                            <div class="flex items-center justify-between pt-2">
-                                <span class="product-price">$799.99</span>
-                                <div class="flex items-center space-x-1 text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-xs text-white">Nuevo</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
@@ -541,10 +261,15 @@
                             <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=300&fit=crop&crop=center"
                                 alt="Tablet Pro" class="w-full h-full object-cover rounded-xl">
                         </div>
-
+                        <div class="discount-badge-floating">
+                            -50%
+                        </div>
                         <div class="space-y-3">
-                            <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
-                            <div class="product-price-descuento text-3xl">$300</div>
+                            <h3 class="product-title-descuento text-3xl">PRODUCT NAME</h3>
+                            <div class="price-container-vertical">
+                                <div class="product-price-original text-lg">$600</div>
+                                <div class="product-price-descuento text-3xl">$300</div>
+                            </div>
                         </div>
                     </div>
 
@@ -556,9 +281,15 @@
                                 alt="Coffee Maker" class="w-full h-full object-cover rounded-xl">
                         </div>
 
+                        <div class="discount-badge-floating">
+                            -50%
+                        </div>
                         <div class="space-y-3">
-                            <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
-                            <div class="product-price-descuento text-3xl">$300</div>
+                            <h3 class="product-title-descuento text-3xl">PRODUCT NAME</h3>
+                            <div class="price-container-vertical">
+                                <div class="product-price-original text-lg">$600</div>
+                                <div class="product-price-descuento text-3xl">$300</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -572,10 +303,18 @@
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
                             <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop&crop=center"
-                                alt="Sunglasses" class="w-full h-full object-cover rounded-xl">
+                                alt="Sunglasses" class="w-full h-full object-contain rounded-xl">
                         </div>
-                        <h4 class="product-title-descuento text-sm mb-2">PRODUCT NAME</h4>
-                        <div class="product-price-descuento text-lg">$300</div>
+                        <div class="discount-badge-floating product-sm">
+                            -50%
+                        </div>
+                        <div class="space-y-3">
+                            <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
+                            <div class="price-container-vertical">
+                                <div class="product-price-original text-lg">$600</div>
+                                <div class="product-price-descuento text-2xl">$300</div>
+                            </div>
+                        </div>
                     </div>
 
 
@@ -585,10 +324,18 @@
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
                             <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop&crop=center"
-                                alt="Sneakers" class="w-full h-full object-cover rounded-xl">
+                                alt="Sneakers" class="w-full h-full object-contain rounded-xl">
                         </div>
-                        <h4 class="product-title-descuento text-sm mb-2">PRODUCT NAME</h4>
-                        <div class="product-price-descuento text-lg">$300</div>
+                        <div class="discount-badge-floating product-sm">
+                            -50%
+                        </div>
+                        <div class="space-y-3">
+                            <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
+                            <div class="price-container-vertical">
+                                <div class="product-price-original text-lg">$600</div>
+                                <div class="product-price-descuento text-2xl">$300</div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Card 3 -->
@@ -596,10 +343,18 @@
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
                             <img src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&h=300&fit=crop&crop=center"
-                                alt="Mechanical Keyboard" class="w-full h-full object-cover rounded-xl">
+                                alt="Mechanical Keyboard" class="w-full h-full object-contain rounded-xl">
                         </div>
-                        <h4 class="product-title-descuento text-sm mb-2">PRODUCT NAME</h4>
-                        <div class="product-price-descuento text-lg">$300</div>
+                        <div class="discount-badge-floating product-sm">
+                            -50%
+                        </div>
+                        <div class="space-y-3">
+                            <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
+                            <div class="price-container-vertical">
+                                <div class="product-price-original text-lg">$600</div>
+                                <div class="product-price-descuento text-2xl">$300</div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Card 4 -->
@@ -607,10 +362,18 @@
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
                             <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=300&fit=crop&crop=center"
-                                alt="Gaming Mouse" class="w-full h-full object-cover rounded-xl">
+                                alt="Gaming Mouse" class="w-full h-full object-contain rounded-xl">
                         </div>
-                        <h4 class="product-title-descuento text-sm mb-2">PRODUCT NAME</h4>
-                        <div class="product-price-descuento text-lg">$300</div>
+                        <div class="discount-badge-floating product-sm">
+                            -50%
+                        </div>
+                        <div class="space-y-3">
+                            <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
+                            <div class="price-container-vertical">
+                                <div class="product-price-original text-lg">$600</div>
+                                <div class="product-price-descuento text-2xl">$300</div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Card 5 -->
@@ -618,10 +381,18 @@
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
                             <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop&crop=center"
-                                alt="VR Headset" class="w-full h-full object-cover rounded-xl">
+                                alt="VR Headset" class="w-full h-full object-contain rounded-xl">
                         </div>
-                        <h4 class="product-title-descuento text-sm mb-2">PRODUCT NAME</h4>
-                        <div class="product-price-descuento text-lg">$300</div>
+                        <div class="discount-badge-floating product-sm">
+                            -50%
+                        </div>
+                        <div class="space-y-3">
+                            <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
+                            <div class="price-container-vertical">
+                                <div class="product-price-original text-lg">$600</div>
+                                <div class="product-price-descuento text-2xl">$300</div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Card 6 -->
@@ -629,10 +400,18 @@
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
                             <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop&crop=center"
-                                alt="Smart Watch" class="w-full h-full object-cover rounded-xl">
+                                alt="Smart Watch" class="w-full h-full object-contain rounded-xl">
                         </div>
-                        <h4 class="product-title-descuento text-sm mb-2">PRODUCT NAME</h4>
-                        <div class="product-price-descuento text-lg">$300</div>
+                        <div class="discount-badge-floating product-sm">
+                            -50%
+                        </div>
+                        <div class="space-y-3">
+                            <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
+                            <div class="price-container-vertical">
+                                <div class="product-price-original text-lg">$600</div>
+                                <div class="product-price-descuento text-2xl">$300</div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>

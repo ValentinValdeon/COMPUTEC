@@ -117,33 +117,34 @@
 
                     <!-- Tabla -->
                     <div class="bg-military-green/5 rounded-2xl p-4">
-                        <div class="table-scroll overflow-x-auto">
-                            <table class="w-full min-w-max">
+                        <div class="table-scroll overflow-x-auto max-h-[500px] overflow-y-auto">
+                            <table class="w-full min-w-max border-collapse ">
                                 <thead>
                                     <tr class="border-b-2 border-military-green/20">
-                                        <th class="text-left p-4 font-bold text-military-green min-w-[60px]">Estado</th>
-                                        <th class="text-left p-4 font-bold text-military-green min-w-[200px]">Producto
+                                        <th class="z-10 bg-military-green/100 sticky top-0 text-left p-4 font-bold text-white min-w-[60px]">Estado</th>
+                                        <th class="z-10 bg-military-green/100 sticky top-0 text-left p-4 font-bold text-white min-w-[200px]">Producto
                                         </th>
-                                        <th class="text-left p-4 font-bold text-military-green min-w-[120px]">Código
+                                        <th class="z-10 bg-military-green/100 sticky top-0 text-left p-4 font-bold text-white min-w-[120px]">Código
                                         </th>
-                                        <th class="text-left p-4 font-bold text-military-green min-w-[150px]">Categorías
+                                        <th class="z-10 bg-military-green/100 sticky top-0 text-left p-4 font-bold text-white min-w-[150px]">Categorías
                                         </th>
-                                        <th class="text-left p-4 font-bold text-military-green min-w-[120px]">P. Compra
+                                        <th class="z-10 bg-military-green/100 sticky top-0 text-left p-4 font-bold text-white min-w-[120px]">P. Compra
                                         </th>
-                                        <th class="text-left p-4 font-bold text-military-green min-w-[120px]">P. Venta
+                                        <th class="z-10 bg-military-green/100 sticky top-0 text-left p-4 font-bold text-white min-w-[120px]">P. Venta
                                         </th>
-                                        <th class="text-left p-4 font-bold text-military-green min-w-[100px]">Descuento
+                                        <th class="z-10 bg-military-green/100 sticky top-0 text-left p-4 font-bold text-white min-w-[100px]">Descuento
                                         </th>
-                                        <th class="text-left p-4 font-bold text-military-green min-w-[100px]">P. Final
+                                        <th class="z-10 bg-military-green/100 sticky top-0 text-left p-4 font-bold text-white min-w-[100px]">P. Final
                                         </th>
-                                        <th class="text-left p-4 font-bold text-military-green w-[150px]">Stock</th>
-                                        <th class="text-left p-4 font-bold text-military-green w-[150px]">S. Min</th>
-                                        <th class="text-left p-4 font-bold text-military-green min-w-[200px]">
+                                        <th class="z-10 bg-military-green/100 sticky top-0 text-left p-4 font-bold text-white w-[150px]">Stock</th>
+                                        <th class="z-10 bg-military-green/100 sticky top-0 text-left p-4 font-bold text-white w-[150px]">S. Min</th>
+                                        <th class="z-10 bg-military-green/100 sticky top-0 text-left p-4 font-bold text-white min-w-[200px]">
                                             Propiedades</th>
-                                        <th class="text-left p-4 font-bold text-military-green min-w-[100px]">Imágenes
-                                        <th class="text-left p-4 font-bold text-military-green min-w-[60px]">⭐ Destacado
+                                        <th class="z-10 bg-military-green/100 sticky top-0 text-left p-4 font-bold text-white min-w-[100px]">Imágenes
                                         </th>
-                                        <th class="text-left p-4 font-bold text-military-green min-w-[100px]">Acciones
+                                        <th class="z-10 bg-military-green/100 sticky top-0 text-left p-4 font-bold text-white min-w-[60px]">⭐ Destacado
+                                        </th>
+                                        <th class="z-10 bg-military-green/100 sticky top-0 text-left p-4 font-bold text-white min-w-[100px]">Acciones
                                         </th>
                                     </tr>
                                 </thead>
@@ -258,9 +259,20 @@
 
                                             // Descuento
                                             echo "<td class='p-4'>";
-                                            $descuento_class = $producto['descuento_cantidad'] > 0 ? 'text-red-600 font-semibold' : '';
-                                            echo "<span class='font-bold {$descuento_class}'>{$producto['descuento_cantidad']}%</span>";
+                                            echo "<select id='descuento' name='id_descuento' data-id='{$producto['id_producto']}'class='w-full px-4 py-2 bg-transparent border-2 border-gray-300 rounded-xl focus:bg-white focus:border-military-green transition-all duration-300 product-descuento'>";
+                                            $selected = empty($producto['id_descuento']) ? "selected" : "";
+                                            echo "<option value='' $selected>Sin descuento</option>";
+
+                                            $sql_discount = "SELECT id_descuento, cantidad FROM descuento";
+                                            $result_discount = $conn->query($sql_discount);
+                                            while ($row = $result_discount->fetch_assoc()) {
+                                                $selected = ($row['id_descuento'] == $producto['id_descuento']) ? "selected" : "";
+                                                echo "<option value='" . $row['id_descuento'] . "' data-cantidad='" . $row['cantidad'] . "' $selected>" . $row['cantidad'] . "%</option>";
+                                            }
+
+                                            echo "</select>";
                                             echo "</td>";
+
 
                                             // Precio Final
                                             echo "<td class='p-4'>";
@@ -296,14 +308,14 @@
                                                 echo "</div>";
                                             }
                                             echo "</div>";
-                                            echo "<button class='add-btn add-btn-lapiz' onclick='openPropertiesModal({$producto['id_producto']})' title='Gestionar propiedades'>✏</button>";
+                                            echo "<button class='add-btn add-btn-items' onclick='openPropertiesModal({$producto['id_producto']})' title='Gestionar propiedades'>✏</button>";
                                             echo "</div>";
                                             echo "</td>";
 
                                             // Imágenes
                                             echo "<td class='p-4'>";
                                             echo "<div class='flex flex-col items-center space-y-1'>";
-                                            echo "<button class='add-btn' onclick='openImagesModal({$producto['id_producto']})' title='Gestionar imágenes'>🖼️</button>";
+                                            echo "<button class='add-btn add-btn-items' onclick='openImagesModal({$producto['id_producto']})' title='Gestionar imágenes'>🖼️</button>";
                                             echo "</div>";
                                             echo "</td>";
 
@@ -461,28 +473,30 @@
 
     <!-- Modal para imágenes -->
     <div id="imagesModal" class="modal-overlay hidden">
-        <div class="modal-content" style="max-width: 600px;">
+        <div class="modal-content" style="max-width: 1500px;">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-xl font-bold text-gray-800">Gestionar Imágenes</h3>
-                <button onclick="closeImagesModal()"
-                    class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+                <button onclick="closeImagesModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
             </div>
             <div class="mb-4">
                 <p class="text-sm text-gray-600 mb-2">Producto: <span id="imagesProductName"
                         class="font-semibold"></span></p>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" id="imagesContainer">
                 <!-- Imagen 1 -->
                 <div class="bg-gray-50 rounded-lg p-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Imagen 1</label>
                     <div class="mb-2">
-                        <img id="preview1" src="" alt="Preview 1" class="w-full h-32 object-cover rounded border hidden">
-                        <div id="placeholder1" class="w-full h-32 bg-gray-200 rounded border flex items-center justify-center text-gray-400">
+                        <img id="preview1" src="" alt="Preview 1"
+                            class="w-full h-32 object-contain rounded border hidden">
+                        <div id="placeholder1"
+                            class="w-full h-32 bg-gray-200 rounded border flex items-center justify-center text-gray-400">
                             Sin imagen
                         </div>
                     </div>
-                    <input type="file" id="image1Input" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-military-green file:text-white hover:file:bg-olive">
+                    <input type="file" id="image1Input" accept="image/*"
+                        class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-military-green file:text-white hover:file:bg-olive">
                     <input type="hidden" id="current1" value="">
                 </div>
 
@@ -490,12 +504,15 @@
                 <div class="bg-gray-50 rounded-lg p-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Imagen 2</label>
                     <div class="mb-2">
-                        <img id="preview2" src="" alt="Preview 2" class="w-full h-32 object-cover rounded border hidden">
-                        <div id="placeholder2" class="w-full h-32 bg-gray-200 rounded border flex items-center justify-center text-gray-400">
+                        <img id="preview2" src="" alt="Preview 2"
+                            class="w-full h-32 object-contain rounded border hidden">
+                        <div id="placeholder2"
+                            class="w-full h-32 bg-gray-200 rounded border flex items-center justify-center text-gray-400">
                             Sin imagen
                         </div>
                     </div>
-                    <input type="file" id="image2Input" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-military-green file:text-white hover:file:bg-olive">
+                    <input type="file" id="image2Input" accept="image/*"
+                        class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-military-green file:text-white hover:file:bg-olive">
                     <input type="hidden" id="current2" value="">
                 </div>
 
@@ -503,23 +520,26 @@
                 <div class="bg-gray-50 rounded-lg p-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Imagen 3</label>
                     <div class="mb-2">
-                        <img id="preview3" src="" alt="Preview 3" class="w-full h-32 object-cover rounded border hidden">
-                        <div id="placeholder3" class="w-full h-32 bg-gray-200 rounded border flex items-center justify-center text-gray-400">
+                        <img id="preview3" src="" alt="Preview 3"
+                            class="w-full h-32 object-contain rounded border hidden">
+                        <div id="placeholder3"
+                            class="w-full h-32 bg-gray-200 rounded border flex items-center justify-center text-gray-400">
                             Sin imagen
                         </div>
                     </div>
-                    <input type="file" id="image3Input" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-military-green file:text-white hover:file:bg-olive">
+                    <input type="file" id="image3Input" accept="image/*"
+                        class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-military-green file:text-white hover:file:bg-olive">
                     <input type="hidden" id="current3" value="">
                 </div>
             </div>
 
             <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
                 <p class="text-sm text-yellow-800">
-                    <strong>Nota:</strong> Las imágenes se subirán a la carpeta "uploads/productos/". 
+                    <strong>Nota:</strong> Las imágenes se subirán a la carpeta "uploads/productos/".
                     Formatos permitidos: JPG, PNG, GIF. Tamaño máximo: 5MB por imagen.
                 </p>
             </div>
-            
+
             <div class="flex gap-2">
                 <button onclick="saveImageChanges()"
                     class="flex-1 btn-confirm px-4 py-2 text-white rounded-lg font-medium">

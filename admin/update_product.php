@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stock_min = intval($_POST['stock_min']);
         $estado = intval($_POST['estado']);
         $destacado = intval($_POST['destacado']);
+        $id_descuento = isset($_POST['id_descuento']) && $_POST['id_descuento'] !== '' ? intval($_POST['id_descuento']) : 'NULL';
         
         $sql = "UPDATE productos SET 
                     nombre = '$nombre',
@@ -21,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     stock = $stock,
                     stock_min = $stock_min,
                     estado = $estado,
+                    id_descuento = $id_descuento,
                     destacado = $destacado
                 WHERE id_producto = $id_producto";
         
