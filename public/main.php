@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/db_conect.php';
-$ruta_imagenes = "/uploads/productos/";
+$ruta_imagenes = "../uploads/products/";
 
 // Consulta: productos destacados y activos
 $sql_destacado = "SELECT id_producto, nombre, precio_venta, imagen_1 
@@ -8,6 +8,24 @@ $sql_destacado = "SELECT id_producto, nombre, precio_venta, imagen_1
         WHERE destacado = 1 AND estado = 1";
 
 $resultado = $conn->query($sql_destacado);
+
+$sql_descuento = "SELECT 
+    p.nombre, 
+    p.precio_venta, 
+    p.imagen_1, 
+    d.cantidad
+FROM productos p
+INNER JOIN descuento d ON p.id_descuento = d.id_descuento
+WHERE p.id_descuento IS NOT NULL 
+  AND p.estado = 1
+ORDER BY RAND()
+LIMIT 11;
+";
+$resultado_descuento = $conn->query($sql_descuento);
+$productos_descuento = [];
+while ($fila = $resultado_descuento->fetch_assoc()) {
+    $productos_descuento[] = $fila;
+}
 
 
 ?>
@@ -184,7 +202,7 @@ $resultado = $conn->query($sql_destacado);
                             <div class="text-center bg-transparent w-[300px]">
                                 <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
                                     <div class="product-image mb-6">
-                                        <img src="../uploads/products/<?= $p['imagen_1'] ?>"
+                                        <img src="<?=$ruta_imagenes . $p['imagen_1'] ?>"
                                             alt="<?= htmlspecialchars($p['nombre']) ?>"
                                             class="w-full h-48 object-contain rounded-xl bg-white">
                                     </div>
@@ -244,7 +262,7 @@ $resultado = $conn->query($sql_destacado);
         <!-- Productos en Descuento -->
         <div id="showcase-container-descuento" class="showcase-container-descuento rounded-3xl p-8 w-full max-w-6xl">
 
-            <div class="w-full flex justify-center items-center">
+            <div class="w-full flex justify-center items-center mb-10">
                 <h2 class="banner-title text-2xl sm:text-3xl md:text-4xl mb-4">DESCUENTOS</h2>
             </div>
 
@@ -257,18 +275,23 @@ $resultado = $conn->query($sql_destacado);
                     <div id="product-card-large-descuento-1"
                         class="product-card-large-descuento rounded-2xl p-6 cursor-pointer ">
                         <div
-                            class="image-placeholder-descuento w-full h-80 rounded-xl mb-6 flex items-center justify-center">
-                            <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=300&fit=crop&crop=center"
-                                alt="Tablet Pro" class="w-full h-full object-cover rounded-xl">
+                            class="image-placeholder-descuento rounded-xl mb-6 flex items-center justify-center">
+                            <img src="<?=$ruta_imagenes . $productos_descuento[0]['imagen_1'] ?>"
+                                alt="<?= $productos_descuento[0]['nombre'] ?>"
+                                class="w-full h-full object-contain rounded-xl">
                         </div>
                         <div class="discount-badge-floating">
-                            -50%
+                            <?= $productos_descuento[0]['cantidad'] ?>%
                         </div>
                         <div class="space-y-3">
-                            <h3 class="product-title-descuento text-3xl">PRODUCT NAME</h3>
+                            <h3 class="product-title-descuento text-3xl"><?= $productos_descuento[0]['nombre'] ?></h3>
                             <div class="price-container-vertical">
-                                <div class="product-price-original text-lg">$600</div>
-                                <div class="product-price-descuento text-3xl">$300</div>
+                                <div class="product-price-original text-lg">
+                                    $<?= $productos_descuento[0]['precio_venta'] ?>
+                                </div>
+                                <div class="product-price-descuento text-3xl">
+                                    $<?= number_format($productos_descuento[0]['precio_venta'] / (1 + ( $productos_descuento[0]['cantidad'] / 100)), 2) ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -276,19 +299,48 @@ $resultado = $conn->query($sql_destacado);
                     <div id="product-card-large-descuento-1"
                         class="product-card-large-descuento rounded-2xl p-6 cursor-pointer ">
                         <div
-                            class="image-placeholder-descuento w-full h-80 rounded-xl mb-6 flex items-center justify-center">
-                            <img src="https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=400&h=300&fit=crop&crop=center"
-                                alt="Coffee Maker" class="w-full h-full object-cover rounded-xl">
+                            class="image-placeholder-descuento rounded-xl mb-6 flex items-center justify-center">
+                            <img src="<?=$ruta_imagenes . $productos_descuento[1]['imagen_1'] ?>"
+                                alt="<?= $productos_descuento[1]['nombre'] ?>"
+                                class="w-full h-full object-contain rounded-xl">
                         </div>
 
                         <div class="discount-badge-floating">
-                            -50%
+                            <?= $productos_descuento[1]['cantidad']?>%
                         </div>
                         <div class="space-y-3">
-                            <h3 class="product-title-descuento text-3xl">PRODUCT NAME</h3>
+                            <h3 class="product-title-descuento text-3xl"><?= $productos_descuento[1]['nombre'] ?></h3>
                             <div class="price-container-vertical">
-                                <div class="product-price-original text-lg">$600</div>
-                                <div class="product-price-descuento text-3xl">$300</div>
+                                <div class="product-price-original text-lg">
+                                    $<?= $productos_descuento[1]['precio_venta'] ?>
+                                </div>
+                                <div class="product-price-descuento text-3xl">
+                                    $<?= number_format($productos_descuento[1]['precio_venta'] / (1 + ( $productos_descuento[1]['cantidad'] / 100)), 2) ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="product-card-large-descuento-1"
+                        class="product-card-large-descuento rounded-2xl p-6 cursor-pointer ">
+                        <div
+                            class="image-placeholder-descuento rounded-xl mb-6 flex items-center justify-center">
+                            <img src="<?=$ruta_imagenes . $productos_descuento[2]['imagen_1'] ?>"
+                                alt="<?= $productos_descuento[2]['nombre'] ?>"
+                                class="w-full h-full object-contain rounded-xl">
+                        </div>
+
+                        <div class="discount-badge-floating">
+                            <?= $productos_descuento[2]['cantidad']?>%
+                        </div>
+                        <div class="space-y-3">
+                            <h3 class="product-title-descuento text-2xl"><?= $productos_descuento[2]['nombre'] ?></h3>
+                            <div class="price-container-vertical">
+                                <div class="product-price-original text-lg">
+                                    $<?= $productos_descuento[2]['precio_venta'] ?>
+                                </div>
+                                <div class="product-price-descuento text-3xl">
+                                    $<?= number_format($productos_descuento[2]['precio_venta'] / (1 + ( $productos_descuento[2]['cantidad'] / 100)), 2) ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -301,18 +353,23 @@ $resultado = $conn->query($sql_destacado);
                     <!-- Card 1 -->
                     <div id="product-card-descuento-1" class="product-card-descuento rounded-xl p-4 cursor-pointer">
                         <div
-                            class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
-                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop&crop=center"
-                                alt="Sunglasses" class="w-full h-full object-contain rounded-xl">
+                            class="image-placeholder-descuento rounded-lg mb-4 flex items-center justify-center">
+                            <img src="<?=$ruta_imagenes . $productos_descuento[3]['imagen_1'] ?>"
+                                alt="<?= $productos_descuento[3]['nombre'] ?>"
+                                class="rounded-xl bg-white">
                         </div>
                         <div class="discount-badge-floating product-sm">
-                            -50%
+                            <?= $productos_descuento[3]['cantidad']?>%
                         </div>
                         <div class="space-y-3">
-                            <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
+                            <h3 class="product-title-descuento text-2xl"><?= $productos_descuento[3]['nombre'] ?></h3>
                             <div class="price-container-vertical">
-                                <div class="product-price-original text-lg">$600</div>
-                                <div class="product-price-descuento text-2xl">$300</div>
+                                <div class="product-price-original text-lg">
+                                    $<?= $productos_descuento[3]['precio_venta'] ?>
+                                </div>
+                                <div class="product-price-descuento text-3xl">
+                                    $<?= number_format($productos_descuento[3]['precio_venta'] / (1 + ( $productos_descuento[3]['cantidad'] / 100)), 2) ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -323,17 +380,22 @@ $resultado = $conn->query($sql_destacado);
                     <div id="product-card-descuento-2" class="product-card-descuento rounded-xl p-4 cursor-pointer">
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
-                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop&crop=center"
-                                alt="Sneakers" class="w-full h-full object-contain rounded-xl">
+                            <img src="<?=$ruta_imagenes . $productos_descuento[4]['imagen_1'] ?>"
+                                alt="<?= $productos_descuento[4]['nombre'] ?>"
+                                class="rounded-xl">
                         </div>
                         <div class="discount-badge-floating product-sm">
-                            -50%
+                            <?= $productos_descuento[4]['cantidad']?>%
                         </div>
                         <div class="space-y-3">
-                            <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
+                            <h3 class="product-title-descuento text-2xl"><?= $productos_descuento[4]['nombre'] ?></h3>
                             <div class="price-container-vertical">
-                                <div class="product-price-original text-lg">$600</div>
-                                <div class="product-price-descuento text-2xl">$300</div>
+                                <div class="product-price-original text-lg">
+                                    $<?= $productos_descuento[4]['precio_venta'] ?>
+                                </div>
+                                <div class="product-price-descuento text-3xl">
+                                    $<?= number_format($productos_descuento[4]['precio_venta'] / (1 + ( $productos_descuento[4]['cantidad'] / 100)), 2) ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -342,17 +404,22 @@ $resultado = $conn->query($sql_destacado);
                     <div id="product-card-descuento-3" class="product-card-descuento rounded-xl p-4 cursor-pointer">
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
-                            <img src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&h=300&fit=crop&crop=center"
-                                alt="Mechanical Keyboard" class="w-full h-full object-contain rounded-xl">
+                            <img src="<?=$ruta_imagenes . $productos_descuento[5]['imagen_1'] ?>"
+                                alt="<?= $productos_descuento[5]['nombre'] ?>"
+                                class="rounded-xl">
                         </div>
                         <div class="discount-badge-floating product-sm">
-                            -50%
+                            <?= $productos_descuento[5]['cantidad']?>%
                         </div>
                         <div class="space-y-3">
-                            <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
+                            <h3 class="product-title-descuento text-2xl"><?= $productos_descuento[5]['nombre'] ?></h3>
                             <div class="price-container-vertical">
-                                <div class="product-price-original text-lg">$600</div>
-                                <div class="product-price-descuento text-2xl">$300</div>
+                                <div class="product-price-original text-lg">
+                                    $<?= $productos_descuento[5]['precio_venta'] ?>
+                                </div>
+                                <div class="product-price-descuento text-3xl">
+                                    $<?= number_format($productos_descuento[5]['precio_venta'] / (1 + ( $productos_descuento[5]['cantidad'] / 100)), 2) ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -361,17 +428,22 @@ $resultado = $conn->query($sql_destacado);
                     <div id="product-card-descuento-4" class="product-card-descuento rounded-xl p-4 cursor-pointer">
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
-                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=300&fit=crop&crop=center"
-                                alt="Gaming Mouse" class="w-full h-full object-contain rounded-xl">
+                            <img src="<?=$ruta_imagenes . $productos_descuento[6]['imagen_1'] ?>"
+                                alt="<?= $productos_descuento[6]['nombre'] ?>"
+                                class="rounded-xl">
                         </div>
                         <div class="discount-badge-floating product-sm">
-                            -50%
+                            <?= $productos_descuento[6]['cantidad']?>%
                         </div>
                         <div class="space-y-3">
-                            <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
+                            <h3 class="product-title-descuento text-2xl"><?= $productos_descuento[6]['nombre'] ?></h3>
                             <div class="price-container-vertical">
-                                <div class="product-price-original text-lg">$600</div>
-                                <div class="product-price-descuento text-2xl">$300</div>
+                                <div class="product-price-original text-lg">
+                                    $<?= $productos_descuento[6]['precio_venta'] ?>
+                                </div>
+                                <div class="product-price-descuento text-3xl">
+                                    $<?= number_format($productos_descuento[6]['precio_venta'] / (1 + ( $productos_descuento[6]['cantidad'] / 100)), 2) ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -380,17 +452,22 @@ $resultado = $conn->query($sql_destacado);
                     <div id="product-card-descuento-5" class="product-card-descuento rounded-xl p-4 cursor-pointer">
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
-                            <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop&crop=center"
-                                alt="VR Headset" class="w-full h-full object-contain rounded-xl">
+                            <img src="<?=$ruta_imagenes . $productos_descuento[7]['imagen_1'] ?>"
+                                alt="<?= $productos_descuento[7]['nombre'] ?>"
+                                class="rounded-xl">
                         </div>
                         <div class="discount-badge-floating product-sm">
-                            -50%
+                            <?= $productos_descuento[7]['cantidad']?>%
                         </div>
                         <div class="space-y-3">
-                            <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
+                            <h3 class="product-title-descuento text-2xl"><?= $productos_descuento[7]['nombre'] ?></h3>
                             <div class="price-container-vertical">
-                                <div class="product-price-original text-lg">$600</div>
-                                <div class="product-price-descuento text-2xl">$300</div>
+                                <div class="product-price-original text-lg">
+                                    $<?= $productos_descuento[7]['precio_venta'] ?>
+                                </div>
+                                <div class="product-price-descuento text-3xl">
+                                    $<?= number_format($productos_descuento[7]['precio_venta'] / (1 + ( $productos_descuento[7]['cantidad'] / 100)), 2) ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -399,17 +476,70 @@ $resultado = $conn->query($sql_destacado);
                     <div id="product-card-descuento-6" class="product-card-descuento rounded-xl p-4 cursor-pointer">
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
-                            <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop&crop=center"
-                                alt="Smart Watch" class="w-full h-full object-contain rounded-xl">
+                            <img src="<?=$ruta_imagenes . $productos_descuento[8]['imagen_1'] ?>"
+                                alt="<?= $productos_descuento[8]['nombre'] ?>"
+                                class="rounded-xl">
                         </div>
                         <div class="discount-badge-floating product-sm">
-                            -50%
+                            <?= $productos_descuento[8]['cantidad']?>%
                         </div>
                         <div class="space-y-3">
-                            <h3 class="product-title-descuento text-2xl">PRODUCT NAME</h3>
+                            <h3 class="product-title-descuento text-2xl"><?= $productos_descuento[8]['nombre'] ?></h3>
                             <div class="price-container-vertical">
-                                <div class="product-price-original text-lg">$600</div>
-                                <div class="product-price-descuento text-2xl">$300</div>
+                                <div class="product-price-original text-lg">
+                                    $<?= $productos_descuento[8]['precio_venta'] ?>
+                                </div>
+                                <div class="product-price-descuento text-3xl">
+                                    $<?= number_format($productos_descuento[8]['precio_venta'] / (1 + ( $productos_descuento[8]['cantidad'] / 100)), 2) ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div id="product-card-descuento-6" class="product-card-descuento rounded-xl p-4 cursor-pointer">
+                        <div
+                            class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
+                            <img src="<?=$ruta_imagenes . $productos_descuento[9]['imagen_1'] ?>"
+                                alt="<?= $productos_descuento[9]['nombre'] ?>"
+                                class="rounded-xl">
+                        </div>
+                        <div class="discount-badge-floating product-sm">
+                            <?= $productos_descuento[9]['cantidad']?>%
+                        </div>
+                        <div class="space-y-3">
+                            <h3 class="product-title-descuento text-2xl"><?= $productos_descuento[9]['nombre'] ?></h3>
+                            <div class="price-container-vertical">
+                                <div class="product-price-original text-lg">
+                                    $<?= $productos_descuento[9]['precio_venta'] ?>
+                                </div>
+                                <div class="product-price-descuento text-3xl">
+                                    $<?= number_format($productos_descuento[9]['precio_venta'] / (1 + ( $productos_descuento[9]['cantidad'] / 100)), 2) ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div id="product-card-descuento-6" class="product-card-descuento rounded-xl p-4 cursor-pointer">
+                        <div
+                            class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
+                            <img src="<?=$ruta_imagenes . $productos_descuento[10]['imagen_1'] ?>"
+                                alt="<?= $productos_descuento[10]['nombre'] ?>"
+                                class="rounded-xl">
+                        </div>
+                        <div class="discount-badge-floating product-sm">
+                            <?= $productos_descuento[10]['cantidad']?>%
+                        </div>
+                        <div class="space-y-3">
+                            <h3 class="product-title-descuento text-2xl"><?= $productos_descuento[10]['nombre'] ?></h3>
+                            <div class="price-container-vertical">
+                                <div class="product-price-original text-lg">
+                                    $<?= $productos_descuento[10]['precio_venta'] ?>
+                                </div>
+                                <div class="product-price-descuento text-3xl">
+                                    $<?= number_format($productos_descuento[10]['precio_venta'] / (1 + ( $productos_descuento[10]['cantidad'] / 100)), 2) ?>
+                                </div>
                             </div>
                         </div>
                     </div>

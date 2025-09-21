@@ -161,6 +161,7 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 700;
+  text-decoration: underline var(--c-gris-medio-main) 4px;
 }
 
 .banner-subtitle {
@@ -410,10 +411,19 @@
 
 /* Imagen placeholder */
 .image-placeholder-descuento {
-  background: var(--gradiente-blanco-gris-main);
-  position: relative;
+  background: white;
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.image-placeholder-descuento img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 /* Texto con gradiente */
 .product-title-descuento {
   background: var(--gradiente-blanco-gris-main);
@@ -465,7 +475,7 @@
 .product-grid-descuento {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
   gap: 1rem;
 }
 
