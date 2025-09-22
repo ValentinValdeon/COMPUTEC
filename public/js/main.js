@@ -58,9 +58,6 @@
         this.totalItems = this.items.length;
         this.maxIndex = Math.max(0, this.totalItems - this.itemsPerView);
 
-        // 🔹 Log inicial
-        console.log("[Carousel] Constructor - items detectados:", this.totalItems);
-
         this.init();
         this.setupEventListeners();
         this.updateButtons();
@@ -93,7 +90,6 @@
 
     prev() {
         if (this.currentIndex > 0) {
-            // Avanza exactamente la cantidad de elementos visibles
             const step = this.itemsPerView;
             this.currentIndex = Math.max(0, this.currentIndex - step);
             this.updateCarousel();
@@ -103,7 +99,6 @@
 
     next() {
         if (this.currentIndex < this.maxIndex) {
-            // Avanza exactamente la cantidad de elementos visibles
             const step = this.itemsPerView;
             this.currentIndex = Math.min(this.maxIndex, this.currentIndex + step);
             this.updateCarousel();
@@ -376,3 +371,10 @@
 document.getElementById('btn-ir-shop-descuento').addEventListener('click', function() {
     window.location.href = 'index.php?page=shop';
 });
+
+
+function goToProduct(card) {
+    const productId = card.getAttribute('data-id');
+    // Redirige respetando la estructura de tu URL
+    window.location.href = `index.php?page=product&id=${productId}`;
+}

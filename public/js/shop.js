@@ -71,12 +71,17 @@ searchInput.addEventListener('input', (e) => {
 // 🔹 Inicialización al cargar
 filterProducts();
 
+function goToProduct(card) {
+    const productId = card.getAttribute('data-id');
+    // Redirige respetando la estructura de tu URL
+    window.location.href = `index.php?page=product&id=${productId}`;
+}
 
 
-        // Animación inicial
-        document.addEventListener('DOMContentLoaded', () => {
-            productCards.forEach((card, index) => {
-                setTimeout(() => {
+// Animación inicial
+document.addEventListener('DOMContentLoaded', () => {
+    productCards.forEach((card, index) => {
+        setTimeout(() => {
                     card.style.opacity = '1';
                     card.style.transform = 'translateY(0)';
                 }, index * 100);

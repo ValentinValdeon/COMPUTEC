@@ -1,351 +1,6 @@
-    const images = ['image1', 'image2', 'image3', 'image4'];
-    const indicators = document.querySelectorAll('.indicator');
-    let currentIndex = 0;
-
-    function changeImage() {
-      // Fade out current image
-      document.getElementById(images[currentIndex]).classList.remove('fade-in');
-      document.getElementById(images[currentIndex]).classList.add('fade-out');
-      indicators[currentIndex].classList.remove('bg-white/50');
-      indicators[currentIndex].classList.add('bg-white/30');
-
-      // Move to next image
-      currentIndex = (currentIndex + 1) % images.length;
-
-      setTimeout(() => {
-        // Fade in next image
-        document.getElementById(images[currentIndex]).classList.remove('fade-out');
-        document.getElementById(images[currentIndex]).classList.add('fade-in');
-        indicators[currentIndex].classList.remove('bg-white/30');
-        indicators[currentIndex].classList.add('bg-white/50');
-      }, 100);
-    }
-
-    // Change image every 4 seconds
-    setInterval(changeImage, 4000);
-
-    // Add click functionality to indicators
-    indicators.forEach((indicator, index) => {
-      indicator.addEventListener('click', () => {
-        if (index !== currentIndex) {
-          document.getElementById(images[currentIndex]).classList.remove('fade-in');
-          document.getElementById(images[currentIndex]).classList.add('fade-out');
-          indicators[currentIndex].classList.remove('bg-white/50');
-          indicators[currentIndex].classList.add('bg-white/30');
-
-          currentIndex = index;
-
-          setTimeout(() => {
-            document.getElementById(images[currentIndex]).classList.remove('fade-out');
-            document.getElementById(images[currentIndex]).classList.add('fade-in');
-            indicators[currentIndex].classList.remove('bg-white/30');
-            indicators[currentIndex].classList.add('bg-white/50');
-          }, 100);
-        }
-      });
-    });
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Carousel functionality
-    class ModernCarousel {
-        constructor() {
-            this.track = document.getElementById('carouselTrack');
-            this.prevBtn = document.getElementById('prevBtn');
-            this.nextBtn = document.getElementById('nextBtn');
-            this.items = this.track.children;
-            this.currentIndex = 0;
-            this.itemsPerView = this.getItemsPerView();
-            this.totalItems = this.items.length;
-            this.maxIndex = Math.max(0, this.totalItems - this.itemsPerView);
-
-            this.init();
-            this.setupEventListeners();
-            this.updateButtons();
-        }
-
-        getItemsPerView() {
-            const width = window.innerWidth;
-            if (width >= 1280) return 4; // xl screens
-            if (width >= 1024) return 3; // lg screens
-            if (width >= 768) return 2;  // md screens
-            return 1; // sm screens
-        }
-
-        init() {
-            // Set initial position
-            this.updateCarousel();
-        }
-
-        setupEventListeners() {
-            this.prevBtn.addEventListener('click', () => this.prev());
-            this.nextBtn.addEventListener('click', () => this.next());
-
-            window.addEventListener('resize', () => {
-                this.itemsPerView = this.getItemsPerView();
-                this.maxIndex = Math.max(0, this.totalItems - this.itemsPerView);
-                this.currentIndex = Math.min(this.currentIndex, this.maxIndex);
-                this.updateCarousel();
-                this.updateButtons();
-            });
-        }
-
-        prev() {
-            if (this.currentIndex > 0) {
-                // Avanza según el tamaño de pantalla
-                const step = Math.max(1, Math.floor(this.itemsPerView / 2)); 
-                this.currentIndex = Math.max(0, this.currentIndex - step);
-                this.updateCarousel();
-                this.updateButtons();
-            }
-        }
-
-        next() {
-            if (this.currentIndex < this.maxIndex) {
-                // Avanza según el tamaño de pantalla
-                const step = Math.max(1, Math.floor(this.itemsPerView / 2));
-                this.currentIndex = Math.min(this.maxIndex, this.currentIndex + step);
-                this.updateCarousel();
-                this.updateButtons();
-            }
-        }
-
-        updateCarousel() {
-            const itemWidth = 300 + 24; // card width + gap
-            const translateX = -this.currentIndex * itemWidth;
-            this.track.style.transform = `translateX(${translateX}px)`;
-        }
-
-        updateButtons() {
-            this.prevBtn.style.opacity = this.currentIndex === 0 ? '0.5' : '1';
-            this.prevBtn.style.pointerEvents = this.currentIndex === 0 ? 'none' : 'auto';
-
-            this.nextBtn.style.opacity = this.currentIndex >= this.maxIndex ? '0.5' : '1';
-            this.nextBtn.style.pointerEvents = this.currentIndex >= this.maxIndex ? 'none' : 'auto';
-        }
-    }
-
-    // Product card effects
-    const productCards = document.querySelectorAll('.product-card');
-
-    productCards.forEach(card => {
-        card.addEventListener('mouseenter', function (e) {
-            createParticles(e.currentTarget);
-        });
-
-        card.addEventListener('mousemove', function (e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            this.style.transition = 'transform 0.5s ease-out';
-            this.style.transform = 'scale(1.02)';
-        });
-
-        card.addEventListener('mouseleave', function () {
-            this.style.transition = 'transform 0.3s ease';
-            this.style.transform = 'scale(1)';
-        });
-    });
-
-    function createParticles(element) {
-        const rect = element.getBoundingClientRect();
-        const particles = 15;
-
-        for (let i = 0; i < particles; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-
-            const x = Math.random() * rect.width;
-            const y = Math.random() * rect.height;
-
-            particle.style.left = x + 'px';
-            particle.style.top = y + 'px';
-
-            element.appendChild(particle);
-
-            setTimeout(() => {
-                particle.remove();
-            }, 5000);
-        }
-    }
-
-    // Initialize carousel when DOM is loaded
-    document.addEventListener('DOMContentLoaded', function () {
-        new ModernCarousel();
-
-        // Entrada animada de las cards
-        productCards.forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(50px) scale(0.9)';
-            card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-
-            setTimeout(() => {
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0) scale(1)';
-            }, 200 + (index * 100));
-        });
-    });
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-show', 'opacity-100', 'translate-y-0');
-                entry.target.classList.remove('blur-sm');
-            }
-        });
-    }, { threshold: 0.2 });
-
-    document.querySelectorAll('[data-animate]').forEach(section => {
-        observer.observe(section);
-    });
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Efectos de partículas en hover
-    productCards.forEach(card => {
-        card.addEventListener('mouseenter', function (e) {
-            createParticles(e.currentTarget);
-        });
-
-        // Efecto de seguimiento del mouse sutil
-        card.addEventListener('mousemove', function (e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            this.style.transition = 'transform 0.5s ease-out'; // velocidad rápida
-            this.style.transform = `scale(1.02) translateY(-4px)`;
-        });
-
-
-        card.addEventListener('mouseleave', function () {
-            this.style.transition = 'transform 0.3s ease';
-            this.style.transform = 'scale(1) translateY(0)';
-        });
-    });
-
-    function createParticles(element) {
-        const rect = element.getBoundingClientRect();
-        const particles = 15;
-
-        for (let i = 0; i < particles; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-
-            // Posición aleatoria dentro del card
-            const x = Math.random() * rect.width;
-            const y = Math.random() * rect.height;
-
-            particle.style.left = x + 'px';
-            particle.style.top = y + 'px';
-
-            element.appendChild(particle);
-
-            // Remover la partícula después de la animación
-            setTimeout(() => {
-                particle.remove();
-            }, 5000);
-        }
-    }
-
-    // Animación de entrada
-    window.addEventListener('load', function () {
-        productCards.forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(50px) scale(0.9)';
-            card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-
-            setTimeout(() => {
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0) scale(1)';
-            }, 200 + (index * 100));
-        });
-    });
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    // Efectos sutiles para las cards (se actualizaron las clases a "-descuento")
-    const productCardsDesc = document.querySelectorAll('.product-card-descuento, .product-card-large-descuento');
-
-    productCardsDesc.forEach(card => {
-        // Animación de entrada
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    });
-
-    // Animación escalonada de entrada
-    window.addEventListener('load', function () {
-        productCardsDesc.forEach((card, index) => {
-            setTimeout(() => {
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, index * 100);
-        });
-    });
-
-    // Efecto sutil en el botón
-    const button = document.querySelector('.glass-button-descuento');
-    if (button) {
-        button.addEventListener('click', function () {
-            this.style.transform = 'translateY(0) scale(0.98)';
-            setTimeout(() => {
-                this.style.transform = 'translateY(-1px) scale(1)';
-            }, 150);
-        });
-    }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    // Animación de entrada para los banners
-    const banners = document.querySelectorAll('.glass-banner');
-
-    banners.forEach((banner, index) => {
-        banner.style.opacity = '0';
-        banner.style.transform = 'translateY(30px)';
-        banner.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-
-        setTimeout(() => {
-            banner.style.opacity = '1';
-            banner.style.transform = 'translateY(0)';
-        }, index * 200);
-    });
-
-    // Efecto hover sutil en iconos de servicios
-    const serviceIcons = document.querySelectorAll('.service-icon');
-    serviceIcons.forEach(icon => {
-        icon.parentElement.addEventListener('mouseenter', function () {
-            icon.style.transform = 'scale(1.05)';
-        });
-
-        icon.parentElement.addEventListener('mouseleave', function () {
-            icon.style.transform = 'scale(1)';
-        });
-    });
-
-    // Efecto en el input
-    const input = document.querySelector('.glass-input');
-    input.addEventListener('focus', function () {
-        this.style.transform = 'scale(1.02)';
-    });
-
-    input.addEventListener('blur', function () {
-        this.style.transform = 'scale(1)';
-    });
-
-    // Efecto en botón de newsletter
-    const subscribeButton = document.querySelector('.glass-button');
-    subscribeButton.addEventListener('click', function (e) {
-        e.preventDefault();
-        this.style.transform = 'translateY(0) scale(0.98)';
-        setTimeout(() => {
-            this.style.transform = 'translateY(-1px) scale(1)';
-        }, 150);
-    });
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-document.getElementById('btn-ir-shop-descuento').addEventListener('click', function() {
-    window.location.href = 'index.php?page=shop';
-});
-
+// 🔹 Función: cambiar imagen principal desde thumbnails
 function changeImage(cardNumber, newSrc, clickedThumbnail) {
-    // Obtener la imagen principal del card correspondiente
     const mainImage = document.getElementById(`mainImage${cardNumber}`);
 
     // Remover clase active de todos los thumbnails del card
@@ -353,30 +8,156 @@ function changeImage(cardNumber, newSrc, clickedThumbnail) {
     const thumbnails = card.querySelectorAll('[class*="thumbnail-"]');
     thumbnails.forEach(thumb => thumb.classList.remove('active'));
 
-    // Agregar clase active al thumbnail clickeado
+    // Activar el thumbnail clickeado
     clickedThumbnail.classList.add('active');
 
-    // Cambiar la imagen con efecto de fade
+    // Cambiar la imagen con efecto fade
     mainImage.style.opacity = '0';
-
     setTimeout(() => {
-      mainImage.src = newSrc;
-      mainImage.style.opacity = '1';
+        mainImage.src = newSrc;
+        mainImage.style.opacity = '1';
     }, 200);
-  }
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 🔹 Clase: Carousel moderno
+class ModernCarousel {
+    constructor() {
+        this.track = document.getElementById('carouselTrack');
+        this.prevBtn = document.getElementById('prevBtn');
+        this.nextBtn = document.getElementById('nextBtn');
+        this.items = this.track.children;
+        this.currentOffset = 0; // desplazamiento en píxeles
+        this.step = this.getStep(); // cuántos px mover por click
+        this.totalItems = this.items.length;
 
-  // Agregar efecto de hover a las imágenes principales
-  document.addEventListener('DOMContentLoaded', function () {
-    const mainImages = document.querySelectorAll('[id^="mainImage"]');
+        this.init();
+        this.setupEventListeners();
+        this.updateButtons();
+    }
 
-    mainImages.forEach(img => {
-      img.addEventListener('mouseenter', function () {
+    getStep() {
+        const width = window.innerWidth;
+        if (width >= 1280) return 3 * 425;   // 3 cards de 300px
+        if (width >= 1024) return 2 * 425;   // 3 cards de 400px
+        if (width >= 768) return 2 * 350;    // 2 cards de 275px
+        return 1 * 200;                      // 1 card de 200px
+    }
+
+    init() {
+        this.updateCarousel();
+    }
+
+    setupEventListeners() {
+        this.prevBtn.addEventListener('click', () => this.prev());
+        this.nextBtn.addEventListener('click', () => this.next());
+
+        window.addEventListener('resize', () => {
+            this.step = this.getStep();
+            this.currentOffset = 0;
+            this.updateCarousel();
+            this.updateButtons();
+        });
+    }
+
+    prev() {
+        if (this.currentOffset < 0) {
+            this.currentOffset = Math.min(this.currentOffset + this.step, 0);
+            this.updateCarousel();
+            this.updateButtons();
+        }
+    }
+
+    next() {
+        const maxOffset = -(this.track.scrollWidth - this.track.clientWidth);
+        if (this.currentOffset > maxOffset) {
+            this.currentOffset = Math.max(this.currentOffset - this.step, maxOffset);
+            this.updateCarousel();
+            this.updateButtons();
+        }
+    }
+
+    updateCarousel() {
+        this.track.style.transform = `translateX(${this.currentOffset}px)`;
+        this.track.style.transition = 'transform 0.5s ease';
+    }
+
+    updateButtons() {
+        const maxOffset = -(this.track.scrollWidth - this.track.clientWidth);
+
+        this.prevBtn.style.opacity = this.currentOffset === 0 ? '0.5' : '1';
+        this.prevBtn.style.pointerEvents = this.currentOffset === 0 ? 'none' : 'auto';
+
+        this.nextBtn.style.opacity = this.currentOffset <= maxOffset ? '0.5' : '1';
+        this.nextBtn.style.pointerEvents = this.currentOffset <= maxOffset ? 'none' : 'auto';
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 🔹 Product card effects (hover + partículas)
+const productCards = document.querySelectorAll('.product-card');
+
+productCards.forEach(card => {
+    card.addEventListener('mouseenter', e => createParticles(e.currentTarget));
+
+    card.addEventListener('mousemove', function () {
+        this.style.transition = 'transform 0.5s ease-out';
         this.style.transform = 'scale(1.02)';
-      });
-
-      img.addEventListener('mouseleave', function () {
-        this.style.transform = 'scale(1)';
-      });
     });
-  });
+
+    card.addEventListener('mouseleave', function () {
+        this.style.transition = 'transform 0.3s ease';
+        this.style.transform = 'scale(1)';
+    });
+});
+
+function createParticles(element) {
+    const rect = element.getBoundingClientRect();
+    const particles = 15;
+
+    for (let i = 0; i < particles; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+
+        const x = Math.random() * rect.width;
+        const y = Math.random() * rect.height;
+
+        particle.style.left = x + 'px';
+        particle.style.top = y + 'px';
+
+        element.appendChild(particle);
+
+        setTimeout(() => particle.remove(), 5000);
+    }
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 🔹 Animaciones de entrada + inicialización
+document.addEventListener('DOMContentLoaded', function () {
+    const carousel = new ModernCarousel();
+    carousel.updateItems();
+
+    // Entrada animada de las cards
+    productCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(50px) scale(0.9)';
+        card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+
+        setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0) scale(1)';
+        }, 200 + (index * 100));
+    });
+
+    // Hover imágenes principales
+    const mainImages = document.querySelectorAll('[id^="mainImage"]');
+    mainImages.forEach(img => {
+        img.addEventListener('mouseenter', () => img.style.transform = 'scale(1.02)');
+        img.addEventListener('mouseleave', () => img.style.transform = 'scale(1)');
+    });
+});
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 🔹 Función: redirigir a producto
+function goToProduct(card) {
+    const productId = card.getAttribute('data-id');
+    window.location.href = `index.php?page=product&id=${productId}`;
+}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

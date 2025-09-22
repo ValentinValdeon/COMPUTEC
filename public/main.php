@@ -5,11 +5,13 @@ $ruta_imagenes = "../uploads/products/";
 // Consulta: productos destacados y activos
 $sql_destacado = "SELECT id_producto, nombre, precio_venta, imagen_1 
         FROM productos 
-        WHERE destacado = 1 AND estado = 1";
+        WHERE destacado = 1 AND estado = 1
+        ORDER BY RAND()";
 
 $resultado = $conn->query($sql_destacado);
 
 $sql_descuento = "SELECT 
+    p.id_producto,
     p.nombre, 
     p.precio_venta, 
     p.imagen_1, 
@@ -26,8 +28,6 @@ $productos_descuento = [];
 while ($fila = $resultado_descuento->fetch_assoc()) {
     $productos_descuento[] = $fila;
 }
-
-
 ?>
 <link rel="stylesheet" href="css/main.css">
 
@@ -199,7 +199,7 @@ while ($fila = $resultado_descuento->fetch_assoc()) {
                 <div class="carousel-track carousel-grid m-2" id="carouselTrack">
                     <?php if ($resultado && $resultado->num_rows > 0): ?>
                         <?php while ($p = $resultado->fetch_assoc()): ?>
-                            <div class="text-center bg-transparent w-[300px]">
+                            <div class="text-center bg-transparent w-[300px]" data-id="<?= $p['id_producto'] ?>" onclick="goToProduct(this)">
                                 <div class="product-card rounded-2xl p-6 w-full max-w-sm mx-auto cursor-pointer">
                                     <div class="product-image mb-6">
                                         <img src="<?=$ruta_imagenes . $p['imagen_1'] ?>"
@@ -272,7 +272,8 @@ while ($fila = $resultado_descuento->fetch_assoc()) {
 
                 <!-- Card grande (lado izquierdo) -->
                 <div class="space-y-4">
-                    <div id="product-card-large-descuento-1"
+                    <div id="product-card-large-descuento-1" data-id="<?= $productos_descuento[0]['id_producto'] ?>"
+              onclick="goToProduct(this)"
                         class="product-card-large-descuento rounded-2xl p-6 cursor-pointer ">
                         <div
                             class="image-placeholder-descuento rounded-xl mb-6 flex items-center justify-center">
@@ -296,7 +297,8 @@ while ($fila = $resultado_descuento->fetch_assoc()) {
                         </div>
                     </div>
 
-                    <div id="product-card-large-descuento-1"
+                    <div id="product-card-large-descuento-1" data-id="<?= $productos_descuento[1]['id_producto'] ?>"
+              onclick="goToProduct(this)"
                         class="product-card-large-descuento rounded-2xl p-6 cursor-pointer ">
                         <div
                             class="image-placeholder-descuento rounded-xl mb-6 flex items-center justify-center">
@@ -320,7 +322,8 @@ while ($fila = $resultado_descuento->fetch_assoc()) {
                             </div>
                         </div>
                     </div>
-                    <div id="product-card-large-descuento-1"
+                    <div id="product-card-large-descuento-1" data-id="<?= $productos_descuento[2]['id_producto'] ?>"
+              onclick="goToProduct(this)"
                         class="product-card-large-descuento rounded-2xl p-6 cursor-pointer ">
                         <div
                             class="image-placeholder-descuento rounded-xl mb-6 flex items-center justify-center">
@@ -351,7 +354,8 @@ while ($fila = $resultado_descuento->fetch_assoc()) {
                 <div id="product-grid-descuento" class="product-grid-descuento">
 
                     <!-- Card 1 -->
-                    <div id="product-card-descuento-1" class="product-card-descuento rounded-xl p-4 cursor-pointer">
+                    <div id="product-card-descuento-1" class="product-card-descuento rounded-xl p-4 cursor-pointer" data-id="<?= $productos_descuento[3]['id_producto'] ?>"
+              onclick="goToProduct(this)">
                         <div
                             class="image-placeholder-descuento rounded-lg mb-4 flex items-center justify-center">
                             <img src="<?=$ruta_imagenes . $productos_descuento[3]['imagen_1'] ?>"
@@ -377,7 +381,8 @@ while ($fila = $resultado_descuento->fetch_assoc()) {
 
 
                     <!-- Card 2 -->
-                    <div id="product-card-descuento-2" class="product-card-descuento rounded-xl p-4 cursor-pointer">
+                    <div id="product-card-descuento-2" class="product-card-descuento rounded-xl p-4 cursor-pointer" data-id="<?= $productos_descuento[4]['id_producto'] ?>"
+              onclick="goToProduct(this)">
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
                             <img src="<?=$ruta_imagenes . $productos_descuento[4]['imagen_1'] ?>"
@@ -401,7 +406,8 @@ while ($fila = $resultado_descuento->fetch_assoc()) {
                     </div>
 
                     <!-- Card 3 -->
-                    <div id="product-card-descuento-3" class="product-card-descuento rounded-xl p-4 cursor-pointer">
+                    <div id="product-card-descuento-3" class="product-card-descuento rounded-xl p-4 cursor-pointer" data-id="<?= $productos_descuento[5]['id_producto'] ?>"
+              onclick="goToProduct(this)">
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
                             <img src="<?=$ruta_imagenes . $productos_descuento[5]['imagen_1'] ?>"
@@ -425,7 +431,8 @@ while ($fila = $resultado_descuento->fetch_assoc()) {
                     </div>
 
                     <!-- Card 4 -->
-                    <div id="product-card-descuento-4" class="product-card-descuento rounded-xl p-4 cursor-pointer">
+                    <div id="product-card-descuento-4" class="product-card-descuento rounded-xl p-4 cursor-pointer" data-id="<?= $productos_descuento[6]['id_producto'] ?>"
+              onclick="goToProduct(this)">
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
                             <img src="<?=$ruta_imagenes . $productos_descuento[6]['imagen_1'] ?>"
@@ -449,7 +456,8 @@ while ($fila = $resultado_descuento->fetch_assoc()) {
                     </div>
 
                     <!-- Card 5 -->
-                    <div id="product-card-descuento-5" class="product-card-descuento rounded-xl p-4 cursor-pointer">
+                    <div id="product-card-descuento-5" class="product-card-descuento rounded-xl p-4 cursor-pointer" data-id="<?= $productos_descuento[7]['id_producto'] ?>"
+              onclick="goToProduct(this)">
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
                             <img src="<?=$ruta_imagenes . $productos_descuento[7]['imagen_1'] ?>"
@@ -473,7 +481,8 @@ while ($fila = $resultado_descuento->fetch_assoc()) {
                     </div>
 
                     <!-- Card 6 -->
-                    <div id="product-card-descuento-6" class="product-card-descuento rounded-xl p-4 cursor-pointer">
+                    <div id="product-card-descuento-6" class="product-card-descuento rounded-xl p-4 cursor-pointer" data-id="<?= $productos_descuento[8]['id_producto'] ?>"
+              onclick="goToProduct(this)">
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
                             <img src="<?=$ruta_imagenes . $productos_descuento[8]['imagen_1'] ?>"
@@ -497,7 +506,8 @@ while ($fila = $resultado_descuento->fetch_assoc()) {
                     </div>
 
                     <!-- Card 6 -->
-                    <div id="product-card-descuento-6" class="product-card-descuento rounded-xl p-4 cursor-pointer">
+                    <div id="product-card-descuento-6" class="product-card-descuento rounded-xl p-4 cursor-pointer" data-id="<?= $productos_descuento[9]['id_producto'] ?>"
+              onclick="goToProduct(this)">
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
                             <img src="<?=$ruta_imagenes . $productos_descuento[9]['imagen_1'] ?>"
@@ -521,7 +531,8 @@ while ($fila = $resultado_descuento->fetch_assoc()) {
                     </div>
 
                     <!-- Card 6 -->
-                    <div id="product-card-descuento-6" class="product-card-descuento rounded-xl p-4 cursor-pointer">
+                    <div id="product-card-descuento-6" class="product-card-descuento rounded-xl p-4 cursor-pointer" data-id="<?= $productos_descuento[10]['id_producto'] ?>"
+              onclick="goToProduct(this)">
                         <div
                             class="image-placeholder-descuento w-full h-fit rounded-lg mb-4 flex items-center justify-center">
                             <img src="<?=$ruta_imagenes . $productos_descuento[10]['imagen_1'] ?>"

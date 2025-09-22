@@ -51,7 +51,7 @@ $resultado_categorias = $conn->query($sql_categorias);
 
     <div class="gallery" id="gallery">
         <?php while ($p = $resultado->fetch_assoc()): ?>
-            <div class="product-card-gallery fade-in"
+            <div class="product-card-gallery fade-in" data-id="<?= $p['id_producto'] ?>" onclick="goToProduct(this)"
                 data-category="<?= htmlspecialchars(str_replace(', ', ',', $p['categorias'])) ?>">
                 <div class="product-image-gallery">
                     <img src="<?= $ruta_imagenes . $p['imagen_1'] ?>" alt="<?= $p['nombre'] ?>"
